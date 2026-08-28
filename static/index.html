@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevoFlow — AI Revenue Optimization & Recovery</title>
+    <!-- Canvas Confetti for Recovery Realization -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #080d1a;
+            color: #f1f5f9;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        .brand {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand span { color: #0c8cee; }
+        .brand-badge {
+            background: rgba(12, 140, 238, 0.15);
+            border: 1px solid rgba(12, 140, 238, 0.3);
+            color: #38bdf8;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .tagline {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        
+        /* Metric Ribbon Cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .metric-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 16px 20px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .metric-card:hover { border-color: #334155; }
+        .metric-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 6px;
+        }
+        .metric-sub {
+            font-size: 11px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Filter Tabs */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .tab-btn {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { background: #1e293b; color: #f1f5f9; }
+        .tab-btn.active {
+            background: #0c8cee;
+            color: white;
+            border-color: #0c8cee;
+            box-shadow: 0 2px 8px rgba(12, 140, 238, 0.3);
+        }
+        
+        /* Table */
+        .table-container {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        th {
+            background: #131d31;
+            color: #94a3b8;
+            padding: 14px 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e293b;
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+        tr:hover { background: #141f36; }
+        
+        /* Badges */
+        .badge-type {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .type-partial { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .type-invoice { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .type-failed { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .type-mismatch { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        
+        .badge-rank {
+            background: #1e293b;
+            color: #38bdf8;
+            font-family: monospace;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .badge-ev {
+            color: #34d399;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        
+        .btn-recover {
+            background: linear-gradient(135deg, #0c8cee, #059669);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(12, 140, 238, 0.25);
+        }
+        .btn-recover:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-recover:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn-simulate {
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-simulate:hover { background: #334155; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <div class="brand">
+                REVO<span>FLOW</span>
+                <span class="brand-badge">Opportunity Engine</span>
+            </div>
+            <div class="tagline">Razorpay Test Mode Integration • Multi-Source Opportunity Discovery & Expected-Value Prioritization</div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="btn-simulate" onclick="simulateNewOpportunity()">+ Simulate Opportunity</button>
+            <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
+        </div>
+    </div>
+
+    <!-- Executive Financial Metric Ribbon -->
+    <div class="metric-grid">
+        <div class="metric-card" style="border-left: 4px solid #f87171;">
+            <div class="metric-label">Revenue at Risk</div>
+            <div class="metric-value" id="stat-risk">₹0</div>
+            <div class="metric-sub" style="color: #f87171;">Total identified potential loss pool</div>
+        </div>
+        <div class="metric-card" style="border-left: 4px solid #fbbf24;">
+            <div class="metric-label">Predicted Recoverable (EV Pool)</div>
+            <div class="metric-value" style="color: #fbbf24;" id="stat-predict">₹0</div>
+            <div class="metric-sub" style="color: #94a3b8;">Sum of ML Expected Values</div>
+        </div>
+        <div class="metric-card" style="border-left: 4px solid #34d399;">
+            <div class="metric-label">Actual Recovered Revenue</div>
+            <div class="metric-value" style="color: #34d399;" id="stat-recovered">₹0</div>
+            <div class="metric-sub" style="color: #34d399;">✓ Verified via Razorpay Test Events</div>
+        </div>
+        <div class="metric-card" style="border-left: 4px solid #0c8cee;">
+            <div class="metric-label">Recovery Rate</div>
+            <div class="metric-value" id="stat-rate">0.0%</div>
+            <div class="metric-sub" style="color: #38bdf8;">Calculated from actual recovered revenue</div>
+        </div>
+    </div>
+
+    <!-- Opportunity Type Filters (3 MVP Vectors + 1 Stretch) -->
+    <div class="filter-bar">
+        <button class="tab-btn active" onclick="filterType('ALL', this)">All Opportunities</button>
+        <button class="tab-btn" onclick="filterType('PARTIAL_PAYMENT', this)">① Partial Payments</button>
+        <button class="tab-btn" onclick="filterType('OVERDUE_INVOICE', this)">② Overdue Invoices</button>
+        <button class="tab-btn" onclick="filterType('FAILED_PAYMENT', this)">③ Failed Checkouts</button>
+        <button class="tab-btn" onclick="filterType('REFUND_MISMATCH', this)" style="opacity: 0.75;">(Stretch) Mismatches</button>
+    </div>
+
+    <!-- Revenue Opportunity Matrix Table -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Opportunity & Details</th>
+                    <th>Type</th>
+                    <th>Customer</th>
+                    <th>Recoverable ₹</th>
+                    <th>AI Probability</th>
+                    <th>Expected Value (ROI)</th>
+                    <th>Recommended Action</th>
+                    <th>Guardrail</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="opp-tbody">
+                <tr>
+                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Revenue Opportunities from RevoFlow API...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let currentTypeFilter = 'ALL';
+        let allOpportunities = [];
+
+        async function loadDashboard() {
+            try {
+                // 1. Fetch Stats
+                const statsRes = await fetch('http://127.0.0.1:8000/stats');
+                if (statsRes.ok) {
+                    const stats = await statsRes.json();
+                    document.getElementById('stat-risk').textContent = '₹' + stats.revenue_at_risk.toLocaleString('en-IN');
+                    document.getElementById('stat-predict').textContent = '₹' + stats.predicted_recoverable.toLocaleString('en-IN');
+                    document.getElementById('stat-recovered').textContent = '₹' + stats.recovered_revenue.toLocaleString('en-IN');
+                    document.getElementById('stat-rate').textContent = stats.recovery_rate + '%';
+                }
+
+                // 2. Fetch Opportunities
+                const url = currentTypeFilter === 'ALL' 
+                    ? 'http://127.0.0.1:8000/opportunities' 
+                    : `http://127.0.0.1:8000/opportunities?type_filter=${currentTypeFilter}`;
+
+                const oppRes = await fetch(url);
+                if (oppRes.ok) {
+                    const data = await oppRes.json();
+                    allOpportunities = data.opportunities;
+                    renderTable(allOpportunities);
+                }
+            } catch (err) {
+                console.error('Error fetching data:', err);
+            }
+        }
+
+        function renderTable(opps) {
+            const tbody = document.getElementById('opp-tbody');
+            if (opps.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:32px; color:#64748b;">No revenue opportunities found for this filter.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            opps.forEach((o, index) => {
+                const tr = document.createElement('tr');
+                const isRecovered = o.status === 'RECOVERED';
+                const isBlocked = o.guardrail_status === 'BLOCKED';
+
+                let typeBadge = '';
+                if (o.opportunity_type === 'PARTIAL_PAYMENT') typeBadge = '<span class="badge-type type-partial">Partial Payment</span>';
+                else if (o.opportunity_type === 'OVERDUE_INVOICE') typeBadge = '<span class="badge-type type-invoice">Overdue Invoice</span>';
+                else if (o.opportunity_type === 'FAILED_PAYMENT') typeBadge = '<span class="badge-type type-failed">Checkout Fail</span>';
+                else typeBadge = '<span class="badge-type type-mismatch">Mismatch</span>';
+
+                const guardBadge = isBlocked 
+                    ? '<span style="color:#f87171; font-weight:700; font-size:11px;">✕ BLOCKED</span>' 
+                    : '<span style="color:#34d399; font-weight:700; font-size:11px;">✓ PASSED</span>';
+
+                let actionBtn = '';
+                if (isRecovered) {
+                    actionBtn = '<span style="color:#34d399; font-weight:700; font-size:11px;">✓ Recovered</span>';
+                } else if (isBlocked) {
+                    actionBtn = '<span style="color:#c084fc; font-weight:700; font-size:11px;">Manual Signoff</span>';
+                } else {
+                    actionBtn = `<button class="btn-recover" onclick="recoverOpportunity('${o.id}')">Approve & Recover</button>`;
+                }
+
+                tr.innerHTML = `
+                    <td><span class="badge-rank">#${o.priority_rank || (index + 1)}</span></td>
+                    <td>
+                        <div style="font-weight:700; color:#f1f5f9;">${o.title}</div>
+                        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ref: ${o.reference_id} • ${o.age_days}d ago</div>
+                    </td>
+                    <td>${typeBadge}</td>
+                    <td>
+                        <div style="font-weight:600;">${o.customer_name}</div>
+                        <div style="font-size:11px; color:#64748b;">${o.customer_email}</div>
+                    </td>
+                    <td style="font-weight:800; color:#ffffff;">₹${o.recoverable_amount.toLocaleString('en-IN')}</td>
+                    <td>
+                        <span style="font-weight:700; color:${o.recovery_probability >= 70 ? '#34d399' : (o.recovery_probability < 40 ? '#f87171' : '#fbbf24')};">
+                            ${o.recovery_probability}%
+                        </span>
+                    </td>
+                    <td><span class="badge-ev">₹${o.expected_value.toLocaleString('en-IN')}</span></td>
+                    <td style="font-size:11px; color:#94a3b8; max-width:180px;">${o.recommended_action}</td>
+                    <td>${guardBadge}</td>
+                    <td style="text-align:right;">${actionBtn}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterType(type, btn) {
+            currentTypeFilter = type;
+            document.querySelectorAll('.filter-bar .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadDashboard();
+        }
+
+        async function recoverOpportunity(oppId) {
+            try {
+                const res = await fetch(`http://127.0.0.1:8000/opportunities/${oppId}/recover`, {
+                    method: 'POST'
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    confetti({
+                        particleCount: 75,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#0c8cee', '#34d399', '#38bdf8', '#fbbf24']
+                    });
+                    alert(result.message);
+                    loadDashboard();
+                } else {
+                    alert('Recovery Failed: ' + result.detail);
+                }
+            } catch (err) {
+                alert('Execution error: ' + err.message);
+            }
+        }
+
+        async function simulateNewOpportunity() {
+            const types = ['PARTIAL_PAYMENT', 'OVERDUE_INVOICE', 'FAILED_PAYMENT'];
+            const chosenType = types[Math.floor(Math.random() * types.length)];
+            
+            let title = 'Simulated Revenue Opportunity';
+            let recAmt = 6000;
+            if (chosenType === 'PARTIAL_PAYMENT') { title = 'Unpaid Token Balance on Enterprise Software'; recAmt = 7500; }
+            else if (chosenType === 'OVERDUE_INVOICE') { title = 'Overdue B2B Consulting Invoice (Net-15 Overdue)'; recAmt = 16500; }
+            else { title = 'UPI 3DS Abandonment at Checkout'; recAmt = 4999; }
+
+            const payload = {
+                opportunity_type: chosenType,
+                title: title,
+                total_amount: recAmt + 2000,
+                paid_amount: 2000,
+                recoverable_amount: recAmt,
+                payment_method: 'upi',
+                bank: 'HDFC Bank',
+                customer_name: 'Aditya Varma',
+                customer_email: 'aditya.varma@example.in',
+                customer_phone: '+91 98888 77665'
+            };
+
+            try {
+                const res = await fetch('http://127.0.0.1:8000/opportunities/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    alert(`Simulated ${chosenType} Opportunity Added: ${title} (₹${recAmt})`);
+                    loadDashboard();
+                }
+            } catch (err) {
+                alert('Simulation error: ' + err.message);
+            }
+        }
+
+        // Initial Load
+        loadDashboard();
+    </script>
+</body>
+</html>
