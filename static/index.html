@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RevoFlow — AI Revenue Optimization & Recovery</title>
+    <title>REVORA — AI Revenue Recovery & Optimization Engine</title>
     <!-- Canvas Confetti for Recovery Realization -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #080d1a;
+            background-color: #070b14;
             color: #f1f5f9;
             padding: 24px;
             min-height: 100vh;
@@ -189,7 +189,7 @@
         .btn-recover:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-recover:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .btn-simulate {
+        .btn-detect {
             background: #1e293b;
             color: #f1f5f9;
             border: 1px solid #334155;
@@ -199,7 +199,7 @@
             font-weight: 600;
             cursor: pointer;
         }
-        .btn-simulate:hover { background: #334155; }
+        .btn-detect:hover { background: #334155; }
     </style>
 </head>
 <body>
@@ -207,13 +207,13 @@
     <div class="header">
         <div>
             <div class="brand">
-                REVO<span>FLOW</span>
+                REVORA
                 <span class="brand-badge">Opportunity Engine</span>
             </div>
-            <div class="tagline">Razorpay Test Mode Integration • Multi-Source Opportunity Discovery & Expected-Value Prioritization</div>
+            <div class="tagline">Razorpay Track 3: Multi-Source Opportunity Detection, ML Probability & Constrained Optimization</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <button class="btn-simulate" onclick="simulateNewOpportunity()">+ Simulate Opportunity</button>
+            <button class="btn-detect" onclick="runDetectors()">⚡ Run 4 Detectors</button>
             <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
         </div>
     </div>
@@ -223,17 +223,17 @@
         <div class="metric-card" style="border-left: 4px solid #f87171;">
             <div class="metric-label">Revenue at Risk</div>
             <div class="metric-value" id="stat-risk">₹0</div>
-            <div class="metric-sub" style="color: #f87171;">Total identified potential loss pool</div>
+            <div class="metric-sub" style="color: #f87171;">Across 4 Opportunity Detectors</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #fbbf24;">
             <div class="metric-label">Predicted Recoverable (EV Pool)</div>
             <div class="metric-value" style="color: #fbbf24;" id="stat-predict">₹0</div>
-            <div class="metric-sub" style="color: #94a3b8;">Sum of ML Expected Values</div>
+            <div class="metric-sub" style="color: #94a3b8;">Sum of Calibrated ML Expected Values</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #34d399;">
             <div class="metric-label">Actual Recovered Revenue</div>
             <div class="metric-value" style="color: #34d399;" id="stat-recovered">₹0</div>
-            <div class="metric-sub" style="color: #34d399;">✓ Verified via Razorpay Test Events</div>
+            <div class="metric-sub" style="color: #34d399;">✓ Settled via Razorpay Test Mode</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #0c8cee;">
             <div class="metric-label">Recovery Rate</div>
@@ -242,13 +242,13 @@
         </div>
     </div>
 
-    <!-- Opportunity Type Filters (3 MVP Vectors + 1 Stretch) -->
+    <!-- Opportunity Type Filters (4 Detectors) -->
     <div class="filter-bar">
         <button class="tab-btn active" onclick="filterType('ALL', this)">All Opportunities</button>
-        <button class="tab-btn" onclick="filterType('PARTIAL_PAYMENT', this)">① Partial Payments</button>
-        <button class="tab-btn" onclick="filterType('OVERDUE_INVOICE', this)">② Overdue Invoices</button>
-        <button class="tab-btn" onclick="filterType('FAILED_PAYMENT', this)">③ Failed Checkouts</button>
-        <button class="tab-btn" onclick="filterType('REFUND_MISMATCH', this)" style="opacity: 0.75;">(Stretch) Mismatches</button>
+        <button class="tab-btn" onclick="filterType('failed_payment', this)">① Failed Checkouts</button>
+        <button class="tab-btn" onclick="filterType('partial_payment', this)">② Partial Payments</button>
+        <button class="tab-btn" onclick="filterType('overdue_payment', this)">③ Overdue Invoices</button>
+        <button class="tab-btn" onclick="filterType('refund_mismatch', this)">④ Refund Mismatches</button>
     </div>
 
     <!-- Revenue Opportunity Matrix Table -->
@@ -258,10 +258,10 @@
                 <tr>
                     <th>Rank</th>
                     <th>Opportunity & Details</th>
-                    <th>Type</th>
+                    <th>Detector Type</th>
                     <th>Customer</th>
                     <th>Recoverable ₹</th>
-                    <th>AI Probability</th>
+                    <th>ML Probability</th>
                     <th>Expected Value (ROI)</th>
                     <th>Recommended Action</th>
                     <th>Guardrail</th>
@@ -270,7 +270,7 @@
             </thead>
             <tbody id="opp-tbody">
                 <tr>
-                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Revenue Opportunities from RevoFlow API...</td>
+                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Unified Opportunities from REVORA Engine...</td>
                 </tr>
             </tbody>
         </table>
@@ -322,9 +322,9 @@
                 const isBlocked = o.guardrail_status === 'BLOCKED';
 
                 let typeBadge = '';
-                if (o.opportunity_type === 'PARTIAL_PAYMENT') typeBadge = '<span class="badge-type type-partial">Partial Payment</span>';
-                else if (o.opportunity_type === 'OVERDUE_INVOICE') typeBadge = '<span class="badge-type type-invoice">Overdue Invoice</span>';
-                else if (o.opportunity_type === 'FAILED_PAYMENT') typeBadge = '<span class="badge-type type-failed">Checkout Fail</span>';
+                if (o.opportunity_type === 'partial_payment') typeBadge = '<span class="badge-type type-partial">Partial Payment</span>';
+                else if (o.opportunity_type === 'overdue_payment') typeBadge = '<span class="badge-type type-invoice">Overdue Invoice</span>';
+                else if (o.opportunity_type === 'failed_payment') typeBadge = '<span class="badge-type type-failed">Failed Checkout</span>';
                 else typeBadge = '<span class="badge-type type-mismatch">Mismatch</span>';
 
                 const guardBadge = isBlocked 
@@ -344,7 +344,7 @@
                     <td><span class="badge-rank">#${o.priority_rank || (index + 1)}</span></td>
                     <td>
                         <div style="font-weight:700; color:#f1f5f9;">${o.title}</div>
-                        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ref: ${o.reference_id} • ${o.age_days}d ago</div>
+                        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ref: ${o.source_reference_id} • ${o.age_days}d old</div>
                     </td>
                     <td>${typeBadge}</td>
                     <td>
@@ -396,41 +396,14 @@
             }
         }
 
-        async function simulateNewOpportunity() {
-            const types = ['PARTIAL_PAYMENT', 'OVERDUE_INVOICE', 'FAILED_PAYMENT'];
-            const chosenType = types[Math.floor(Math.random() * types.length)];
-            
-            let title = 'Simulated Revenue Opportunity';
-            let recAmt = 6000;
-            if (chosenType === 'PARTIAL_PAYMENT') { title = 'Unpaid Token Balance on Enterprise Software'; recAmt = 7500; }
-            else if (chosenType === 'OVERDUE_INVOICE') { title = 'Overdue B2B Consulting Invoice (Net-15 Overdue)'; recAmt = 16500; }
-            else { title = 'UPI 3DS Abandonment at Checkout'; recAmt = 4999; }
-
-            const payload = {
-                opportunity_type: chosenType,
-                title: title,
-                total_amount: recAmt + 2000,
-                paid_amount: 2000,
-                recoverable_amount: recAmt,
-                payment_method: 'upi',
-                bank: 'HDFC Bank',
-                customer_name: 'Aditya Varma',
-                customer_email: 'aditya.varma@example.in',
-                customer_phone: '+91 98888 77665'
-            };
-
+        async function runDetectors() {
             try {
-                const res = await fetch('http://127.0.0.1:8000/opportunities/simulate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (res.ok) {
-                    alert(`Simulated ${chosenType} Opportunity Added: ${title} (₹${recAmt})`);
-                    loadDashboard();
-                }
+                const res = await fetch('http://127.0.0.1:8000/detect-opportunities', { method: 'POST' });
+                const result = await res.json();
+                alert(result.message);
+                loadDashboard();
             } catch (err) {
-                alert('Simulation error: ' + err.message);
+                alert('Detector execution error: ' + err.message);
             }
         }
 

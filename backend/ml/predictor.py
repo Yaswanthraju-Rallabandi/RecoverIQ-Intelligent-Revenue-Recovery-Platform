@@ -1,10 +1,12 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import joblib
 import pandas as pd
-from typing import Dict, Any, Tuple
+from typing import Tuple
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "saved_models", "recovery_model_v1.joblib")
-
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models", "revora_recovery_model_v1.joblib")
 _model = None
 
 def get_model():
@@ -13,42 +15,46 @@ def get_model():
         if os.path.exists(MODEL_PATH):
             _model = joblib.load(MODEL_PATH)
         else:
-            print("[WARN] Model file not found, triggering auto-training...")
-            from .train import train_recovery_model
-            train_recovery_model()
+            print("[WARN] ML Model not found. Initializing training...")
+            try:
+                from train import train_revora_model
+            except ImportError:
+                from .train import train_revora_model
+            train_revora_model()
             _model = joblib.load(MODEL_PATH)
     return _model
 
 def predict_single_probability(
     amount: float,
-    method: str,
-    failure_code: str,
-    attempt_number: int,
-    hour_of_day: int,
-    past_successful_payments: int,
-    action_type: str
+    method: str = "upi",
+    opportunity_type: str = "failed_payment",
+    age_days: int = 1,
+    customer_risk: str = "LOW",
+    past_successful_payments: int = 4,
+    past_late_payments: int = 0,
+    retry_count: int = 0
 ) -> Tuple[float, str]:
     """
-    Returns calibrated probability (0.0 to 100.0) and confidence level.
+    Returns calibrated probability (0.0 to 100.0%) and confidence level.
     """
     model = get_model()
-    
     row = pd.DataFrame([{
+        "opportunity_type": str(opportunity_type),
         "amount": float(amount),
-        "method": str(method),
-        "failure_code": str(failure_code),
-        "attempt_number": int(attempt_number),
-        "hour_of_day": int(hour_of_day),
+        "payment_method": str(method),
+        "age_days": int(age_days),
+        "customer_risk": str(customer_risk),
         "past_successful_payments": int(past_successful_payments),
-        "action_type": str(action_type)
+        "past_late_payments": int(past_late_payments),
+        "retry_count": int(retry_count)
     }])
-    
+
     try:
         prob = float(model.predict_proba(row)[0][1]) * 100.0
-        prob = max(3.0, min(95.0, round(prob, 1)))
+        prob = max(4.0, min(95.0, round(prob, 1)))
     except Exception as e:
-        print(f"Inference error: {e}, falling back to empirical prior")
-        prob = 50.0
-        
+        print(f"Inference warning: {e}, using empirical prior")
+        prob = 55.0
+
     conf = "HIGH" if (prob >= 70.0 or prob <= 20.0) else ("MEDIUM" if prob >= 45.0 else "LOW")
     return prob, conf

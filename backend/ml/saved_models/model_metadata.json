@@ -1,34 +1,21 @@
 {
-  "model_version": "v1.0-randomforest-calibrated",
-  "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7)",
-  "calibration": "Platt Scaling (5-Fold CalibratedClassifierCV)",
+  "model_version": "revora-rf-calibrated-v1",
+  "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + Platt Scaling",
+  "baseline_logistic_auc": 0.7224,
+  "roc_auc": 0.7206,
+  "accuracy": 0.6771,
+  "precision": 0.6964,
+  "recall": 0.8923,
+  "f1_score": 0.7823,
   "features": [
-    "method",
-    "failure_code",
-    "action_type",
+    "opportunity_type",
+    "payment_method",
+    "customer_risk",
     "amount",
-    "attempt_number",
-    "hour_of_day",
-    "past_successful_payments"
+    "age_days",
+    "past_successful_payments",
+    "past_late_payments",
+    "retry_count"
   ],
-  "metrics": {
-    "roc_auc": 0.8343,
-    "accuracy": 0.7633,
-    "precision": 0.7179,
-    "recall": 0.5333,
-    "f1_score": 0.612,
-    "confusion_matrix": [
-      [
-        346,
-        44
-      ],
-      [
-        98,
-        112
-      ]
-    ]
-  },
-  "trained_at": "2026-08-28T12:25:10.378293+00:00",
-  "training_samples": 2400,
-  "test_samples": 600
+  "trained_at": "2026-08-29T14:48:07.229721+00:00"
 }
