@@ -1,12 +1,22 @@
 {
   "model_version": "revora-rf-calibrated-v1",
-  "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + Platt Scaling",
+  "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + 5-Fold Platt Scaling",
   "baseline_logistic_auc": 0.7224,
   "roc_auc": 0.7206,
   "accuracy": 0.6771,
   "precision": 0.6964,
   "recall": 0.8923,
   "f1_score": 0.7823,
+  "confusion_matrix": [
+    [
+      68,
+      177
+    ],
+    [
+      49,
+      406
+    ]
+  ],
   "features": [
     "opportunity_type",
     "payment_method",
@@ -17,5 +27,5 @@
     "past_late_payments",
     "retry_count"
   ],
-  "trained_at": "2026-08-29T14:48:07.229721+00:00"
+  "trained_at": "2026-08-30T18:53:11.448795+00:00"
 }

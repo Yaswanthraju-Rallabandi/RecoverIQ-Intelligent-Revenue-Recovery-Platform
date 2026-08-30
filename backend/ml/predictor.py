@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import joblib
 import pandas as pd
-from typing import Tuple
+from typing import Tuple, Dict, Any
 
 MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models", "revora_recovery_model_v1.joblib")
 _model = None
@@ -15,7 +15,7 @@ def get_model():
         if os.path.exists(MODEL_PATH):
             _model = joblib.load(MODEL_PATH)
         else:
-            print("[WARN] ML Model not found. Initializing training...")
+            print("[WARN] ML Model artifact not found. Training model...")
             try:
                 from train import train_revora_model
             except ImportError:
@@ -35,7 +35,7 @@ def predict_single_probability(
     retry_count: int = 0
 ) -> Tuple[float, str]:
     """
-    Returns calibrated probability (0.0 to 100.0%) and confidence level.
+    Scores any opportunity regardless of type. Returns calibrated recovery probability (0.0 to 100.0%) and confidence level.
     """
     model = get_model()
     row = pd.DataFrame([{
@@ -53,8 +53,8 @@ def predict_single_probability(
         prob = float(model.predict_proba(row)[0][1]) * 100.0
         prob = max(4.0, min(95.0, round(prob, 1)))
     except Exception as e:
-        print(f"Inference warning: {e}, using empirical prior")
+        print(f"Inference fallback: {e}")
         prob = 55.0
 
-    conf = "HIGH" if (prob >= 70.0 or prob <= 20.0) else ("MEDIUM" if prob >= 45.0 else "LOW")
+    conf = "HIGH" if (prob >= 70.0 or prob <= 25.0) else ("MEDIUM" if prob >= 45.0 else "LOW")
     return prob, conf

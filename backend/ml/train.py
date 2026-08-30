@@ -32,10 +32,11 @@ except ImportError:
 def train_revora_model():
     data_path = "data/revora_ml_training_data.csv"
     if not os.path.exists(data_path):
-        generate_revora_ml_dataset(3500, data_path)
+        generate_revora_ml_dataset(4000, data_path)
 
     df = pd.read_csv(data_path)
-    print(f"[1] Loaded training dataset: {len(df)} samples. Distribution: {df['recovered'].value_counts().to_dict()}")
+    print(f"[1] Loaded dataset: {len(df)} samples across 4 opportunity types.")
+    print(f"    Class Balance: Recovered(1)={sum(df['recovered']==1)}, Failed(0)={sum(df['recovered']==0)}")
 
     categorical_features = ["opportunity_type", "payment_method", "customer_risk"]
     numeric_features = ["amount", "age_days", "past_successful_payments", "past_late_payments", "retry_count"]
@@ -43,9 +44,11 @@ def train_revora_model():
     X = df[categorical_features + numeric_features]
     y = df["recovered"]
 
+    # 80/20 Stratified Train/Test Split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.20, random_state=42, stratify=y
     )
+    print(f"[2] Split: {len(X_train)} Train Samples | {len(X_test)} Held-Out Test Samples")
 
     preprocessor = ColumnTransformer(
         transformers=[
@@ -54,14 +57,30 @@ def train_revora_model():
         ]
     )
 
-    # 1. Baseline Model: Logistic Regression
+    # 1. Train Interpretable Logistic Regression (To inspect feature coefficients)
+    lr_model = LogisticRegression(max_iter=500, random_state=42)
     lr_pipeline = Pipeline(steps=[
         ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(max_iter=500, random_state=42))
+        ("classifier", lr_model)
     ])
     lr_pipeline.fit(X_train, y_train)
-    lr_auc = float(roc_auc_score(y_test, lr_pipeline.predict_proba(X_test)[:, 1]))
-    print(f"[2] Baseline Logistic Regression ROC-AUC: {lr_auc:.4f}")
+    
+    lr_y_prob = lr_pipeline.predict_proba(X_test)[:, 1]
+    lr_auc = float(roc_auc_score(y_test, lr_y_prob))
+
+    # Extract all feature names from OneHotEncoder + Numeric
+    cat_names = lr_pipeline.named_steps["preprocessor"].named_transformers_["cat"].get_feature_names_out(categorical_features).tolist()
+    all_feature_names = cat_names + numeric_features
+    lr_coefficients = lr_model.coef_[0]
+
+    print("\n" + "=" * 70)
+    print(">>> SANITY CHECK: LOGISTIC REGRESSION FEATURE COEFFICIENTS")
+    print("=" * 70)
+    coef_ranking = sorted(zip(all_feature_names, lr_coefficients), key=lambda x: x[1], reverse=True)
+    for feat, coef in coef_ranking:
+        direction = "(+ Boosts Recovery)" if coef > 0 else "(- Reduces Recovery)"
+        print(f"   {feat:40s}: {coef:+6.3f}  {direction}")
+    print("=" * 70)
 
     # 2. Main Model: Calibrated Random Forest Ensemble
     rf_base = RandomForestClassifier(
@@ -94,27 +113,16 @@ def train_revora_model():
     auc = float(roc_auc_score(y_test, y_prob))
     cm = confusion_matrix(y_test, y_pred).tolist()
 
-    print("\n" + "=" * 65)
+    print("\n" + "=" * 70)
     print(">>> DAY 4: REVORA ML MODEL EVALUATION (HELD-OUT 20% TEST SET)")
-    print("=" * 65)
+    print("=" * 70)
     print(f"   Accuracy:  {acc * 100:.2f}%")
-    print(f"   Precision: {prec * 100:.2f}%")
+    print(f"   Precision: {prec * 100:.2f}% (High quality positive recovery predictions)")
     print(f"   Recall:    {rec * 100:.2f}%")
     print(f"   F1-Score:  {f1 * 100:.2f}%")
-    print(f"   ROC-AUC:   {auc:.4f} (Calibrated Ensemble vs {lr_auc:.4f} Baseline)")
+    print(f"   ROC-AUC:   {auc:.4f} (Calibrated Ensemble vs {lr_auc:.4f} Logistic Baseline)")
     print(f"   Confusion Matrix: TN={cm[0][0]}, FP={cm[0][1]}, FN={cm[1][0]}, TP={cm[1][1]}")
-    print("=" * 65 + "\n")
-
-    # Feature Importance Inspection
-    cat_names = rf_pipeline.named_steps["preprocessor"].named_transformers_["cat"].get_feature_names_out(categorical_features).tolist()
-    all_feature_names = cat_names + numeric_features
-    importances = rf_base.feature_importances_
-
-    ranking = sorted(zip(all_feature_names, importances), key=lambda x: x[1], reverse=True)
-    print(">>> TOP 6 PREDICTIVE RECOVERY FEATURES:")
-    for feat, imp in ranking[:6]:
-        print(f"   - {feat:35s}: {imp * 100:.2f}%")
-    print()
+    print("=" * 70 + "\n")
 
     # Persist Artifact
     save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models")
@@ -126,20 +134,21 @@ def train_revora_model():
 
     meta = {
         "model_version": "revora-rf-calibrated-v1",
-        "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + Platt Scaling",
+        "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + 5-Fold Platt Scaling",
         "baseline_logistic_auc": round(lr_auc, 4),
         "roc_auc": round(auc, 4),
         "accuracy": round(acc, 4),
         "precision": round(prec, 4),
         "recall": round(rec, 4),
         "f1_score": round(f1, 4),
+        "confusion_matrix": cm,
         "features": categorical_features + numeric_features,
         "trained_at": datetime.now(timezone.utc).isoformat()
     }
     with open(meta_file, "w") as f:
         json.dump(meta, f, indent=2)
 
-    print(f"[SUCCESS] Model artifact saved to: {model_file}")
+    print(f"[SUCCESS] Model artifact persisted to: {model_file}")
     return meta
 
 if __name__ == "__main__":
