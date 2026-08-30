@@ -14,13 +14,14 @@ from database import engine, get_db, Base
 import models
 from detectors.manager import OpportunityDetectorManager
 from ml.predictor import predict_single_probability
+from engine.optimizer import run_constrained_optimization_comparison, prepare_items_from_opportunities, solve_01_knapsack_dp
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="REVORA — AI Revenue Recovery & Optimization Engine",
-    description="Multi-Source Opportunity Detection, Calibrated ML Probability, Expected Value & Razorpay Test Mode",
-    version="4.0.0"
+    description="Multi-Source Opportunity Detection, Calibrated ML Probability & Constrained 0/1 Knapsack Optimization",
+    version="5.0.0"
 )
 
 app.add_middleware(
@@ -44,12 +45,15 @@ class PredictRequest(BaseModel):
     past_late_payments: int = 0
     retry_count: int = 0
 
+class BatchRecoverRequest(BaseModel):
+    opportunity_ids: List[str]
+
 @app.get("/")
 def serve_dashboard():
     static_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "index.html")
     if os.path.exists(static_file):
         return FileResponse(static_file)
-    return {"message": "REVORA Engine is running live. Visit /opportunities or /stats"}
+    return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize or /stats"}
 
 @app.get("/health")
 def health_check():
@@ -57,9 +61,9 @@ def health_check():
         "status": "healthy",
         "service": "REVORA AI Engine",
         "database": "SQLite (revora.db)",
-        "detectors": ["failed_payment", "partial_payment", "overdue_payment", "refund_mismatch"],
+        "optimization_engine": "0/1 Knapsack Dynamic Programming & Greedy Ratio",
         "ml_model": "revora-rf-calibrated-v1",
-        "version": "4.0.0"
+        "version": "5.0.0"
     }
 
 @app.get("/stats")
@@ -138,6 +142,94 @@ def get_opportunities(
     return {
         "total": len(results),
         "opportunities": results
+    }
+
+# Endpoint: GET /optimize (Day 5 Resource-Constrained Knapsack Optimizer)
+@app.get("/optimize")
+def get_optimized_action_set(
+    capacity_budget: int = Query(default=10, ge=1, le=50, description="Daily action capacity budget (effort units)"),
+    db: Session = Depends(get_db)
+):
+    """
+    Solves the Resource-Constrained Knapsack Optimization Problem:
+    Finds the exact subset of opportunities that maximizes Total Expected Recovered Revenue
+    under a daily operational capacity budget N.
+    Compares Optimal 0/1 DP vs Greedy by Ratio vs Naive FIFO.
+    """
+    open_opps = db.query(models.RevenueOpportunity).filter(
+        models.RevenueOpportunity.status != "RECOVERED"
+    ).all()
+
+    comparison = run_constrained_optimization_comparison(open_opps, capacity_budget=capacity_budget)
+
+    return {
+        "capacity_budget": comparison.capacity_budget,
+        "total_evaluated": comparison.total_opportunities_evaluated,
+        "optimal_dp_solution": {
+            "strategy": comparison.optimal_dp.strategy_name,
+            "selected_count": comparison.optimal_dp.item_count,
+            "total_expected_revenue": comparison.optimal_dp.total_expected_value,
+            "total_recoverable_pool": comparison.optimal_dp.total_recoverable_amount,
+            "weight_utilized": comparison.optimal_dp.total_weight_used,
+            "efficiency_ratio": comparison.optimal_dp.efficiency_ratio,
+            "action_set": comparison.optimal_dp.selected_items
+        },
+        "greedy_ratio_solution": {
+            "strategy": comparison.greedy_ratio.strategy_name,
+            "selected_count": comparison.greedy_ratio.item_count,
+            "total_expected_revenue": comparison.greedy_ratio.total_expected_value,
+            "weight_utilized": comparison.greedy_ratio.total_weight_used,
+            "efficiency_ratio": comparison.greedy_ratio.efficiency_ratio
+        },
+        "naive_fifo_solution": {
+            "strategy": comparison.naive_fifo.strategy_name,
+            "selected_count": comparison.naive_fifo.item_count,
+            "total_expected_revenue": comparison.naive_fifo.total_expected_value,
+            "weight_utilized": comparison.naive_fifo.total_weight_used,
+            "efficiency_ratio": comparison.naive_fifo.efficiency_ratio
+        },
+        "performance_lift": {
+            "dp_over_naive_percent": comparison.dp_lift_over_naive_percent,
+            "dp_over_greedy_percent": comparison.dp_lift_over_greedy_percent
+        }
+    }
+
+# Endpoint: POST /optimize/execute-batch (Executes 1-Click Recovery on Optimal Knapsack Set)
+@app.post("/optimize/execute-batch")
+def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Depends(get_db)):
+    recovered_items = []
+    total_recovered_amount = 0.0
+
+    for opp_id in req.opportunity_ids:
+        opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
+        if opp and opp.status != "RECOVERED" and opp.guardrail_status != "BLOCKED":
+            mock_link = f"https://rzp.io/i/revora_{opp.id.lower()}"
+            opp.status = "RECOVERED"
+            opp.recovered_at = now_utc()
+            opp.recovered_amount = opp.recoverable_amount
+            opp.razorpay_link_url = mock_link
+            opp.retry_count += 1
+
+            audit = models.AuditLog(
+                id=f"log_batch_{opp.id}_{int(now_utc().timestamp())}",
+                opportunity_id=opp.id,
+                actor="OPTIMIZATION_ENGINE",
+                action="BATCH_RECOVERY_EXECUTED_RAZORPAY_TEST",
+                reason=f"Executed in optimal Knapsack batch. Recovered Rs {opp.recoverable_amount:,.2f}.",
+                metadata_json=f'{{"recovered_amount": {opp.recoverable_amount}, "link": "{mock_link}"}}'
+            )
+            db.add(audit)
+            recovered_items.append(opp.id)
+            total_recovered_amount += opp.recoverable_amount
+
+    db.commit()
+
+    return {
+        "success": True,
+        "message": f"Successfully executed batch recovery for {len(recovered_items)} optimized opportunities! Total settled: Rs {total_recovered_amount:,.2f}.",
+        "recovered_count": len(recovered_items),
+        "total_recovered_amount": total_recovered_amount,
+        "recovered_ids": recovered_items
     }
 
 @app.post("/detect-opportunities")
