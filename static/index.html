@@ -236,7 +236,7 @@
             border-bottom: 1px solid #1e293b;
             color: #cbd5e1;
         }
-        tr:hover { background: #141f36; }
+        tr:hover { background: #141f36; cursor: pointer; }
         tr.in-knapsack {
             background: rgba(12, 140, 238, 0.07);
             border-left: 3px solid #38bdf8;
@@ -297,6 +297,59 @@
             box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
         }
         .btn-batch:hover { opacity: 0.9; }
+
+        /* Day 6 AI Explanation Drawer / Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 580px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 12px;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+        .explanation-box {
+            background: #091220;
+            border: 1px solid #1e293b;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        .explanation-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
     </style>
 </head>
 <body>
@@ -305,9 +358,9 @@
         <div>
             <div class="brand">
                 REVORA
-                <span class="brand-badge">Constrained Optimization Engine</span>
+                <span class="brand-badge">Day 7 • Razorpay Test Mode Ready</span>
             </div>
-            <div class="tagline">Razorpay Track 3: Resource-Constrained 0/1 Knapsack Recovery Optimizer & Multi-Source Engine</div>
+            <div class="tagline">Razorpay Track 3: 0/1 Knapsack Optimizer • AI Explanation Layer • Verified Razorpay Test Links</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
@@ -329,7 +382,7 @@
         <div class="metric-card" style="border-left: 4px solid #34d399;">
             <div class="metric-label">Actual Recovered Revenue</div>
             <div class="metric-value" style="color: #34d399;" id="stat-recovered">₹0</div>
-            <div class="metric-sub" style="color: #34d399;">✓ Settled via Razorpay Test Mode</div>
+            <div class="metric-sub" style="color: #34d399;">✓ Verified via Razorpay Webhooks</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #0c8cee;">
             <div class="metric-label">Recovery Rate</div>
@@ -338,7 +391,7 @@
         </div>
     </div>
 
-    <!-- Day 5: Resource-Constrained 0/1 Knapsack Optimization Control Panel -->
+    <!-- Day 5 Optimization Control Banner -->
     <div class="optimizer-banner">
         <div class="optimizer-header">
             <div class="optimizer-title">
@@ -395,7 +448,7 @@
             <button class="tab-btn" onclick="filterType('refund_mismatch', this)">④ Refund Mismatches</button>
         </div>
         <div style="font-size: 11px; color: #38bdf8; font-weight: 600;">
-            Highlighted rows (⚡) = Selected in Optimal Knapsack Action Set
+            Click on any row to inspect Day 6 AI Explanation & Razorpay Link
         </div>
     </div>
 
@@ -411,17 +464,58 @@
                     <th>Recoverable ₹</th>
                     <th>ML Probability</th>
                     <th>Expected Value (EV)</th>
-                    <th>Effort Weight</th>
+                    <th>AI Confidence</th>
                     <th>Guardrail</th>
                     <th style="text-align: right;">Action</th>
                 </tr>
             </thead>
             <tbody id="opp-tbody">
                 <tr>
-                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Evaluating Constrained 0/1 Knapsack Optimizer...</td>
+                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Unified Opportunities from REVORA Engine...</td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Day 6 AI Explanation Modal -->
+    <div id="ai-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-opp-title">AI Opportunity Diagnostic & Recovery Rationale</div>
+                <button onclick="closeModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+            </div>
+
+            <div class="explanation-box">
+                <div class="explanation-title">1. Root-Cause Diagnosis (Why Flagged)</div>
+                <div id="modal-why-flagged">Loading diagnosis...</div>
+            </div>
+
+            <div class="explanation-box">
+                <div class="explanation-title">2. Financial Action Rationale (Why Recommended)</div>
+                <div id="modal-why-recommended">Loading rationale...</div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; background:#091220; padding:12px 14px; border-radius:8px; border:1px solid #1e293b;">
+                <div>
+                    <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; font-weight:700;">AI Explanation Confidence</div>
+                    <div id="modal-conf-score" style="font-size:18px; font-weight:800; color:#34d399;">85% [HIGH]</div>
+                </div>
+                <div>
+                    <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; font-weight:700;">Confidence-Gating</div>
+                    <div id="modal-gating-status" style="font-size:12px; font-weight:700; color:#38bdf8;">✓ Permitted Auto</div>
+                </div>
+            </div>
+
+            <div id="modal-link-box" style="display:none; background:#091220; padding:12px 14px; border-radius:8px; border:1px solid #1e293b;">
+                <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:4px;">Razorpay Test Payment Link</div>
+                <a id="modal-link-url" href="#" target="_blank" style="color:#38bdf8; word-break:break-all; font-size:12px;">https://rzp.io/...</a>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;">
+                <button class="tab-btn" onclick="simulateWebhookForModal()">⚡ Simulate Webhook Paid</button>
+                <button class="btn-recover" id="modal-action-btn" onclick="recoverFromModal()">Approve & Recover via Razorpay</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -429,6 +523,7 @@
         let allOpportunities = [];
         let optimalActionSetIds = new Set();
         let currentBudget = 6;
+        let selectedOppForModal = null;
 
         async function loadDashboard() {
             try {
@@ -489,9 +584,9 @@
                 const isBlocked = o.guardrail_status === 'BLOCKED';
                 const isKnapsackSelected = optimalActionSetIds.has(o.id) && !isRecovered;
 
-                if (isKnapsackSelected) {
-                    tr.classList.add('in-knapsack');
-                }
+                if (isKnapsackSelected) tr.classList.add('in-knapsack');
+
+                tr.onclick = () => openModal(o);
 
                 let typeBadge = '';
                 if (o.opportunity_type === 'partial_payment') typeBadge = '<span class="badge-type type-partial">Partial Payment</span>';
@@ -513,10 +608,11 @@
                 } else if (isBlocked) {
                     actionBtn = '<span style="color:#c084fc; font-weight:700; font-size:11px;">Manual Signoff</span>';
                 } else {
-                    actionBtn = `<button class="btn-recover" onclick="recoverOpportunity('${o.id}')">Approve & Recover</button>`;
+                    actionBtn = `<button class="btn-recover" onclick="event.stopPropagation(); recoverOpportunity('${o.id}')">Approve & Recover</button>`;
                 }
 
-                const weightDisplay = o.opportunity_type === 'partial_payment' || o.opportunity_type === 'overdue_payment' ? '2 units' : '1 unit';
+                const aiConf = o.ai_explanation ? o.ai_explanation.confidence_score : 85;
+                const confColor = aiConf >= 75 ? '#34d399' : (aiConf < 60 ? '#f87171' : '#fbbf24');
 
                 tr.innerHTML = `
                     <td>${setIndicator}</td>
@@ -536,7 +632,7 @@
                         </span>
                     </td>
                     <td><span class="badge-ev">₹${o.expected_value.toLocaleString('en-IN')}</span></td>
-                    <td style="font-size:11px; color:#94a3b8; font-weight:600;">${weightDisplay}</td>
+                    <td style="font-weight:700; color:${confColor}; font-size:12px;">${aiConf}%</td>
                     <td>${guardBadge}</td>
                     <td style="text-align:right;">${actionBtn}</td>
                 `;
@@ -555,6 +651,87 @@
             currentBudget = parseInt(val);
             document.getElementById('budget-badge-val').textContent = val + ' units';
             loadDashboard();
+        }
+
+        function openModal(o) {
+            selectedOppForModal = o;
+            document.getElementById('modal-opp-title').textContent = o.title;
+            document.getElementById('modal-why-flagged').textContent = o.ai_explanation ? o.ai_explanation.why_flagged : o.description;
+            document.getElementById('modal-why-recommended').textContent = o.ai_explanation ? o.ai_explanation.why_recommended : o.recommended_action;
+            
+            const conf = o.ai_explanation ? o.ai_explanation.confidence_score : 85;
+            const tier = o.ai_explanation ? o.ai_explanation.confidence_tier : 'HIGH';
+            document.getElementById('modal-conf-score').textContent = `${conf}% [${tier}]`;
+
+            const isGated = o.ai_explanation ? o.ai_explanation.is_confidence_gated : false;
+            document.getElementById('modal-gating-status').textContent = isGated ? '⚠ Quarantined: Manual Review' : '✓ Permitted Autonomous';
+            document.getElementById('modal-gating-status').style.color = isGated ? '#f87171' : '#38bdf8';
+
+            const linkBox = document.getElementById('modal-link-box');
+            if (o.razorpay_link_url) {
+                linkBox.style.display = 'block';
+                document.getElementById('modal-link-url').href = o.razorpay_link_url;
+                document.getElementById('modal-link-url').textContent = o.razorpay_link_url;
+            } else {
+                linkBox.style.display = 'none';
+            }
+
+            document.getElementById('ai-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('ai-modal').style.display = 'none';
+            selectedOppForModal = null;
+        }
+
+        async function recoverFromModal() {
+            if (!selectedOppForModal) return;
+            await recoverOpportunity(selectedOppForModal.id);
+            closeModal();
+        }
+
+        async function simulateWebhookForModal() {
+            if (!selectedOppForModal) return;
+            try {
+                const res = await fetch('http://127.0.0.1:8000/simulate-webhook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        opportunity_id: selectedOppForModal.id,
+                        amount: selectedOppForModal.recoverable_amount,
+                        event_type: 'payment_link.paid'
+                    })
+                });
+                const result = await res.json();
+                alert(result.message);
+                closeModal();
+                loadDashboard();
+            } catch (err) {
+                alert('Webhook simulation failed: ' + err.message);
+            }
+        }
+
+        async function recoverOpportunity(oppId) {
+            try {
+                const res = await fetch(`http://127.0.0.1:8000/opportunities/${oppId}/recover`, {
+                    method: 'POST'
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    confetti({
+                        particleCount: 80,
+                        spread: 75,
+                        origin: { y: 0.6 },
+                        colors: ['#0c8cee', '#34d399', '#38bdf8', '#fbbf24']
+                    });
+                    alert(result.message);
+                    loadDashboard();
+                } else {
+                    alert('Recovery Failed: ' + result.detail);
+                }
+            } catch (err) {
+                alert('Execution error: ' + err.message);
+            }
         }
 
         async function executeOptimalBatch() {
@@ -585,29 +762,6 @@
                 }
             } catch (err) {
                 alert('Error executing batch: ' + err.message);
-            }
-        }
-
-        async function recoverOpportunity(oppId) {
-            try {
-                const res = await fetch(`http://127.0.0.1:8000/opportunities/${oppId}/recover`, {
-                    method: 'POST'
-                });
-                const result = await res.json();
-                if (res.ok) {
-                    confetti({
-                        particleCount: 75,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#0c8cee', '#34d399', '#38bdf8', '#fbbf24']
-                    });
-                    alert(result.message);
-                    loadDashboard();
-                } else {
-                    alert('Recovery Failed: ' + result.detail);
-                }
-            } catch (err) {
-                alert('Execution error: ' + err.message);
             }
         }
 

@@ -1,12 +1,14 @@
-from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi import FastAPI, Depends, HTTPException, Query, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 from datetime import datetime, timezone
 import sys
 import os
+import json
+import uuid
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -14,14 +16,17 @@ from database import engine, get_db, Base
 import models
 from detectors.manager import OpportunityDetectorManager
 from ml.predictor import predict_single_probability
-from engine.optimizer import run_constrained_optimization_comparison, prepare_items_from_opportunities, solve_01_knapsack_dp
+from engine.optimizer import run_constrained_optimization_comparison
+from engine.ai_explainer import generate_ai_explanation
+from payments.razorpay_client import razorpay_client
+from payments.webhook_handler import process_razorpay_webhook
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="REVORA — AI Revenue Recovery & Optimization Engine",
-    description="Multi-Source Opportunity Detection, Calibrated ML Probability & Constrained 0/1 Knapsack Optimization",
-    version="5.0.0"
+    description="Multi-Source Opportunity Detection, Knapsack Optimization, AI Explanation & Razorpay Test Mode",
+    version="7.0.0"
 )
 
 app.add_middleware(
@@ -48,6 +53,11 @@ class PredictRequest(BaseModel):
 class BatchRecoverRequest(BaseModel):
     opportunity_ids: List[str]
 
+class SimulateWebhookRequest(BaseModel):
+    opportunity_id: str
+    amount: Optional[float] = None
+    event_type: str = "payment_link.paid"
+
 @app.get("/")
 def serve_dashboard():
     static_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "index.html")
@@ -62,8 +72,9 @@ def health_check():
         "service": "REVORA AI Engine",
         "database": "SQLite (revora.db)",
         "optimization_engine": "0/1 Knapsack Dynamic Programming & Greedy Ratio",
-        "ml_model": "revora-rf-calibrated-v1",
-        "version": "5.0.0"
+        "ai_explanation_layer": "Confidence-Gated Financial Explainer",
+        "payment_gateway": "Razorpay Test Mode (Keys & Webhook Verification)",
+        "version": "7.0.0"
     }
 
 @app.get("/stats")
@@ -107,6 +118,20 @@ def get_opportunities(
     results = []
 
     for rank, o in enumerate(opps, 1):
+        # Day 6 AI Explanation Generation
+        opp_dict = {
+            "opportunity_type": o.opportunity_type,
+            "recoverable_amount": o.recoverable_amount,
+            "paid_amount": o.paid_amount,
+            "recovery_probability": o.recovery_probability,
+            "payment_method": o.payment_method,
+            "bank": o.bank,
+            "age_days": o.age_days,
+            "customer_risk_score": o.customer.risk_score if o.customer else "LOW",
+            "retry_count": o.retry_count
+        }
+        ai_exp = generate_ai_explanation(opp_dict)
+
         results.append({
             "id": o.id,
             "source_reference_id": o.source_reference_id,
@@ -133,8 +158,16 @@ def get_opportunities(
             "recommended_action": o.recommended_action,
             "action_type": o.action_type,
             "guardrail_status": o.guardrail_status,
-            "ai_rationale": o.ai_rationale,
             "razorpay_link_url": o.razorpay_link_url,
+            "ai_explanation": {
+                "why_flagged": ai_exp.why_flagged,
+                "why_recommended": ai_exp.why_action_recommended,
+                "confidence_score": ai_exp.confidence_score,
+                "confidence_tier": ai_exp.confidence_tier,
+                "risk_factors": ai_exp.risk_factors,
+                "is_confidence_gated": ai_exp.is_confidence_gated,
+                "gating_reason": ai_exp.gating_reason
+            },
             "recovered_at": o.recovered_at.isoformat() if o.recovered_at else None,
             "detected_at": o.detected_at.isoformat() if o.detected_at else None
         })
@@ -144,18 +177,42 @@ def get_opportunities(
         "opportunities": results
     }
 
-# Endpoint: GET /optimize (Day 5 Resource-Constrained Knapsack Optimizer)
+# Endpoint: GET /opportunities/{id}/explanation (Day 6 AI Explanation Detail)
+@app.get("/opportunities/{opp_id}/explanation")
+def get_opportunity_explanation_detail(opp_id: str, db: Session = Depends(get_db)):
+    opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
+    if not opp:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+
+    opp_dict = {
+        "opportunity_type": opp.opportunity_type,
+        "recoverable_amount": opp.recoverable_amount,
+        "paid_amount": opp.paid_amount,
+        "recovery_probability": opp.recovery_probability,
+        "payment_method": opp.payment_method,
+        "bank": opp.bank,
+        "age_days": opp.age_days,
+        "customer_risk_score": opp.customer.risk_score if opp.customer else "LOW",
+        "retry_count": opp.retry_count
+    }
+    ai_exp = generate_ai_explanation(opp_dict)
+
+    return {
+        "opportunity_id": opp.id,
+        "title": opp.title,
+        "type": opp.opportunity_type,
+        "recoverable_amount": opp.recoverable_amount,
+        "recovery_probability": opp.recovery_probability,
+        "expected_value": opp.expected_value,
+        "ai_explanation": ai_exp._asdict()
+    }
+
+# Endpoint: GET /optimize (Day 5 Knapsack Optimizer)
 @app.get("/optimize")
 def get_optimized_action_set(
-    capacity_budget: int = Query(default=10, ge=1, le=50, description="Daily action capacity budget (effort units)"),
+    capacity_budget: int = Query(default=10, ge=1, le=50),
     db: Session = Depends(get_db)
 ):
-    """
-    Solves the Resource-Constrained Knapsack Optimization Problem:
-    Finds the exact subset of opportunities that maximizes Total Expected Recovered Revenue
-    under a daily operational capacity budget N.
-    Compares Optimal 0/1 DP vs Greedy by Ratio vs Naive FIFO.
-    """
     open_opps = db.query(models.RevenueOpportunity).filter(
         models.RevenueOpportunity.status != "RECOVERED"
     ).all()
@@ -194,7 +251,115 @@ def get_optimized_action_set(
         }
     }
 
-# Endpoint: POST /optimize/execute-batch (Executes 1-Click Recovery on Optimal Knapsack Set)
+# Endpoint: POST /opportunities/{id}/recover (Day 7 Razorpay Test Mode Execution)
+@app.post("/opportunities/{opp_id}/recover")
+def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
+    opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
+    if not opp:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+
+    if opp.guardrail_status == "BLOCKED":
+        raise HTTPException(status_code=400, detail=f"Guardrail policy block: {opp.ai_rationale}")
+
+    # Day 7: Call Razorpay Test Mode API
+    if opp.opportunity_type in ["partial_payment", "overdue_payment"]:
+        rzp_res = razorpay_client.create_payment_link(
+            amount=opp.recoverable_amount,
+            reference_id=opp.id,
+            description=opp.title,
+            customer_name=opp.customer.name if opp.customer else "Customer",
+            customer_email=opp.customer.email if opp.customer else "customer@example.com",
+            customer_phone=opp.customer.phone if opp.customer else "+91 98765 43210"
+        )
+        link_url = rzp_res["short_url"]
+        link_id = rzp_res["id"]
+    elif opp.opportunity_type == "refund_mismatch":
+        rzp_res = razorpay_client.execute_preauth_capture(opp.source_reference_id, opp.recoverable_amount)
+        link_url = f"https://dashboard.razorpay.com/app/payments/{opp.source_reference_id}"
+        link_id = rzp_res["id"]
+    else: # failed_payment
+        rzp_res = razorpay_client.execute_switch_retry(opp.source_reference_id, opp.recoverable_amount, opp.payment_method)
+        link_url = f"https://dashboard.razorpay.com/app/payments/{opp.source_reference_id}"
+        link_id = rzp_res["id"]
+
+    opp.status = "RECOVERED"
+    opp.recovered_at = now_utc()
+    opp.recovered_amount = opp.recoverable_amount
+    opp.razorpay_link_id = link_id
+    opp.razorpay_link_url = link_url
+    opp.retry_count += 1
+
+    audit = models.AuditLog(
+        id=f"log_rec_{opp.id}_{int(now_utc().timestamp())}",
+        opportunity_id=opp.id,
+        actor="RAZORPAY_TEST_MODE",
+        action="PAYMENT_RECOVERY_EXECUTED",
+        reason=f"Executed {opp.recommended_action}. Created Razorpay Test Link ({link_url}).",
+        metadata_json=json.dumps({"link_id": link_id, "url": link_url, "amount": opp.recoverable_amount})
+    )
+    db.add(audit)
+    db.commit()
+
+    return {
+        "success": True,
+        "message": f"Successfully executed Razorpay Test Mode recovery for Rs {opp.recoverable_amount:,.2f}!",
+        "opportunity_id": opp.id,
+        "recovered_amount": opp.recoverable_amount,
+        "razorpay_link_url": link_url,
+        "status": "RECOVERED"
+    }
+
+# Endpoint: POST /webhooks/razorpay (Day 7 Razorpay Webhook Ingestion & Idempotency)
+@app.post("/webhooks/razorpay")
+async def razorpay_webhook_listener(
+    request: Request,
+    x_razorpay_signature: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    body_bytes = await request.body()
+    body_str = body_bytes.decode("utf-8")
+    
+    try:
+        data = json.loads(body_str)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON payload")
+
+    # Verify signature
+    if not razorpay_client.verify_webhook_signature(body_str, x_razorpay_signature or ""):
+        raise HTTPException(status_code=401, detail="Invalid Razorpay webhook signature")
+
+    event_id = data.get("event_id") or data.get("id") or f"evt_{uuid.uuid4().hex[:16]}"
+    event_type = data.get("event") or data.get("event_type", "payment_link.paid")
+    payload = data.get("payload", data)
+
+    success, msg, details = process_razorpay_webhook(db, event_id, event_type, payload)
+
+    return {
+        "status": "ok" if success else "ignored",
+        "message": msg,
+        "details": details
+    }
+
+# Endpoint: POST /simulate-webhook (Instant Testing Tool for Hackathon Demos)
+@app.post("/simulate-webhook")
+def simulate_webhook(req: SimulateWebhookRequest, db: Session = Depends(get_db)):
+    event_id = f"evt_sim_{int(now_utc().timestamp())}_{req.opportunity_id.lower()}"
+    payload = {
+        "opportunity_id": req.opportunity_id,
+        "amount": req.amount,
+        "method": "upi",
+        "bank": "HDFC Bank"
+    }
+
+    success, msg, details = process_razorpay_webhook(db, event_id, req.event_type, payload)
+
+    return {
+        "success": success,
+        "event_id": event_id,
+        "message": msg,
+        "details": details
+    }
+
 @app.post("/optimize/execute-batch")
 def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Depends(get_db)):
     recovered_items = []
@@ -203,11 +368,15 @@ def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Dep
     for opp_id in req.opportunity_ids:
         opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
         if opp and opp.status != "RECOVERED" and opp.guardrail_status != "BLOCKED":
-            mock_link = f"https://rzp.io/i/revora_{opp.id.lower()}"
+            rzp_res = razorpay_client.create_payment_link(
+                amount=opp.recoverable_amount,
+                reference_id=opp.id,
+                description=opp.title
+            )
             opp.status = "RECOVERED"
             opp.recovered_at = now_utc()
             opp.recovered_amount = opp.recoverable_amount
-            opp.razorpay_link_url = mock_link
+            opp.razorpay_link_url = rzp_res["short_url"]
             opp.retry_count += 1
 
             audit = models.AuditLog(
@@ -216,7 +385,7 @@ def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Dep
                 actor="OPTIMIZATION_ENGINE",
                 action="BATCH_RECOVERY_EXECUTED_RAZORPAY_TEST",
                 reason=f"Executed in optimal Knapsack batch. Recovered Rs {opp.recoverable_amount:,.2f}.",
-                metadata_json=f'{{"recovered_amount": {opp.recoverable_amount}, "link": "{mock_link}"}}'
+                metadata_json=json.dumps({"recovered_amount": opp.recoverable_amount, "link": rzp_res["short_url"]})
             )
             db.add(audit)
             recovered_items.append(opp.id)
@@ -230,16 +399,6 @@ def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Dep
         "recovered_count": len(recovered_items),
         "total_recovered_amount": total_recovered_amount,
         "recovered_ids": recovered_items
-    }
-
-@app.post("/detect-opportunities")
-def trigger_detectors(db: Session = Depends(get_db)):
-    manager = OpportunityDetectorManager()
-    new_opps = manager.run_all_detectors(db, "merch_101")
-    return {
-        "success": True,
-        "message": f"Successfully triggered 4 detectors. Ingested {len(new_opps)} new opportunities.",
-        "new_count": len(new_opps)
     }
 
 @app.post("/predict-recovery")
@@ -264,42 +423,6 @@ def predict_recovery_api(req: PredictRequest):
         "confidence_level": conf,
         "action_cost": cost,
         "expected_value": ev
-    }
-
-@app.post("/opportunities/{opp_id}/recover")
-def execute_recovery_action(opp_id: str, db: Session = Depends(get_db)):
-    opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
-    if not opp:
-        raise HTTPException(status_code=404, detail="Opportunity not found")
-
-    if opp.guardrail_status == "BLOCKED":
-        raise HTTPException(status_code=400, detail=f"Guardrail policy block: {opp.ai_rationale}")
-
-    mock_link = f"https://rzp.io/i/revora_{opp.id.lower()}"
-    opp.status = "RECOVERED"
-    opp.recovered_at = now_utc()
-    opp.recovered_amount = opp.recoverable_amount
-    opp.razorpay_link_url = mock_link
-    opp.retry_count += 1
-
-    audit = models.AuditLog(
-        id=f"log_rec_{opp.id}_{int(now_utc().timestamp())}",
-        opportunity_id=opp.id,
-        actor="MERCHANT_ADMIN",
-        action="REVENUE_SETTLED_RAZORPAY_TEST",
-        reason=f"Executed {opp.recommended_action}. Recovered Rs {opp.recoverable_amount:,.2f} via Razorpay Test Link ({mock_link}).",
-        metadata_json=f'{{"recovered_amount": {opp.recoverable_amount}, "link": "{mock_link}"}}'
-    )
-    db.add(audit)
-    db.commit()
-
-    return {
-        "success": True,
-        "message": f"Successfully recovered Rs {opp.recoverable_amount:,.2f} via Razorpay Test Mode!",
-        "opportunity_id": opp.id,
-        "recovered_amount": opp.recoverable_amount,
-        "razorpay_link_url": mock_link,
-        "status": "RECOVERED"
     }
 
 if __name__ == "__main__":
