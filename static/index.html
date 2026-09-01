@@ -47,12 +47,12 @@
             margin-top: 4px;
         }
         
-        /* Metric Ribbon Cards */
+        /* Headline Metric Ribbon */
         .metric-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .metric-card {
             background: #0f172a;
@@ -84,6 +84,56 @@
             align-items: center;
             gap: 4px;
         }
+
+        /* Day 8: Per-Vector Segmented Metric Breakdown Grid */
+        .breakdown-section {
+            margin-bottom: 24px;
+        }
+        .breakdown-header {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .vector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .vector-card {
+            background: #091220;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .vector-card:hover { border-color: #38bdf8; background: #0c182c; }
+        .vector-card-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .vector-stats-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #94a3b8;
+            padding: 2px 0;
+            border-bottom: 1px dashed rgba(30, 41, 59, 0.6);
+        }
+        .vector-stats-row:last-child { border-bottom: none; }
+        .vector-stats-val { font-weight: 700; color: #f1f5f9; }
 
         /* Day 5 Optimization Control Banner */
         .optimizer-banner {
@@ -358,36 +408,46 @@
         <div>
             <div class="brand">
                 REVORA
-                <span class="brand-badge">Day 7 • Razorpay Test Mode Ready</span>
+                <span class="brand-badge">Day 8 Analytics • Optimization Queue</span>
             </div>
-            <div class="tagline">Razorpay Track 3: 0/1 Knapsack Optimizer • AI Explanation Layer • Verified Razorpay Test Links</div>
+            <div class="tagline">Razorpay Track 3: Resource-Constrained Knapsack Priority Queue • Segmented Financial Analytics • Live Razorpay Test Mode</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
         </div>
     </div>
 
-    <!-- Executive Financial Metric Ribbon -->
+    <!-- Day 8: Four Headline Financial Metrics Ribbon -->
     <div class="metric-grid">
         <div class="metric-card" style="border-left: 4px solid #f87171;">
-            <div class="metric-label">Revenue at Risk</div>
+            <div class="metric-label">1. Revenue at Risk</div>
             <div class="metric-value" id="stat-risk">₹0</div>
             <div class="metric-sub" style="color: #f87171;">Total identified potential loss pool</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #fbbf24;">
-            <div class="metric-label">Predicted Recoverable (EV Pool)</div>
+            <div class="metric-label">2. Predicted Recoverable (EV)</div>
             <div class="metric-value" style="color: #fbbf24;" id="stat-predict">₹0</div>
             <div class="metric-sub" style="color: #94a3b8;">Sum of ML Expected Values</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #34d399;">
-            <div class="metric-label">Actual Recovered Revenue</div>
+            <div class="metric-label">3. Actual Recovered Revenue</div>
             <div class="metric-value" style="color: #34d399;" id="stat-recovered">₹0</div>
             <div class="metric-sub" style="color: #34d399;">✓ Verified via Razorpay Webhooks</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #0c8cee;">
-            <div class="metric-label">Recovery Rate</div>
+            <div class="metric-label">4. Recovery Rate</div>
             <div class="metric-value" id="stat-rate">0.0%</div>
             <div class="metric-sub" style="color: #38bdf8;">Calculated from actual recovered revenue</div>
+        </div>
+    </div>
+
+    <!-- Day 8: Per-Vector Segmented Metric Breakdown Grid -->
+    <div class="breakdown-section">
+        <div class="breakdown-header">
+            <span>📊 Segmented Financial Breakdown by Opportunity Type (Day 8 Analytics)</span>
+        </div>
+        <div class="vector-grid" id="vector-breakdown-container">
+            <!-- Rendered Dynamically via loadDashboard() -->
         </div>
     </div>
 
@@ -448,7 +508,7 @@
             <button class="tab-btn" onclick="filterType('refund_mismatch', this)">④ Refund Mismatches</button>
         </div>
         <div style="font-size: 11px; color: #38bdf8; font-weight: 600;">
-            Click on any row to inspect Day 6 AI Explanation & Razorpay Link
+            Queue ordered by Day 5 Knapsack Optimization (Optimal Subset first, then by EV/Effort density)
         </div>
     </div>
 
@@ -457,21 +517,21 @@
         <table>
             <thead>
                 <tr>
-                    <th>Knapsack Set</th>
+                    <th>Queue Order</th>
                     <th>Opportunity & Details</th>
                     <th>Type</th>
                     <th>Customer</th>
                     <th>Recoverable ₹</th>
                     <th>ML Probability</th>
                     <th>Expected Value (EV)</th>
-                    <th>AI Confidence</th>
+                    <th>Effort & Efficiency</th>
                     <th>Guardrail</th>
                     <th style="text-align: right;">Action</th>
                 </tr>
             </thead>
             <tbody id="opp-tbody">
                 <tr>
-                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Unified Opportunities from REVORA Engine...</td>
+                    <td colspan="10" style="text-align: center; color: #64748b; padding: 32px;">Loading Day 8 Optimized Priority Queue...</td>
                 </tr>
             </tbody>
         </table>
@@ -527,14 +587,17 @@
 
         async function loadDashboard() {
             try {
-                // 1. Fetch Stats
+                // 1. Fetch Stats & Day 8 Segmented Breakdown
                 const statsRes = await fetch('http://127.0.0.1:8000/stats');
                 if (statsRes.ok) {
                     const stats = await statsRes.json();
-                    document.getElementById('stat-risk').textContent = '₹' + stats.revenue_at_risk.toLocaleString('en-IN');
-                    document.getElementById('stat-predict').textContent = '₹' + stats.predicted_recoverable.toLocaleString('en-IN');
-                    document.getElementById('stat-recovered').textContent = '₹' + stats.recovered_revenue.toLocaleString('en-IN');
-                    document.getElementById('stat-rate').textContent = stats.recovery_rate + '%';
+                    const head = stats.headline_metrics;
+                    document.getElementById('stat-risk').textContent = '₹' + head.revenue_at_risk.toLocaleString('en-IN');
+                    document.getElementById('stat-predict').textContent = '₹' + head.predicted_recoverable.toLocaleString('en-IN');
+                    document.getElementById('stat-recovered').textContent = '₹' + head.recovered_revenue.toLocaleString('en-IN');
+                    document.getElementById('stat-rate').textContent = head.recovery_rate + '%';
+
+                    renderSegmentedBreakdown(stats.segmented_by_type);
                 }
 
                 // 2. Fetch Optimization Results
@@ -554,10 +617,10 @@
                     document.getElementById('naive-details').textContent = `Selected: ${optData.naive_fifo_solution.selected_count} opportunities • Effort: ${optData.naive_fifo_solution.weight_utilized}/${currentBudget}`;
                 }
 
-                // 3. Fetch Opportunities Table
+                // 3. Fetch Opportunities Table (Ordered by Day 5 Knapsack Priority)
                 const url = currentTypeFilter === 'ALL' 
-                    ? 'http://127.0.0.1:8000/opportunities' 
-                    : `http://127.0.0.1:8000/opportunities?type_filter=${currentTypeFilter}`;
+                    ? `http://127.0.0.1:8000/opportunities?capacity_budget=${currentBudget}` 
+                    : `http://127.0.0.1:8000/opportunities?type_filter=${currentTypeFilter}&capacity_budget=${currentBudget}`;
 
                 const oppRes = await fetch(url);
                 if (oppRes.ok) {
@@ -567,6 +630,44 @@
                 }
             } catch (err) {
                 console.error('Error loading dashboard:', err);
+            }
+        }
+
+        function renderSegmentedBreakdown(segmented) {
+            const container = document.getElementById('vector-breakdown-container');
+            container.innerHTML = '';
+
+            for (const [key, val] of Object.entries(segmented)) {
+                let badgeClass = 'type-failed';
+                if (key === 'partial_payment') badgeClass = 'type-partial';
+                else if (key === 'overdue_payment') badgeClass = 'type-invoice';
+                else if (key === 'refund_mismatch') badgeClass = 'type-mismatch';
+
+                const card = document.createElement('div');
+                card.className = 'vector-card';
+                card.innerHTML = `
+                    <div class="vector-card-title">
+                        <span class="badge-type ${badgeClass}">${val.label}</span>
+                        <span style="font-size:11px; color:#94a3b8; font-weight:600;">${val.total_count} opps</span>
+                    </div>
+                    <div class="vector-stats-row">
+                        <span>Revenue at Risk:</span>
+                        <span class="vector-stats-val" style="color:#f87171;">₹${val.revenue_at_risk.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="vector-stats-row">
+                        <span>Predicted Recoverable:</span>
+                        <span class="vector-stats-val" style="color:#fbbf24;">₹${val.predicted_recoverable.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="vector-stats-row">
+                        <span>Actual Settled:</span>
+                        <span class="vector-stats-val" style="color:#34d399;">₹${val.recovered_revenue.toLocaleString('en-IN')} (${val.recovered_count}/${val.total_count})</span>
+                    </div>
+                    <div class="vector-stats-row">
+                        <span>Recovery Rate:</span>
+                        <span class="vector-stats-val" style="color:#38bdf8;">${val.recovery_rate}%</span>
+                    </div>
+                `;
+                container.appendChild(card);
             }
         }
 
@@ -582,7 +683,7 @@
                 const tr = document.createElement('tr');
                 const isRecovered = o.status === 'RECOVERED';
                 const isBlocked = o.guardrail_status === 'BLOCKED';
-                const isKnapsackSelected = optimalActionSetIds.has(o.id) && !isRecovered;
+                const isKnapsackSelected = o.is_in_knapsack_set;
 
                 if (isKnapsackSelected) tr.classList.add('in-knapsack');
 
@@ -598,9 +699,9 @@
                     ? '<span style="color:#f87171; font-weight:700; font-size:11px;">✕ BLOCKED</span>' 
                     : '<span style="color:#34d399; font-weight:700; font-size:11px;">✓ PASSED</span>';
 
-                let setIndicator = isKnapsackSelected 
-                    ? '<span style="background:#0c8cee; color:white; font-weight:800; font-size:10px; padding:2px 6px; border-radius:4px;">⚡ OPTIMAL SET</span>'
-                    : '<span style="color:#64748b; font-size:11px;">—</span>';
+                let queueBadge = isKnapsackSelected 
+                    ? `<span style="background:#0c8cee; color:white; font-weight:800; font-size:10px; padding:3px 6px; border-radius:4px;">⚡ OPTIMAL #${o.priority_rank}</span>`
+                    : `<span class="badge-rank">#${o.priority_rank}</span>`;
 
                 let actionBtn = '';
                 if (isRecovered) {
@@ -611,11 +712,8 @@
                     actionBtn = `<button class="btn-recover" onclick="event.stopPropagation(); recoverOpportunity('${o.id}')">Approve & Recover</button>`;
                 }
 
-                const aiConf = o.ai_explanation ? o.ai_explanation.confidence_score : 85;
-                const confColor = aiConf >= 75 ? '#34d399' : (aiConf < 60 ? '#f87171' : '#fbbf24');
-
                 tr.innerHTML = `
-                    <td>${setIndicator}</td>
+                    <td>${queueBadge}</td>
                     <td>
                         <div style="font-weight:700; color:#f1f5f9;">${o.title}</div>
                         <div style="font-size:11px; color:#64748b; margin-top:2px;">Ref: ${o.source_reference_id} • ${o.age_days}d old</div>
@@ -632,7 +730,10 @@
                         </span>
                     </td>
                     <td><span class="badge-ev">₹${o.expected_value.toLocaleString('en-IN')}</span></td>
-                    <td style="font-weight:700; color:${confColor}; font-size:12px;">${aiConf}%</td>
+                    <td>
+                        <div style="font-size:11px; color:#94a3b8; font-weight:600;">${o.effort_weight} unit effort</div>
+                        <div style="font-size:10px; color:#38bdf8; font-weight:700;">₹${o.efficiency_score}/eff</div>
+                    </td>
                     <td>${guardBadge}</td>
                     <td style="text-align:right;">${actionBtn}</td>
                 `;
