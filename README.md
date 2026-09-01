@@ -6,21 +6,24 @@
 [![Razorpay Test Mode](https://img.shields.io/badge/Razorpay-Test%20Mode-0c8cee.svg)](https://razorpay.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **REVORA** is an autonomous financial intelligence and constrained optimization engine designed to discover hidden revenue-recovery opportunities across **failed payments, partial payments, overdue invoices, and reconciliation mismatches**. It uses calibrated machine learning to estimate recovery probabilities, computes Expected Financial Value, and formulates recovery as a **resource-constrained 0/1 knapsack optimization problem** to determine the exact combination of actions that maximizes merchant cash flow.
+> **REVORA** is an autonomous financial intelligence platform that discovers hidden revenue-recovery opportunities across **failed payments, partial payments, overdue invoices, and gateway reconciliation mismatches**. It formulates recovery as an exact **resource-constrained 0/1 Knapsack Dynamic Program** that chooses the mathematical combination of actions that maximizes recovered revenue within a merchant's operational budget.
 
 ---
 
-## 📌 The Central Innovation: Resource-Constrained Optimization
+## 📌 The Two Core Differentiators
 
-### The Problem:
-Most revenue recovery systems simply retry checkout failures or sort opportunities chronologically. In reality:
-- Merchants have a **limited daily action capacity / operational budget** ($N$ opportunities or $W$ action effort).
-- Opportunities have different recoverable amounts, recovery probabilities, and operational action costs.
-
-### The Question Answered by REVORA:
-> **"If a merchant can act on only $N$ opportunities today, which combination will maximize total expected recovered revenue?"**
+### 1. Resource-Constrained Knapsack Optimization (Not Just Sorting)
+Most revenue recovery tools either retry checkout failures chronologically or greedily sort by expected value. But merchants have **finite daily action capacity / operational budgets** ($N$).
+- Sorting greedily by Expected Value often picks bulky, low-efficiency opportunities that block multiple high-efficiency recoveries.
+- REVORA implements an exact **0/1 Knapsack Dynamic Programming Optimizer** alongside a **Counterfactual Backtest Simulator**, delivering proven mathematical lift over naive FIFO and greedy heuristics.
 
 $$\max \sum_{i=1}^{M} x_i \cdot \text{EV}_i \quad \text{subject to} \quad \sum_{i=1}^{M} x_i \cdot w_i \le N, \quad x_i \in \{0, 1\}$$
+
+### 2. AI Explains, But Code Decides (Deterministic Guardrails)
+Probabilistic AI models and LLMs should never have direct control over moving money or executing financial transactions.
+- **Deterministic Code**: Enforces calculations, optimization, state transitions, spending caps (Rs 25,000 limit), fraud deny-lists, cooldowns, and Razorpay API execution.
+- **AI Explanation Layer**: Generates plain-language root-cause diagnoses and action rationales **after** the deterministic decision is made.
+- **Confidence-Gated Review**: High-value transactions (>Rs 10,000) with low AI confidence (<60%) are quarantined for merchant manual sign-off.
 
 ---
 
@@ -31,7 +34,7 @@ $$\Large \text{Detect} \longrightarrow \text{Predict} \longrightarrow \text{Calc
 ```
 Merchant / Razorpay Business Data
         ↓
-1. Multi-Source Ingestion & 4 Opportunity Detectors
+1. Multi-Source Ingestion & 4 Modular Detectors
    (failed_payment, partial_payment, overdue_payment, refund_mismatch)
         ↓
 2. Unified Opportunity Normalization (ID, type, amount, customer, telemetry)
@@ -41,14 +44,15 @@ Merchant / Razorpay Business Data
 4. Expected Value (EV) Formulation:
    EV = (P_recovery × Recoverable Amount) − Action Cost
         ↓
-5. Constrained Optimization Engine:
+5. Constrained 0/1 Knapsack Optimization Engine:
    [ 0/1 Dynamic Programming Knapsack vs Greedy Ratio vs Naive FIFO ]
         ↓
-6. Deterministic Safety Guardrails (Spend Cap, Cooldown, Fraud Quarantine)
+6. Deterministic Safety Guardrails & Confidence Gating
         ↓
-7. 1-Click Recovery Action (Razorpay Test Mode Dynamic Payment Links)
+7. Razorpay Test-Mode Execution & Webhook Idempotency
+   (Smart Retries, Dynamic Payment Links, Pre-Auth Capture)
         ↓
-8. Real-Time Merchant Dashboard (Revenue at Risk, Predicted EV, Settled ₹)
+8. Executive Financial Dashboard & Counterfactual Analytics
 ```
 
 ---
@@ -84,30 +88,6 @@ REVORA is architected with 13 relational tables in SQLite / PostgreSQL:
 
 ---
 
-## 🧠 ML Model Pipeline & Evaluation (Day 4)
-
-- **Dataset**: 3,500 realistic ground-truth training records (`data/revora_ml_training_data.csv`).
-- **Algorithm**: Ensemble `RandomForestClassifier` with 5-Fold Platt Scaling (`CalibratedClassifierCV`).
-- **Features**: `opportunity_type`, `payment_method`, `customer_risk`, `amount`, `age_days`, `past_successful_payments`, `past_late_payments`, `retry_count`.
-- **Evaluation on Held-Out 20% Test Split (700 samples)**:
-  - **ROC-AUC**: **0.7206** (vs 0.7224 Baseline Logistic Regression)
-  - **Accuracy**: **67.71%**
-  - **Precision**: **69.64%**
-  - **Recall**: **89.23%**
-  - **F1-Score**: **78.23%**
-- **Persistence**: Saved to `backend/ml/saved_models/revora_recovery_model_v1.joblib`.
-
----
-
-## 🛡️ Deterministic Safety Guardrails
-
-- **Spend Cap Policy**: Caps autonomous actions at **₹25,000**. High-value opportunities require merchant sign-off.
-- **Fraud Deny-List**: Accounts flagged as `HIGH` risk are quarantined immediately.
-- **Attempt Caps**: Strict 3-retry maximum to prevent gateway velocity limits.
-- **Mandatory Cooldowns**: Enforces 15-minute backoff intervals.
-
----
-
 ## ⚡ Quick Start & Installation
 
 ### 1. Install Dependencies
@@ -123,7 +103,7 @@ py backend/seed.py
 
 ### 3. Run Test Suite
 ```bash
-py backend/test_day1_to_day4.py
+py backend/audit_full_app.py
 ```
 
 ### 4. Run the REVORA Server
@@ -132,18 +112,27 @@ py -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ### 5. Open the Dashboard
-Open **http://127.0.0.1:8000/** in your browser to view the live dashboard and execute 1-click recoveries!
+Open **http://127.0.0.1:8000/** in your browser to view the live dashboard!
 
 ---
 
 ## 📡 Live API Endpoints
 
-- **`GET /stats`**: Executive financial recovery ribbon (Revenue at Risk, Predicted EV, Settled ₹, Recovery Rate %).
-- **`GET /opportunities`**: Prioritized list of unified revenue opportunities with filter support.
-- **`POST /detect-opportunities`**: Triggers all 4 detectors live across raw merchant records.
+- **`GET /stats`**: Executive financial recovery ribbon segmented by opportunity type.
+- **`GET /opportunities`**: Prioritized opportunity queue ordered by Day 5 Knapsack optimization.
+- **`GET /optimize`**: Solves resource-constrained knapsack under budget $N$.
+- **`GET /backtest-simulation`**: Counterfactual simulation comparing DP vs Naive EV sorting vs FIFO.
 - **`POST /predict-recovery`**: Real-time ML inference returning calibrated probability and EV.
-- **`POST /opportunities/{id}/recover`**: Executes 1-click Razorpay Test Mode dynamic payment link.
+- **`POST /opportunities/{id}/recover`**: Executes 1-click Razorpay Test Mode action.
+- **`POST /webhooks/razorpay`**: Webhook callback listener with strict idempotency verification.
+- **`POST /simulate-webhook`**: Live webhook trigger tool for hackathon judging & demos.
 - **`GET /docs`**: Interactive Swagger API documentation.
+
+---
+
+## 📄 Key Documentation Files
+- **[`ARCHITECTURE.md`](./ARCHITECTURE.md)**: Master technical whitepaper covering mathematics, database schema, and safety boundaries.
+- **[`PITCH_DEMO_SCRIPT.md`](./PITCH_DEMO_SCRIPT.md)**: 5-Minute video pitch script with timestamped narration and demo flow.
 
 ---
 

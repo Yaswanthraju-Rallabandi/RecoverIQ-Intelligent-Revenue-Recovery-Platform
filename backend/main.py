@@ -18,6 +18,7 @@ from detectors.manager import OpportunityDetectorManager
 from ml.predictor import predict_single_probability
 from engine.optimizer import run_constrained_optimization_comparison, prepare_items_from_opportunities, solve_01_knapsack_dp
 from engine.ai_explainer import generate_ai_explanation
+from engine.backtest import run_counterfactual_backtest
 from payments.razorpay_client import razorpay_client
 from payments.webhook_handler import process_razorpay_webhook
 
@@ -26,7 +27,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="REVORA — AI Revenue Recovery & Optimization Engine",
     description="Multi-Source Opportunity Detection, Knapsack Optimization, AI Explanation & Razorpay Test Mode",
-    version="8.0.0"
+    version="10.0.0"
 )
 
 app.add_middleware(
@@ -63,7 +64,7 @@ def serve_dashboard():
     static_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "index.html")
     if os.path.exists(static_file):
         return FileResponse(static_file)
-    return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize or /stats"}
+    return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize, /backtest-simulation or /stats"}
 
 @app.get("/health")
 def health_check():
@@ -71,13 +72,12 @@ def health_check():
         "status": "healthy",
         "service": "REVORA AI Engine",
         "database": "SQLite (revora.db)",
-        "optimization_engine": "0/1 Knapsack Dynamic Programming & Greedy Ratio",
+        "optimization_engine": "0/1 Knapsack Dynamic Programming & Counterfactual Simulator",
         "ai_explanation_layer": "Confidence-Gated Financial Explainer",
         "payment_gateway": "Razorpay Test Mode (Keys & Webhook Verification)",
-        "version": "8.0.0"
+        "version": "10.0.0"
     }
 
-# Day 8: Enhanced Headline Metrics with Per-Vector Segmentation
 @app.get("/stats")
 def get_stats(db: Session = Depends(get_db)):
     all_opps = db.query(models.RevenueOpportunity).all()
@@ -87,7 +87,6 @@ def get_stats(db: Session = Depends(get_db)):
     predicted_ev = sum(o.expected_value for o in open_opps) + recovered_amt
     recovery_rate = round((recovered_amt / total_at_risk * 100), 1) if total_at_risk > 0 else 0.0
 
-    # Per-Vector Breakdown
     vectors = ["failed_payment", "partial_payment", "overdue_payment", "refund_mismatch"]
     vector_names = {
         "failed_payment": "Failed Checkouts",
@@ -129,7 +128,6 @@ def get_stats(db: Session = Depends(get_db)):
         "segmented_by_type": segmented_breakdown
     }
 
-# Day 8: Prioritized Opportunity Queue Ordered by Day 5 Optimization
 @app.get("/opportunities")
 def get_opportunities(
     type_filter: Optional[str] = None,
@@ -145,18 +143,15 @@ def get_opportunities(
 
     opps = query.all()
 
-    # Day 5 Knapsack Solver on open opportunities
     open_opps = [o for o in opps if o.status != "RECOVERED"]
     items = prepare_items_from_opportunities(open_opps)
     dp_res = solve_01_knapsack_dp(items, capacity=capacity_budget)
     knapsack_ids = {it["id"] for it in dp_res.selected_items}
 
-    # Ordering logic: Knapsack optimal set first (ranked by EV desc), then remaining items by efficiency ratio (EV/Weight) desc
     def sort_key(o):
         is_knapsack = o.id in knapsack_ids and o.status != "RECOVERED"
         weight = 2 if o.opportunity_type in ["partial_payment", "overdue_payment"] else 1
         efficiency = o.expected_value / weight if weight > 0 else 0
-        # Priority tuple: (is_recovered [last], is_knapsack [first], efficiency desc)
         return (0 if o.status != "RECOVERED" else 1, 0 if is_knapsack else 1, -efficiency)
 
     sorted_opps = sorted(opps, key=sort_key)
@@ -227,6 +222,16 @@ def get_opportunities(
         "knapsack_optimal_count": len([r for r in results if r["is_in_knapsack_set"]]),
         "opportunities": results
     }
+
+# Day 9: Backtest / Counterfactual Simulation Endpoint
+@app.get("/backtest-simulation")
+def get_backtest_simulation(
+    capacity_budget: int = Query(default=6, ge=1, le=50),
+    db: Session = Depends(get_db)
+):
+    all_opps = db.query(models.RevenueOpportunity).all()
+    simulation = run_counterfactual_backtest(all_opps, capacity_budget=capacity_budget)
+    return simulation
 
 @app.get("/opportunities/{opp_id}/explanation")
 def get_opportunity_explanation_detail(opp_id: str, db: Session = Depends(get_db)):
@@ -300,7 +305,6 @@ def get_optimized_action_set(
         }
     }
 
-# Day 7: Execute recovery action with Razorpay Test Mode
 @app.post("/opportunities/{opp_id}/recover")
 def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
     opp = db.query(models.RevenueOpportunity).filter(models.RevenueOpportunity.id == opp_id).first()
@@ -310,7 +314,6 @@ def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
     if opp.guardrail_status == "BLOCKED":
         raise HTTPException(status_code=400, detail=f"Guardrail policy block: {opp.ai_rationale}")
 
-    # Day 7: Direct routing to Razorpay APIs by opportunity category
     if opp.opportunity_type in ["partial_payment", "overdue_payment"]:
         rzp_res = razorpay_client.create_payment_link(
             amount=opp.recoverable_amount,
