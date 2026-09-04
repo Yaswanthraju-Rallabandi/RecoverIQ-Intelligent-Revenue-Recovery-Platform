@@ -10,13 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --bg-base: #080c14;
-            --bg-surface: #0e1422;
-            --bg-surface-hover: #131b2e;
-            --bg-elevated: #162035;
-            --bg-overlay: rgba(8, 12, 20, 0.85);
+            --bg-base: #000000;
+            --bg-surface: rgba(13, 19, 33, 0.72);
+            --bg-surface-hover: rgba(19, 28, 48, 0.85);
+            --bg-elevated: rgba(22, 33, 56, 0.75);
+            --bg-overlay: rgba(5, 8, 15, 0.85);
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-medium: rgba(255, 255, 255, 0.14);
+            --border-medium: rgba(255, 255, 255, 0.15);
             --border-active: #0c8cee;
             
             --text-primary: #f8fafc;
@@ -44,16 +44,12 @@
 
         body {
             font-family: var(--font-sans);
-            background-color: var(--bg-base);
-            background-image: 
-                radial-gradient(circle at 15% 5%, rgba(12, 140, 238, 0.09) 0%, transparent 45%),
-                radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
-                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
-            background-attachment: fixed;
+            background-color: #000000;
             color: var(--text-primary);
             padding: 24px 36px 60px;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            position: relative;
         }
 
         /* SVG Icon Utilities */
@@ -262,6 +258,8 @@
 
         .metric-card {
             background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-subtle);
             border-radius: 14px;
             padding: 22px 24px;
@@ -374,6 +372,8 @@
         /* Knapsack Optimizer Lab */
         .optimizer-lab {
             background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
             padding: 26px 30px;
@@ -574,6 +574,8 @@
 
         .vector-card {
             background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 18px 20px;
@@ -644,6 +646,8 @@
         /* Opportunity Stream & Table */
         .stream-card {
             background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
             padding: 24px 28px;
@@ -1024,6 +1028,25 @@
     </style>
 </head>
 <body>
+
+    <!-- Atmospheric Elegant Dark Gradient Background (Skewed Cyan Streaks + Dot Matrix + Texture) -->
+    <div class="elegant-bg-backdrop" style="position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden; background: #000000;">
+        <div style="position: absolute; inset: 0;">
+            <div style="position: absolute; inset: 0; opacity: 1; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%); -webkit-mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%); mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%);">
+                <!-- Skewed fading cyan streaks -->
+                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
+                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
+                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
+                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+            </div>
+        </div>
+        <!-- Dot Pattern Overlay -->
+        <div style="position: absolute; inset: 0; opacity: 0.20; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0); background-size: 20px 20px;"></div>
+        <!-- Radial Highlight -->
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.25) 0%, transparent 70%);"></div>
+    </div>
+
 
     <!-- Top Executive Header -->
     <header class="top-bar">
