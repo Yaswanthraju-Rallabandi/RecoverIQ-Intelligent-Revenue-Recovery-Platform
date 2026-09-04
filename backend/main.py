@@ -165,6 +165,8 @@ def get_stats(db: Session = Depends(get_db)):
         v_opps = [o for o in all_opps if o.opportunity_type == v]
         v_risk = sum(o.recoverable_amount for o in v_opps)
         v_rec = sum(o.recovered_amount or o.recoverable_amount for o in v_opps if o.status == "RECOVERED")
+        if v == "partial_payment":
+            v_rec += extra_live_settled
         v_open = [o for o in v_opps if o.status != "RECOVERED"]
         v_ev = sum(o.expected_value for o in v_open) + v_rec
         v_rate = round((v_rec / v_risk * 100), 1) if v_risk > 0 else 0.0
