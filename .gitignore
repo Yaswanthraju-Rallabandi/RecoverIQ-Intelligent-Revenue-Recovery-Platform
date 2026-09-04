@@ -26,3 +26,6 @@ Thumbs.db
 # Logs & temp
 *.log
 scratch/
+# Environment variables & Secrets
+.env
+*.env
