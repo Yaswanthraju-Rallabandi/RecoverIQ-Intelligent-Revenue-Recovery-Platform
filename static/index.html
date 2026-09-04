@@ -413,7 +413,7 @@
             <div class="tagline">Razorpay Track 3: Resource-Constrained Knapsack Priority Queue • Segmented Financial Analytics • Live Razorpay Test Mode</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <button class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">🔄 Reset Demo Queue</button>
+            <button id="btn-reset-queue" class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">🔄 Reset Demo Queue</button>
             <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
         </div>
     </div>
@@ -589,7 +589,7 @@
         async function loadDashboard() {
             try {
                 // 1. Fetch Stats & Day 8 Segmented Breakdown
-                const statsRes = await fetch('http://127.0.0.1:8000/stats');
+                const statsRes = await fetch('/stats');
                 if (statsRes.ok) {
                     const stats = await statsRes.json();
                     const head = stats.headline_metrics;
@@ -602,7 +602,7 @@
                 }
 
                 // 2. Fetch Optimization Results
-                const optRes = await fetch(`http://127.0.0.1:8000/optimize?capacity_budget=${currentBudget}`);
+                const optRes = await fetch(`/optimize?capacity_budget=${currentBudget}`);
                 if (optRes.ok) {
                     const optData = await optRes.json();
                     optimalActionSetIds = new Set(optData.optimal_dp_solution.action_set.map(i => i.id));
@@ -620,8 +620,8 @@
 
                 // 3. Fetch Opportunities Table (Ordered by Day 5 Knapsack Priority)
                 const url = currentTypeFilter === 'ALL' 
-                    ? `http://127.0.0.1:8000/opportunities?capacity_budget=${currentBudget}` 
-                    : `http://127.0.0.1:8000/opportunities?type_filter=${currentTypeFilter}&capacity_budget=${currentBudget}`;
+                    ? `/opportunities?capacity_budget=${currentBudget}` 
+                    : `/opportunities?type_filter=${currentTypeFilter}&capacity_budget=${currentBudget}`;
 
                 const oppRes = await fetch(url);
                 if (oppRes.ok) {
@@ -810,7 +810,7 @@
         async function simulateWebhookForModal() {
             if (!selectedOppForModal) return;
             try {
-                const res = await fetch('http://127.0.0.1:8000/simulate-webhook', {
+                const res = await fetch('/simulate-webhook', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -830,7 +830,7 @@
 
         async function recoverOpportunity(oppId) {
             try {
-                const res = await fetch(`http://127.0.0.1:8000/opportunities/${oppId}/recover`, {
+                const res = await fetch(`/opportunities/${oppId}/recover`, {
                     method: 'POST'
                 });
                 const result = await res.json();
@@ -859,7 +859,7 @@
             
             const ids = Array.from(optimalActionSetIds);
             try {
-                const res = await fetch('http://127.0.0.1:8000/optimize/execute-batch', {
+                const res = await fetch('/optimize/execute-batch', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ opportunity_ids: ids })
@@ -883,23 +883,39 @@
         }
 
         async function resetDemoQueue() {
+            const btn = document.getElementById('btn-reset-queue');
+            if (btn) {
+                btn.textContent = '⏳ Resetting...';
+                btn.disabled = true;
+            }
             try {
-                const res = await fetch('http://127.0.0.1:8000/reset-demo', { method: 'POST' });
+                const res = await fetch('/reset-demo', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
                 const result = await res.json();
                 if (res.ok) {
-                    confetti({
-                        particleCount: 80,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#0c8cee', '#38bdf8', '#34d399']
-                    });
-                    alert(result.message);
-                    loadDashboard();
+                    try {
+                        confetti({
+                            particleCount: 90,
+                            spread: 75,
+                            origin: { y: 0.6 },
+                            colors: ['#0c8cee', '#38bdf8', '#34d399', '#fbbf24']
+                        });
+                    } catch(e) {}
+                    await loadDashboard();
+                    alert(result.message || 'Demo queue successfully reset!');
                 } else {
-                    alert('Reset failed: ' + result.detail);
+                    alert('Reset failed: ' + (result.detail || 'Unknown server error'));
                 }
             } catch (err) {
+                console.error('Reset error:', err);
                 alert('Reset error: ' + err.message);
+            } finally {
+                if (btn) {
+                    btn.textContent = '🔄 Reset Demo Queue';
+                    btn.disabled = false;
+                }
             }
         }
 

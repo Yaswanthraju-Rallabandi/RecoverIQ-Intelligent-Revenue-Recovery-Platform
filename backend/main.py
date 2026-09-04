@@ -479,27 +479,35 @@ def reset_demo_data(db: Session = Depends(get_db)):
     """
     Resets demo opportunities to initial pristine benchmark state for hackathon judges & presentations.
     Initial state:
-    - 3 failed payments: RECOVERED (recovered pool)
-    - 2 partial payments: OPEN
-    - 2 overdue invoices: OPEN
+    - 3 failed payments: RECOVERED (recovered pool, Rs 14,049)
+    - 2 partial payments: OPEN (INV-2026-001, INV-2026-002)
+    - 2 overdue invoices: OPEN (INV-2026-003, INV-2026-004)
     - 2 refund mismatches: OPEN
     """
-    all_opps = db.query(models.RevenueOpportunity).all()
-    for o in all_opps:
-        if o.opportunity_type == "failed_payment":
-            o.status = "RECOVERED"
-            o.recovered_amount = o.recoverable_amount
-        else:
-            o.status = "OPEN"
-            o.recovered_amount = 0.0
-            o.recovered_at = None
-            o.retry_count = 0
-            o.razorpay_link_url = None
-            o.razorpay_link_id = None
-            o.razorpay_payment_id = None
+    try:
+        all_opps = db.query(models.RevenueOpportunity).all()
+        for o in all_opps:
+            if o.opportunity_type == "failed_payment":
+                o.status = "RECOVERED"
+                o.recovered_amount = o.recoverable_amount
+            else:
+                o.status = "OPEN"
+                o.recovered_amount = 0.0
+                o.recovered_at = None
+                o.retry_count = 0
+                o.razorpay_link_url = None
+                o.razorpay_link_id = None
 
-    db.commit()
-    return {"success": True, "message": "Demo queue successfully reset to initial benchmark state!"}
+        db.commit()
+        return {
+            "success": True, 
+            "message": "Demo queue successfully reset! 6 active opportunities are now OPEN for testing.",
+            "open_count": len([o for o in all_opps if o.status == "OPEN"]),
+            "recovered_count": len([o for o in all_opps if o.status == "RECOVERED"])
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to reset demo: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
