@@ -413,9 +413,9 @@
             <div class="tagline">Razorpay Track 3: Resource-Constrained Knapsack Priority Queue • Segmented Financial Analytics • Live Razorpay Test Mode</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <button class="tab-btn" onclick="openCalibrationModal()" style="border-color:#c084fc; color:#c084fc; font-weight:700;">📊 Model Calibration & Brier</button>
-            <button class="tab-btn" onclick="openTrendsModal()" style="border-color:#34d399; color:#34d399; font-weight:700;">📈 7-Day Recovery Trend</button>
-            <button id="btn-reset-queue" class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">🔄 Reset Demo Queue</button>
+            <button class="tab-btn" onclick="openCalibrationModal()" style="border-color:#c084fc; color:#c084fc; font-weight:700;">Model Calibration & Brier</button>
+            <button class="tab-btn" onclick="openTrendsModal()" style="border-color:#34d399; color:#34d399; font-weight:700;">7-Day Recovery Trend</button>
+            <button id="btn-reset-queue" class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">Reset Demo Queue</button>
             <button id="btn-refresh" class="tab-btn active" onclick="loadDashboard(true)">Refresh</button>
         </div>
     </div>
@@ -436,7 +436,7 @@
         <div class="metric-card" style="border-left: 4px solid #34d399;">
             <div class="metric-label">3. Actual Recovered Revenue</div>
             <div class="metric-value" style="color: #34d399;" id="stat-recovered">₹0</div>
-            <div class="metric-sub" style="color: #34d399;">✓ Verified via Razorpay Webhooks</div>
+            <div class="metric-sub" style="color: #34d399;">Verified via Razorpay Webhooks</div>
         </div>
         <div class="metric-card" style="border-left: 4px solid #0c8cee;">
             <div class="metric-label">4. Recovery Rate</div>
@@ -448,7 +448,7 @@
     <!-- Day 8: Per-Vector Segmented Metric Breakdown Grid -->
     <div class="breakdown-section">
         <div class="breakdown-header">
-            <span>📊 Segmented Financial Breakdown by Opportunity Type (Day 8 Analytics)</span>
+            <span> Segmented Financial Breakdown by Opportunity Type (Day 8 Analytics)</span>
         </div>
         <div class="vector-grid" id="vector-breakdown-container">
             <!-- Rendered Dynamically via loadDashboard() -->
@@ -459,7 +459,7 @@
     <div class="optimizer-banner">
         <div class="optimizer-header">
             <div class="optimizer-title">
-                ⚡ Resource-Constrained Action Budget Optimizer (0/1 Knapsack)
+                Resource-Constrained Action Budget Optimizer (0/1 Knapsack)
             </div>
             <div style="display: flex; align-items: center; gap: 14px;">
                 <div class="budget-control">
@@ -506,11 +506,11 @@
     <div class="filter-bar">
         <div style="display: flex; gap: 8px;">
             <button class="tab-btn active" onclick="filterType('ALL', this)">All Opportunities</button>
-            <button class="tab-btn" onclick="filterType('failed_payment', this)">① Failed Checkouts</button>
-            <button class="tab-btn" onclick="filterType('partial_payment', this)">② Partial Payments</button>
-            <button class="tab-btn" onclick="filterType('overdue_payment', this)">③ Overdue Invoices</button>
-            <button class="tab-btn" onclick="filterType('refund_mismatch', this)">④ Refund Mismatches</button>
-            <button class="tab-btn" onclick="showRejectedCandidates(this)" style="border-color:#f87171; color:#f87171; font-weight:700;">⚖️ Passed-Over Candidates (Knapsack Trade-Offs)</button>
+            <button class="tab-btn" onclick="filterType('failed_payment', this)">1. Failed Checkouts</button>
+            <button class="tab-btn" onclick="filterType('partial_payment', this)">2. Partial Payments</button>
+            <button class="tab-btn" onclick="filterType('overdue_payment', this)">3. Overdue Invoices</button>
+            <button class="tab-btn" onclick="filterType('refund_mismatch', this)">4. Refund Mismatches</button>
+            <button class="tab-btn" onclick="showRejectedCandidates(this)" style="border-color:#f87171; color:#f87171; font-weight:700;">Passed-Over Candidates (Knapsack Trade-Offs)</button>
         </div>
         <div style="font-size: 11px; color: #38bdf8; font-weight: 600;">
             Queue ordered by Day 5 Knapsack Optimization (Optimal Subset first, then by EV/Effort density)
@@ -547,7 +547,7 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title" id="modal-opp-title">AI Opportunity Diagnostic & Recovery Rationale</div>
-                <button onclick="closeModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+                <button onclick="closeModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">[X]</button>
             </div>
 
             <div class="explanation-box">
@@ -567,7 +567,7 @@
                 </div>
                 <div>
                     <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; font-weight:700;">Confidence-Gating</div>
-                    <div id="modal-gating-status" style="font-size:12px; font-weight:700; color:#38bdf8;">✓ Permitted Auto</div>
+                    <div id="modal-gating-status" style="font-size:12px; font-weight:700; color:#38bdf8;">Permitted Auto</div>
                 </div>
             </div>
 
@@ -577,7 +577,7 @@
             </div>
 
             <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;">
-                <button class="tab-btn" onclick="simulateWebhookForModal()">⚡ Simulate Webhook Paid</button>
+                <button class="tab-btn" onclick="simulateWebhookForModal()">Simulate Webhook Paid</button>
                 <button class="btn-recover" id="modal-action-btn" onclick="recoverFromModal()">Approve & Recover via Razorpay</button>
             </div>
         </div>
@@ -660,7 +660,7 @@ let rejectedCandidatesList = [];
                     <td><span style="background:#f87171; color:#070b14; font-weight:800; font-size:10px; padding:2px 6px; border-radius:4px;">EXCLUDED</span></td>
                     <td>
                         <div style="font-weight:700; color:#f1f5f9;">${rc.title}</div>
-                        <div style="font-size:11px; color:#fbbf24; margin-top:4px;">⚖️ <b>Trade-Off Rationale:</b> ${rc.tradeoff_rationale}</div>
+                        <div style="font-size:11px; color:#fbbf24; margin-top:4px;"><b>Trade-Off Rationale:</b> ${rc.tradeoff_rationale}</div>
                     </td>
                     <td><span class="badge-type type-invoice">${rc.opportunity_type}</span></td>
                     <td><span style="color:#94a3b8;">Evaluated Candidate</span></td>
@@ -687,7 +687,7 @@ let rejectedCandidatesList = [];
         async function loadDashboard(showNotification = false) {
             const refreshBtn = document.getElementById('btn-refresh');
             if (refreshBtn) {
-                refreshBtn.textContent = '🔄 Syncing...';
+                refreshBtn.textContent = 'Syncing...';
                 refreshBtn.disabled = true;
             }
             try {
@@ -738,14 +738,14 @@ let rejectedCandidatesList = [];
                 }
             } catch (err) {
                 console.error('Error loading dashboard:', err);
-                showToast('❌ Sync Error: ' + err.message);
+                showToast(' Sync Error: ' + err.message);
             } finally {
                 if (refreshBtn) {
                     refreshBtn.textContent = 'Refresh';
                     refreshBtn.disabled = false;
                 }
                 if (showNotification) {
-                    showToast('✓ Dashboard Synced with Live Razorpay Engine');
+                    showToast('Dashboard Synced with Live Razorpay Engine');
                 }
             }
         }
@@ -822,16 +822,16 @@ let rejectedCandidatesList = [];
                 else typeBadge = '<span class="badge-type type-mismatch">Mismatch</span>';
 
                 const guardBadge = isBlocked 
-                    ? '<span style="color:#f87171; font-weight:700; font-size:11px;">✕ BLOCKED</span>' 
-                    : '<span style="color:#34d399; font-weight:700; font-size:11px;">✓ PASSED</span>';
+                    ? '<span style="color:#f87171; font-weight:700; font-size:11px;">BLOCKED</span>' 
+                    : '<span style="color:#34d399; font-weight:700; font-size:11px;">PASSED</span>';
 
                 let queueBadge = isKnapsackSelected 
-                    ? `<span style="background:#0c8cee; color:white; font-weight:800; font-size:10px; padding:3px 6px; border-radius:4px;">⚡ OPTIMAL #${o.priority_rank}</span>`
+                    ? `<span style="background:#0c8cee; color:white; font-weight:800; font-size:10px; padding:3px 6px; border-radius:4px;">OPTIMAL #${o.priority_rank}</span>`
                     : `<span class="badge-rank">#${o.priority_rank}</span>`;
 
                 let actionBtn = '';
                 if (isRecovered) {
-                    actionBtn = '<span style="color:#34d399; font-weight:700; font-size:11px;">✓ Recovered</span>';
+                    actionBtn = '<span style="color:#34d399; font-weight:700; font-size:11px;">Recovered</span>';
                 } else if (isBlocked) {
                     actionBtn = '<span style="color:#c084fc; font-weight:700; font-size:11px;">Manual Signoff</span>';
                 } else {
@@ -891,7 +891,7 @@ let rejectedCandidatesList = [];
             document.getElementById('modal-conf-score').textContent = `${conf}% [${tier}]`;
 
             const isGated = o.ai_explanation ? o.ai_explanation.is_confidence_gated : false;
-            document.getElementById('modal-gating-status').textContent = isGated ? '⚠ Quarantined: Manual Review' : '✓ Permitted Autonomous';
+            document.getElementById('modal-gating-status').textContent = isGated ? 'Quarantined: Manual Review' : 'Permitted Autonomous';
             document.getElementById('modal-gating-status').style.color = isGated ? '#f87171' : '#38bdf8';
 
             const linkBox = document.getElementById('modal-link-box');
@@ -905,7 +905,7 @@ let rejectedCandidatesList = [];
 
             const modalBtn = document.getElementById('modal-action-btn');
             if (o.status === 'RECOVERED') {
-                modalBtn.textContent = '✓ Already Recovered';
+                modalBtn.textContent = '[OK] Already Recovered';
                 modalBtn.style.background = '#059669';
                 modalBtn.disabled = true;
             } else if (o.guardrail_status === 'BLOCKED') {
@@ -1010,7 +1010,7 @@ let rejectedCandidatesList = [];
         async function resetDemoQueue() {
             const btn = document.getElementById('btn-reset-queue');
             if (btn) {
-                btn.textContent = '⏳ Resetting...';
+                btn.textContent = ' Resetting...';
                 btn.disabled = true;
             }
             try {
@@ -1038,7 +1038,7 @@ let rejectedCandidatesList = [];
                 alert('Reset error: ' + err.message);
             } finally {
                 if (btn) {
-                    btn.textContent = '🔄 Reset Demo Queue';
+                    btn.textContent = 'Reset Demo Queue';
                     btn.disabled = false;
                 }
             }
@@ -1052,8 +1052,8 @@ let rejectedCandidatesList = [];
     <div id="calibration-modal" class="modal-overlay" onclick="closeCalibrationModal(event)">
         <div class="modal-content" style="max-width: 650px;" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title" style="color: #c084fc;">📊 Model Reliability & Calibration Curve (Brier Score)</div>
-                <button onclick="closeCalibrationModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+                <div class="modal-title" style="color: #c084fc;"> Model Reliability & Calibration Curve (Brier Score)</div>
+                <button onclick="closeCalibrationModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">[X]</button>
             </div>
             <div style="font-size: 12px; color: #94a3b8; line-height: 1.5;">
                 Evaluation of model calibration answering the senior risk question: <i>"When REVORA predicts 85% probability, does it recover ~85% of the time?"</i>
@@ -1092,7 +1092,7 @@ let rejectedCandidatesList = [];
                 </table>
             </div>
             <div style="font-size:11px; color:#34d399; font-weight:600; background:rgba(52,211,153,0.1); padding:10px; border-radius:6px; border:1px solid rgba(52,211,153,0.2);">
-                ✓ Calibration Verdict: Platt scaling with 5-fold cross-validation achieves tight alignment across all probability deciles.
+                Calibration Verdict: Platt scaling with 5-fold cross-validation achieves tight alignment across all probability deciles.
             </div>
         </div>
     </div>
@@ -1101,8 +1101,8 @@ let rejectedCandidatesList = [];
     <div id="trends-modal" class="modal-overlay" onclick="closeTrendsModal(event)">
         <div class="modal-content" style="max-width: 620px;" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title" style="color: #34d399;">📈 7-Day Compounding Recovery Performance Trend</div>
-                <button onclick="closeTrendsModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
+                <div class="modal-title" style="color: #34d399;"> 7-Day Compounding Recovery Performance Trend</div>
+                <button onclick="closeTrendsModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">[X]</button>
             </div>
             <div style="font-size: 12px; color: #94a3b8;">
                 Demonstrates how REVORA's resource-constrained Knapsack optimization compounds merchant recovery rate over time:
@@ -1124,7 +1124,7 @@ let rejectedCandidatesList = [];
                 </table>
             </div>
             <div style="font-size:11px; color:#38bdf8; font-weight:600; background:rgba(56,189,248,0.1); padding:10px; border-radius:6px; border:1px solid rgba(56,189,248,0.2);">
-                ✓ Measurable Impact: Recovery rate compounded from 12.4% to 28.4% (+16.0 percentage points lift) as constrained budget allocation prioritized high-density actions.
+                Measurable Impact: Recovery rate compounded from 12.4% to 28.4% (+16.0 percentage points lift) as constrained budget allocation prioritized high-density actions.
             </div>
         </div>
     </div>

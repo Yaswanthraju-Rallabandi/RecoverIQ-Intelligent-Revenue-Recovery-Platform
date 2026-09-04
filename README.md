@@ -1,4 +1,4 @@
-# 🚀 REVORA — AI Revenue Recovery & Optimization Engine
+#  REVORA — AI Revenue Recovery & Optimization Engine
 ### *Razorpay AI Hackathon — Track 3: AI Revenue Recovery*
 
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
@@ -10,7 +10,7 @@
 
 ---
 
-## 📌 The Two Core Differentiators
+##  The Two Core Differentiators
 
 ### 1. Resource-Constrained Knapsack Optimization (Not Just Sorting)
 Most revenue recovery tools either retry checkout failures chronologically or greedily sort by expected value. But merchants have **finite daily action capacity / operational budgets** ($N$).
@@ -27,7 +27,7 @@ Probabilistic AI models and LLMs should never have direct control over moving mo
 
 ---
 
-## 🔄 The 8-Stage Architecture Pipeline
+##  The 8-Stage Architecture Pipeline
 
 $$\Large \text{Detect} \longrightarrow \text{Predict} \longrightarrow \text{Calculate} \longrightarrow \text{Optimize} \longrightarrow \text{Guard} \longrightarrow \text{Recover} \longrightarrow \text{Verify} \longrightarrow \text{Measure}$$
 
@@ -57,18 +57,18 @@ Merchant / Razorpay Business Data
 
 ---
 
-## 🎯 The 4 Revenue Opportunity Detectors
+##  The 4 Revenue Opportunity Detectors
 
 | Detector | Category | Trigger Logic | Operational Action |
 | :--- | :--- | :--- | :--- |
-| **① `failed_payment`** | Checkout Drop-Offs | Scans gateway authorization switch timeouts & 3DS OTP drop-offs. | Smart delayed switch retry with 15m cooldown backoff. |
-| **② `partial_payment`** | Tokenized Advances | Scans orders where `paid_amount < total_amount` (balance abandoned). | Dispatches dynamic Razorpay balance payment link via WhatsApp. |
-| **③ `overdue_payment`** | B2B & Mandates | Scans corporate SaaS invoices & recurring mandates past due terms. | 1-Click UPI Deep-link with dynamic payment schedule. |
-| **④ `refund_mismatch`** | Gateway Glitches | Scans uncaptured pre-authorized charges nearing 5-day TTL window. | Auto-captures authorized charge and reconciles rail. |
+| **1. `failed_payment`** | Checkout Drop-Offs | Scans gateway authorization switch timeouts & 3DS OTP drop-offs. | Smart delayed switch retry with 15m cooldown backoff. |
+| **2. `partial_payment`** | Tokenized Advances | Scans orders where `paid_amount < total_amount` (balance abandoned). | Dispatches dynamic Razorpay balance payment link via WhatsApp. |
+| **3. `overdue_payment`** | B2B & Mandates | Scans corporate SaaS invoices & recurring mandates past due terms. | 1-Click UPI Deep-link with dynamic payment schedule. |
+| **4. `refund_mismatch`** | Gateway Glitches | Scans uncaptured pre-authorized charges nearing 5-day TTL window. | Auto-captures authorized charge and reconciles rail. |
 
 ---
 
-## 📊 Database Schema (13 Relational Tables)
+##  Database Schema (13 Relational Tables)
 
 REVORA is architected with 13 relational tables in SQLite / PostgreSQL:
 
@@ -88,7 +88,7 @@ REVORA is architected with 13 relational tables in SQLite / PostgreSQL:
 
 ---
 
-## ⚡ Quick Start & Installation
+##  Quick Start & Installation
 
 ### 1. Install Dependencies
 ```bash
@@ -116,7 +116,7 @@ Open **http://127.0.0.1:8000/** in your browser to view the live dashboard!
 
 ---
 
-## 📡 Live API Endpoints
+##  Live API Endpoints
 
 - **`GET /stats`**: Executive financial recovery ribbon segmented by opportunity type.
 - **`GET /opportunities`**: Prioritized opportunity queue ordered by Day 5 Knapsack optimization.
@@ -130,11 +130,11 @@ Open **http://127.0.0.1:8000/** in your browser to view the live dashboard!
 
 ---
 
-## 📄 Key Documentation Files
+##  Key Documentation Files
 - **[`ARCHITECTURE.md`](./ARCHITECTURE.md)**: Master technical whitepaper covering mathematics, database schema, and safety boundaries.
 - **[`PITCH_DEMO_SCRIPT.md`](./PITCH_DEMO_SCRIPT.md)**: 5-Minute video pitch script with timestamped narration and demo flow.
 
 ---
 
-## 👥 Authors
+##  Authors
 Built for the **Razorpay AI Hackathon — Track 3: AI Revenue Recovery**.

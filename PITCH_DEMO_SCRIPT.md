@@ -1,11 +1,11 @@
-# 🎬 REVORA — 5-Minute Hackathon Pitch & Video Demo Script
+#  REVORA — 5-Minute Hackathon Pitch & Video Demo Script
 ### *Razorpay AI Hackathon (Track 3: AI Revenue Recovery)*
 **Project Name**: REVORA — AI Revenue Recovery & Optimization Engine  
 **Target Duration**: 5:00 Minutes
 
 ---
 
-## 🕒 Timestamped Narration & Demo Guide
+##  Timestamped Narration & Demo Guide
 
 ### 0:00 – 0:45 | 1. The Core Problem & Differentiator #1
 **Screen**: Show Dashboard headline ribbon (Revenue at Risk vs Recovered).
@@ -21,7 +21,7 @@
 ---
 
 ### 0:45 – 1:45 | 2. Multi-Vector Opportunity Detection & ML Scorer
-**Screen**: Filter through the 4 detector tabs on the dashboard (`① Failed Checkouts`, `② Partial Payments`, `③ Overdue Invoices`, `④ Refund Mismatches`).
+**Screen**: Filter through the 4 detector tabs on the dashboard (`1. Failed Checkouts`, `2. Partial Payments`, `3. Overdue Invoices`, `4. Refund Mismatches`).
 **Voiceover**:
 > *"REVORA ingests data across four distinct revenue vectors:*
 > *1. **Failed Checkouts**: Gateway switch timeouts and 3DS OTP drop-offs.*
@@ -79,7 +79,7 @@
 
 ---
 
-## 🔑 Key Highlight Checklist for Recording:
+##  Key Highlight Checklist for Recording:
 - [x] **Differentiator 1 Explicitly Stated**: Resource-constrained optimization (not just sorting).
 - [x] **Differentiator 2 Explicitly Stated**: AI explains but does not decide (deterministic guardrails).
 - [x] All 4 opportunity types shown.

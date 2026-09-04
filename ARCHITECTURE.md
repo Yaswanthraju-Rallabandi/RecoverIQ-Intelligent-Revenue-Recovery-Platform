@@ -1,4 +1,4 @@
-# 🏛️ REVORA — System Architecture & Technical Specification
+#  REVORA — System Architecture & Technical Specification
 ### *Razorpay AI Hackathon (Track 3: AI Revenue Recovery)*
 
 ---
