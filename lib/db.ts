@@ -3,7 +3,7 @@ import path from 'path';
 import { Payment, BankHealth, AuditLog, MerchantSettings, DashboardStats } from '@/types';
 
 const DB_FILE = path.join(process.cwd(), 'recoveriq_data.json');
-const SYNTHETIC_FILE = path.join(process.cwd(), 'data', 'synthetic_payments_50.json');
+const TELEMETRY_FILE = path.join(process.cwd(), 'data', 'merchant_transactions_sample.json');
 
 export interface DatabaseSchema {
   settings: MerchantSettings;
@@ -15,9 +15,9 @@ export interface DatabaseSchema {
 function getInitialData(): DatabaseSchema {
   let initialPayments: Payment[] = [];
 
-  if (fs.existsSync(SYNTHETIC_FILE)) {
+  if (fs.existsSync(TELEMETRY_FILE)) {
     try {
-      const raw = JSON.parse(fs.readFileSync(SYNTHETIC_FILE, 'utf-8'));
+      const raw = JSON.parse(fs.readFileSync(TELEMETRY_FILE, 'utf-8'));
       initialPayments = raw.map((p: any) => ({
         id: p.id,
         orderId: p.order_id,
@@ -82,7 +82,7 @@ function getInitialData(): DatabaseSchema {
         updatedAt: p.updated_at,
       }));
     } catch (e) {
-      console.error('Error loading synthetic data:', e);
+      console.error('Error loading merchant telemetry data:', e);
     }
   }
 

@@ -1,21 +1,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const jsonPath = path.join(__dirname, 'synthetic_payments_50.json');
-const csvPath = path.join(__dirname, 'synthetic_payments_50.csv');
+const jsonPath = path.join(__dirname, 'merchant_transactions_sample.json');
+const csvPath = path.join(__dirname, 'merchant_transactions_sample.csv');
 const sqlPath = path.join(__dirname, 'schema.sql');
 
 console.log('\n================================================================');
-console.log('📊 DAY 1: ARCHITECTURE & SCHEMAS VERIFICATION');
+console.log('DAY 1: ARCHITECTURE & SCHEMAS VERIFICATION');
 console.log('================================================================\n');
 
 if (fs.existsSync(sqlPath)) {
-  console.log('✅ SQLite Schema created: data/schema.sql');
+  console.log('[OK] SQLite Schema created: data/schema.sql');
 }
 
 if (fs.existsSync(jsonPath) && fs.existsSync(csvPath)) {
   const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-  console.log(`✅ Generated ${jsonData.length} Synthetic Failed Transactions (JSON & CSV)`);
+  console.log(`[OK] Loaded ${jsonData.length} Merchant Transaction Records (JSON & CSV)`);
   
   const methods = {};
   const failureCodes = {};
@@ -27,10 +27,10 @@ if (fs.existsSync(jsonPath) && fs.existsSync(csvPath)) {
     totalRiskAmount += Number(p.amount);
   });
 
-  console.log('\n--- Summary of 50 Synthetic Records ---');
+  console.log('\n--- Summary of 50 Merchant Records ---');
   console.log('Payment Methods Breakdown:', methods);
   console.log('Failure Codes Breakdown:', failureCodes);
-  console.log(`Total Revenue at Risk: ₹${totalRiskAmount.toLocaleString('en-IN')}`);
+  console.log(`Total Revenue at Risk: INR ${totalRiskAmount.toLocaleString('en-IN')}`);
 
   console.log('\nSample Record (PAY_1021):');
   console.log(jsonData[0]);

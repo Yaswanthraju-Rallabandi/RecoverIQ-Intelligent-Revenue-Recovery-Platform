@@ -699,6 +699,7 @@
         </div>
 
         <nav class="nav-actions">
+            <button id="btn-sync-live" class="btn-modern" onclick="syncLiveRazorpayData()" style="background: rgba(12, 140, 238, 0.15); border-color: #0c8cee; color: #38bdf8; font-weight: 700;">Sync Live Razorpay API</button>
             <button class="btn-modern accent-purple" onclick="openCalibrationModal()">Model Calibration and Brier</button>
             <button class="btn-modern accent-green" onclick="openTrendsModal()">7-Day Recovery Trend</button>
             <button id="btn-reset-queue" class="btn-modern" onclick="resetDemoQueue()">Reset Demo Queue</button>
@@ -1045,6 +1046,38 @@
                     showToast('Dashboard Synced with Live Razorpay Engine');
                 }
             }
+        }
+
+        function syncLiveRazorpayData() {
+            const btn = document.getElementById('btn-sync-live');
+            const originalText = btn.textContent;
+            btn.textContent = 'Connecting to Razorpay Cloud...';
+            btn.disabled = true;
+
+            fetch('/ingest/razorpay-live', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            })
+            .then(r => r.json())
+            .then(data => {
+                btn.textContent = 'Synced ' + (data.synced_count || 0) + ' Live Records!';
+                showToast(data.message || 'Live Razorpay data ingested successfully');
+                loadDashboard(true);
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }, 3500);
+            })
+            .catch(err => {
+                console.error(err);
+                btn.textContent = 'Sync Error';
+                showToast('Error syncing with live Razorpay API: ' + err);
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            });
         }
 
         function renderSegmentedBreakdown(segmented) {

@@ -217,6 +217,7 @@ Open your browser to:
 | `GET` | `/analytics/trends` | 7-day compounding recovery performance metrics |
 | `GET` | `/feedback/metrics` | Continuous learning tracking, resolution times, and model accuracy |
 | `POST` | `/opportunities/{id}/recover` | Executes 1-click Razorpay payment link or smart recovery action |
+| `POST` | `/ingest/razorpay-live` | Real-time ingestion of live payments, links, and orders from Razorpay API |
 | `POST` | `/feedback/record-outcome` | Ingests real payment outcome to close the feedback loop |
 | `POST` | `/reset-demo` | Resets all opportunities back to unrecovered state for clean demos |
 | `POST` | `/webhooks/razorpay` | Receives live Razorpay webhooks with HMAC-SHA256 verification |
