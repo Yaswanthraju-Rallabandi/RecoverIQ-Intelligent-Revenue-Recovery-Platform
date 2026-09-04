@@ -17,22 +17,22 @@ def run_optimizer_tests():
     print(">>> DAY 5: CONSTRAINED OPTIMIZATION & 0/1 KNAPSACK TEST SUITE")
     print("=" * 70)
 
-    # Hand-picked synthetic test set demonstrating classical Knapsack vs Greedy gap:
+    # Hand-picked benchmark test set demonstrating classical Knapsack vs Greedy gap:
     # Item 1: Weight = 6, Value = 30 (Ratio = 5.0)
     # Item 2: Weight = 5, Value = 26 (Ratio = 5.2) -> Greedy picks this first!
     # Item 3: Weight = 5, Value = 26 (Ratio = 5.2) -> Greedy tries next!
     # If Capacity = 10:
     # Greedy picks Item 2 (w=5, v=26), then cannot fit Item 3 or Item 1 -> Total EV = 26!
     # Optimal DP picks Item 2 + Item 3 (w=5+5=10, v=26+26=52) -> Total EV = 52! (100% Lift over Greedy!)
-    synthetic_test_items = [
+    benchmark_test_items = [
         OptimizationItem("TEST_01", "Large Bulk Invoice", "overdue_payment", "Cust A", 3000.0, 100.0, 30.0, 6, 5.0, "Action", "PASSED"),
         OptimizationItem("TEST_02", "Partial Balance A", "partial_payment", "Cust B", 2600.0, 100.0, 26.0, 5, 5.0, "Action", "PASSED"),
         OptimizationItem("TEST_03", "Partial Balance B", "partial_payment", "Cust C", 2600.0, 100.0, 26.0, 5, 5.0, "Action", "PASSED"),
     ]
 
     print("\n[1] Verifying Knapsack DP vs Greedy Mathematical Advantage on Hand-Crafted Edge Case:")
-    dp_res = solve_01_knapsack_dp(synthetic_test_items, capacity=10)
-    greedy_res = solve_greedy_by_ratio(synthetic_test_items, capacity=10)
+    dp_res = solve_01_knapsack_dp(benchmark_test_items, capacity=10)
+    greedy_res = solve_greedy_by_ratio(benchmark_test_items, capacity=10)
     
     print(f"    - Capacity Limit: 10 units")
     print(f"    - Greedy by Ratio Result: Total EV = Rs {greedy_res.total_expected_value:,.2f} ({greedy_res.item_count} items, Weight {greedy_res.total_weight_used}/10)")

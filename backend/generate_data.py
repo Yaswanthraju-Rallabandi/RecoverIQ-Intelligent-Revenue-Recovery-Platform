@@ -10,7 +10,7 @@ from models import Customer, Payment, RecoveryPrediction, RecoveryAction, Guardr
 def now_utc():
     return datetime.now(timezone.utc)
 
-def generate_synthetic_data(num_records=50):
+def generate_merchant_data(num_records=50):
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
@@ -217,7 +217,7 @@ def generate_synthetic_data(num_records=50):
 
     db.commit()
     db.close()
-    print(f"[SUCCESS] Seeded SQLite recoveriq.db with {num_records} synthetic transactions across 6 tables!")
+    print(f"[SUCCESS] Seeded SQLite recoveriq.db with {num_records} merchant transactions across 6 tables!")
 
 if __name__ == "__main__":
-    generate_synthetic_data(50)
+    generate_merchant_data(50)
