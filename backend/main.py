@@ -41,6 +41,68 @@ app.add_middleware(
 def now_utc():
     return datetime.now(timezone.utc)
 
+def auto_sync_razorpay_cloud(db: Session):
+    """
+    Auto-reconciles recent live payments and payment links directly from Razorpay Cloud API.
+    Ensures that when a user pays on https://rzp.io, the dashboard updates immediately
+    without requiring external webhook tunnels (ngrok).
+    """
+    try:
+        from payments.razorpay_client import razorpay_client
+        if not razorpay_client.rzp_sdk:
+            return 0.0
+
+        # Fetch recent payment links from Razorpay
+        links_res = razorpay_client.rzp_sdk.payment_link.all({"count": 15})
+        links = links_res.get("payment_links", [])
+        
+        extra_demo_settled = 0.0
+
+        for link in links:
+            link_id = link.get("id")
+            link_status = link.get("status") # 'paid', 'created', etc.
+            amount_paid = float(link.get("amount_paid", 0)) / 100.0
+            ref_id = link.get("reference_id")
+
+            if link_status == "paid":
+                # Find matching opportunity by reference_id or razorpay_link_id
+                opp = None
+                if ref_id:
+                    opp = db.query(models.RevenueOpportunity).filter(
+                        (models.RevenueOpportunity.id == ref_id) |
+                        (models.RevenueOpportunity.source_reference_id == ref_id)
+                    ).first()
+                if not opp and link_id:
+                    opp = db.query(models.RevenueOpportunity).filter(
+                        models.RevenueOpportunity.razorpay_link_id == link_id
+                    ).first()
+
+                if opp:
+                    if opp.status != "RECOVERED":
+                        opp.status = "RECOVERED"
+                        opp.recovered_amount = amount_paid or opp.recoverable_amount
+                        opp.recovered_at = now_utc()
+                        opp.razorpay_link_id = link_id
+                        
+                        audit = models.AuditLog(
+                            id=f"log_sync_{opp.id}_{int(now_utc().timestamp())}",
+                            opportunity_id=opp.id,
+                            actor="RAZORPAY_CLOUD_SYNC",
+                            action="PAYMENT_LINK_PAID_SETTLED",
+                            reason=f"Auto-synced from Razorpay Cloud API. Payment Link {link_id} marked paid (Rs {amount_paid:,.2f}).",
+                            metadata_json=json.dumps({"link_id": link_id, "amount_paid": amount_paid, "status": "paid"})
+                        )
+                        db.add(audit)
+                        db.commit()
+                else:
+                    # Standalone demo link (e.g. quick Rs 100 or Rs 250 links)
+                    extra_demo_settled += amount_paid
+
+        return extra_demo_settled
+    except Exception as e:
+        print(f"[Razorpay Auto-Sync Warning]: {e}")
+        return 0.0
+
 class PredictRequest(BaseModel):
     amount: float
     payment_method: str = "upi"
@@ -80,9 +142,12 @@ def health_check():
 
 @app.get("/stats")
 def get_stats(db: Session = Depends(get_db)):
+    # Auto-reconcile live payments from Razorpay Cloud
+    extra_live_settled = auto_sync_razorpay_cloud(db)
+    
     all_opps = db.query(models.RevenueOpportunity).all()
     total_at_risk = sum(o.recoverable_amount for o in all_opps)
-    recovered_amt = sum(o.recovered_amount or o.recoverable_amount for o in all_opps if o.status == "RECOVERED")
+    recovered_amt = sum(o.recovered_amount or o.recoverable_amount for o in all_opps if o.status == "RECOVERED") + extra_live_settled
     open_opps = [o for o in all_opps if o.status != "RECOVERED"]
     predicted_ev = sum(o.expected_value for o in open_opps) + recovered_amt
     recovery_rate = round((recovered_amt / total_at_risk * 100), 1) if total_at_risk > 0 else 0.0
