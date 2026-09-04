@@ -605,6 +605,7 @@ class FeedbackOutcomeRequest(BaseModel):
     resolution_time_hours: float = 2.5
 
 @app.get("/model-calibration")
+@app.get("/analytics/calibration")
 def get_model_calibration():
     """
     Returns Brier score and reliability calibration decile bins.
