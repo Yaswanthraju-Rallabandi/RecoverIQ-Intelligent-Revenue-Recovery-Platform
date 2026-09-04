@@ -17,7 +17,7 @@ try:
 except ImportError:
     razorpay = None
 
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "rzp_test_TXyzPfzkjwJrR6")
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
 
 class RazorpayTestClient:
@@ -28,9 +28,9 @@ class RazorpayTestClient:
     3. Pre-Auth Captures
     4. Webhook HMAC-SHA256 Signature Verification
     """
-    def __init__(self, key_id: str = RAZORPAY_KEY_ID, key_secret: str = RAZORPAY_KEY_SECRET):
-        self.key_id = key_id or "rzp_test_TXyzPfzkjwJrR6"
-        self.key_secret = key_secret or ""
+    def __init__(self, key_id: Optional[str] = None, key_secret: Optional[str] = None):
+        self.key_id = key_id or os.getenv("RAZORPAY_KEY_ID", "")
+        self.key_secret = key_secret or os.getenv("RAZORPAY_KEY_SECRET", "")
         self.rzp_sdk = None
 
         # Initialize official Razorpay SDK client if both key and secret are present
