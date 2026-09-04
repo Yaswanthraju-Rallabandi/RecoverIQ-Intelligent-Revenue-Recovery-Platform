@@ -1,0 +1,14 @@
+[
+  {
+    "opportunity_id": "OPP_TEST_FEEDBACK_01",
+    "opportunity_type": "partial_payment",
+    "predicted_probability": 85.0,
+    "actual_outcome": "RECOVERED",
+    "recovered": true,
+    "actual_amount": 6000.0,
+    "prediction_error": 0.15,
+    "action_type": "recovery_link",
+    "resolution_time_hours": 2.5,
+    "timestamp": "2026-09-04T15:57:58.106527+00:00"
+  }
+]

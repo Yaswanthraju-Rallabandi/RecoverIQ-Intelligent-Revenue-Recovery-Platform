@@ -1,3 +1,4 @@
+import re
 import os
 import hmac
 import hashlib
@@ -69,7 +70,7 @@ class RazorpayTestClient:
                     "customer": {
                         "name": customer_name,
                         "email": customer_email,
-                        "contact": customer_phone.replace(" ", "")
+                        "contact": ("9" + re.sub(r"\D", "", customer_phone)[-9:]) if len(re.sub(r"\D", "", customer_phone)) >= 9 else "9876543210"
                     },
                     "notify": {
                         "sms": False,
