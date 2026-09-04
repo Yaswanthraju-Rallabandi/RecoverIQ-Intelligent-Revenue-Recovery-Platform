@@ -474,6 +474,33 @@ def predict_recovery_api(req: PredictRequest):
         "expected_value": ev
     }
 
+@app.post("/reset-demo")
+def reset_demo_data(db: Session = Depends(get_db)):
+    """
+    Resets demo opportunities to initial pristine benchmark state for hackathon judges & presentations.
+    Initial state:
+    - 3 failed payments: RECOVERED (recovered pool)
+    - 2 partial payments: OPEN
+    - 2 overdue invoices: OPEN
+    - 2 refund mismatches: OPEN
+    """
+    all_opps = db.query(models.RevenueOpportunity).all()
+    for o in all_opps:
+        if o.opportunity_type == "failed_payment":
+            o.status = "RECOVERED"
+            o.recovered_amount = o.recoverable_amount
+        else:
+            o.status = "OPEN"
+            o.recovered_amount = 0.0
+            o.recovered_at = None
+            o.retry_count = 0
+            o.razorpay_link_url = None
+            o.razorpay_link_id = None
+            o.razorpay_payment_id = None
+
+    db.commit()
+    return {"success": True, "message": "Demo queue successfully reset to initial benchmark state!"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

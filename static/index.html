@@ -413,6 +413,7 @@
             <div class="tagline">Razorpay Track 3: Resource-Constrained Knapsack Priority Queue • Segmented Financial Analytics • Live Razorpay Test Mode</div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">🔄 Reset Demo Queue</button>
             <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
         </div>
     </div>
@@ -777,6 +778,21 @@
                 linkBox.style.display = 'none';
             }
 
+            const modalBtn = document.getElementById('modal-action-btn');
+            if (o.status === 'RECOVERED') {
+                modalBtn.textContent = '✓ Already Recovered';
+                modalBtn.style.background = '#059669';
+                modalBtn.disabled = true;
+            } else if (o.guardrail_status === 'BLOCKED') {
+                modalBtn.textContent = 'Quarantined by Guardrail';
+                modalBtn.style.background = '#7c3aed';
+                modalBtn.disabled = true;
+            } else {
+                modalBtn.textContent = 'Approve & Recover via Razorpay';
+                modalBtn.style.background = 'linear-gradient(135deg, #0c8cee, #059669)';
+                modalBtn.disabled = false;
+            }
+
             document.getElementById('ai-modal').style.display = 'flex';
         }
 
@@ -863,6 +879,27 @@
                 }
             } catch (err) {
                 alert('Error executing batch: ' + err.message);
+            }
+        }
+
+        async function resetDemoQueue() {
+            try {
+                const res = await fetch('http://127.0.0.1:8000/reset-demo', { method: 'POST' });
+                const result = await res.json();
+                if (res.ok) {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#0c8cee', '#38bdf8', '#34d399']
+                    });
+                    alert(result.message);
+                    loadDashboard();
+                } else {
+                    alert('Reset failed: ' + result.detail);
+                }
+            } catch (err) {
+                alert('Reset error: ' + err.message);
             }
         }
 
