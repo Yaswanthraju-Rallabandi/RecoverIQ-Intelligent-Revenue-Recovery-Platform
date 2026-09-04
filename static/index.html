@@ -414,7 +414,7 @@
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button id="btn-reset-queue" class="tab-btn" onclick="resetDemoQueue()" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">🔄 Reset Demo Queue</button>
-            <button class="tab-btn active" onclick="loadDashboard()">Refresh</button>
+            <button id="btn-refresh" class="tab-btn active" onclick="loadDashboard(true)">Refresh</button>
         </div>
     </div>
 
@@ -586,7 +586,12 @@
         let currentBudget = 6;
         let selectedOppForModal = null;
 
-        async function loadDashboard() {
+        async function loadDashboard(showNotification = false) {
+            const refreshBtn = document.getElementById('btn-refresh');
+            if (refreshBtn) {
+                refreshBtn.textContent = '🔄 Syncing...';
+                refreshBtn.disabled = true;
+            }
             try {
                 // 1. Fetch Stats & Day 8 Segmented Breakdown
                 const statsRes = await fetch('/stats');
@@ -631,6 +636,24 @@
                 }
             } catch (err) {
                 console.error('Error loading dashboard:', err);
+                showToast('❌ Sync Error: ' + err.message);
+            } finally {
+                if (refreshBtn) {
+                    refreshBtn.textContent = 'Refresh';
+                    refreshBtn.disabled = false;
+                }
+                if (showNotification) {
+                    showToast('✓ Dashboard Synced with Live Razorpay Engine');
+                }
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notify');
+            if (toast) {
+                toast.textContent = msg;
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2200);
             }
         }
 
@@ -922,5 +945,6 @@
         // Initial Load
         loadDashboard();
     </script>
+<div id="toast-notify" style="display:none; position:fixed; bottom:24px; right:24px; background:linear-gradient(135deg, #0c8cee, #0284c7); color:white; padding:12px 20px; border-radius:10px; font-weight:700; font-size:13px; box-shadow:0 8px 24px rgba(0,0,0,0.6); z-index:999; border:1px solid #38bdf8; transition:all 0.3s ease;"></div>
 </body>
 </html>
