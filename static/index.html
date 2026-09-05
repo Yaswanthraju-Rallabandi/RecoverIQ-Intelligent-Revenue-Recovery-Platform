@@ -1,58 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVORA | Autonomous Revenue Recovery and Optimization Engine</title>
+    <title>REVORA | Studio Admin - Next.js & shadcn/ui Revenue Recovery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --bg-base: #000000;
-            --bg-surface: rgba(13, 19, 33, 0.72);
-            --bg-surface-hover: rgba(19, 28, 48, 0.85);
-            --bg-elevated: rgba(22, 33, 56, 0.75);
-            --bg-overlay: rgba(5, 8, 15, 0.85);
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-medium: rgba(255, 255, 255, 0.15);
-            --border-active: #0c8cee;
-            
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            
-            --brand-primary: #0c8cee;
-            --brand-gradient: linear-gradient(135deg, #0c8cee 0%, #0284c7 100%);
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --accent-purple: #8b5cf6;
-            --accent-cyan: #06b6d4;
-            
+            --background: #080c14;
+            --foreground: #f8fafc;
+            --card: #0d1322;
+            --card-foreground: #f8fafc;
+            --popover: #0d1322;
+            --popover-foreground: #f8fafc;
+            --primary: #0c8cee;
+            --primary-foreground: #ffffff;
+            --secondary: #162035;
+            --secondary-foreground: #cbd5e1;
+            --muted: #131b2e;
+            --muted-foreground: #8194ad;
+            --accent: #19243d;
+            --accent-foreground: #f8fafc;
+            --destructive: #ef4444;
+            --destructive-foreground: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+            --input: rgba(255, 255, 255, 0.08);
+            --ring: #0c8cee;
+            --radius: 0.65rem;
+
+            --sidebar-width: 260px;
+            --sidebar-bg: #090e18;
+            --sidebar-border: rgba(255, 255, 255, 0.07);
+            --sidebar-foreground: #94a3b8;
+            --sidebar-active: #0c8cee;
+
             --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
-            --shadow-glow: 0 0 24px rgba(12, 140, 238, 0.25);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: var(--font-sans);
-            background-color: #000000;
-            color: var(--text-primary);
-            padding: 24px 36px 60px;
+            background-color: var(--background);
+            color: var(--foreground);
             min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            position: relative;
         }
 
-        /* SVG Icon Utilities */
+        /* SVG Icons */
         .icon {
             display: inline-block;
             width: 16px;
@@ -63,382 +65,510 @@
             stroke-linecap: round;
             stroke-linejoin: round;
             vertical-align: middle;
+            flex-shrink: 0;
         }
         .icon-lg { width: 20px; height: 20px; }
         .icon-sm { width: 13px; height: 13px; }
 
-        /* Top Bar */
-        .top-bar {
+        /* Left Sidebar (shadcn Studio Admin Layout) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 20px;
-            margin-bottom: 28px;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 40;
+            transition: width 0.2s ease;
         }
 
-        .brand-cluster {
+        .sidebar-brand-header {
+            height: 64px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--sidebar-border);
+        }
+
+        .brand-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #0c8cee 0%, #0284c7 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.4);
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: #38bdf8;
+            background: rgba(12, 140, 238, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(12, 140, 238, 0.25);
+            text-transform: uppercase;
+        }
+
+        .sidebar-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 9px 14px;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.35);
+        }
+
+        .sidebar-action-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-group-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0 8px 6px;
+        }
+
+        .sidebar-nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-nav-item a, .sidebar-nav-item button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            color: var(--sidebar-foreground);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .sidebar-nav-item a:hover, .sidebar-nav-item button:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .sidebar-nav-item.active a, .sidebar-nav-item.active button {
+            color: #ffffff;
+            background: rgba(12, 140, 238, 0.12);
+            border: 1px solid rgba(12, 140, 238, 0.25);
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item.active svg {
+            color: #38bdf8;
+        }
+
+        .sidebar-nav-badge {
+            margin-left: auto;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: #38bdf8;
+            background: rgba(12, 140, 238, 0.15);
+            padding: 1px 6px;
+            border-radius: 10px;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--sidebar-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #19243d;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #38bdf8;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #f8fafc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-sub {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* Main App Canvas */
+        .app-canvas {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Navbar */
+        .top-navbar {
+            height: 64px;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8, 12, 20, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+
+        .navbar-left {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .brand-logo-mark {
-            width: 42px;
-            height: 42px;
-            background: var(--brand-gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 22px;
-            color: white;
-            box-shadow: 0 4px 18px rgba(12, 140, 238, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .brand-title {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: var(--text-primary);
+        .breadcrumb-trail {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .brand-title span {
-            color: var(--brand-primary);
-        }
-
-        .brand-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-top: 2px;
-        }
-
-        .system-badges {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .badge-live-pulse {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #34d399;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-
-        .pulse-dot {
-            width: 7px;
-            height: 7px;
-            background-color: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #10b981;
-            animation: pulseGlow 2s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        .badge-arch {
-            background: rgba(12, 140, 238, 0.1);
-            border: 1px solid rgba(12, 140, 238, 0.25);
-            color: #38bdf8;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 30px;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-        }
-
-        /* Action Cluster */
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .btn-modern {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 16px;
             font-size: 13px;
+            color: #64748b;
+        }
+
+        .breadcrumb-item.active {
+            color: #f8fafc;
             font-weight: 600;
-            font-family: var(--font-sans);
-            color: var(--text-primary);
-            background: var(--bg-surface);
-            border: 1px solid var(--border-medium);
+        }
+
+        .navbar-search {
+            position: relative;
+            width: 280px;
+        }
+
+        .navbar-search input {
+            width: 100%;
+            height: 36px;
+            padding: 0 36px 0 36px;
+            background: var(--muted);
+            border: 1px solid var(--border);
             border-radius: 8px;
+            font-size: 13px;
+            color: #f8fafc;
+            outline: none;
+            transition: all 0.15s ease;
+        }
+
+        .navbar-search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(12, 140, 238, 0.2);
+        }
+
+        .search-icon-left {
+            position: absolute;
+            left: 11px;
+            top: 10px;
+            color: #64748b;
+        }
+
+        .search-kbd-right {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: #94a3b8;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-shadcn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            height: 36px;
+            padding: 0 14px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            background: var(--muted);
+            color: #f8fafc;
+            border: 1px solid var(--border);
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.15s ease;
             white-space: nowrap;
         }
 
-        .btn-modern:hover {
-            background: var(--bg-surface-hover);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-sm);
+        .btn-shadcn:hover {
+            background: var(--accent);
+            border-color: var(--border-hover);
         }
 
-        .btn-modern:active {
-            transform: translateY(0);
-        }
-
-        .btn-modern.primary {
-            background: var(--brand-gradient);
-            border-color: #0c8cee;
+        .btn-shadcn.primary {
+            background: var(--primary);
+            border-color: #0284c7;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(12, 140, 238, 0.35);
         }
 
-        .btn-modern.primary:hover {
-            filter: brightness(1.1);
-            box-shadow: 0 6px 20px rgba(12, 140, 238, 0.5);
+        .btn-shadcn.primary:hover {
+            background: #0284c7;
         }
 
-        .btn-modern.sync-api {
+        .btn-shadcn.sync {
             background: rgba(12, 140, 238, 0.12);
-            border-color: rgba(12, 140, 238, 0.4);
+            border-color: rgba(12, 140, 238, 0.35);
             color: #38bdf8;
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        .btn-modern.sync-api:hover {
-            background: rgba(12, 140, 238, 0.22);
-            border-color: #0c8cee;
+        .btn-shadcn.sync:hover {
+            background: rgba(12, 140, 238, 0.2);
         }
 
-        .btn-modern.purple {
-            background: rgba(139, 92, 246, 0.12);
-            border-color: rgba(139, 92, 246, 0.3);
-            color: #c084fc;
+        /* Main Content Container */
+        .content-wrap {
+            padding: 28px 32px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            flex: 1;
         }
 
-        .btn-modern.purple:hover {
-            background: rgba(139, 92, 246, 0.2);
-            border-color: #8b5cf6;
+        /* Page Title & Tab Header */
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
 
-        .btn-modern.green {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #34d399;
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #f8fafc;
         }
 
-        .btn-modern.green:hover {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: #10b981;
+        .page-title p {
+            font-size: 13px;
+            color: var(--muted-foreground);
+            margin-top: 4px;
         }
 
-        /* Hero Financial Metrics Ribbon */
-        .metric-grid {
+        .shadcn-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--muted);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .shadcn-tab-btn {
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .shadcn-tab-btn.active {
+            background: var(--card);
+            color: #f8fafc;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+            font-weight: 600;
+        }
+
+        /* 4 Stat Cards */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 28px;
+            gap: 18px;
         }
 
-        .metric-card {
-            background: var(--bg-surface);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            padding: 22px 24px;
+        .shadcn-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.2s ease;
         }
 
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--border-subtle);
-            transition: all 0.25s ease;
+        .shadcn-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
         }
 
-        .metric-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-medium);
-            box-shadow: var(--shadow-md);
-        }
-
-        .metric-card.danger::before { background: var(--accent-danger); }
-        .metric-card.predictive::before { background: var(--brand-primary); }
-        .metric-card.success::before { background: var(--accent-success); }
-        .metric-card.efficiency::before { background: var(--accent-purple); }
-
-        .metric-card.danger:hover { box-shadow: 0 8px 30px rgba(239, 68, 68, 0.15); }
-        .metric-card.predictive:hover { box-shadow: 0 8px 30px rgba(12, 140, 238, 0.18); }
-        .metric-card.success:hover { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15); }
-        .metric-card.efficiency:hover { box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15); }
-
-        .metric-header {
+        .card-header-flex {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
 
-        .metric-title {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
+        .card-title-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted-foreground);
         }
 
-        .metric-icon-box {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-secondary);
-        }
-
-        .metric-value {
-            font-size: 30px;
+        .card-value {
+            font-size: 28px;
             font-weight: 800;
-            letter-spacing: -0.03em;
             font-family: var(--font-mono);
-            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            color: #f8fafc;
             line-height: 1.15;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .metric-footer {
+        .card-footer-text {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--muted-foreground);
             display: flex;
             align-items: center;
             gap: 6px;
-            flex-wrap: wrap;
         }
 
-        .ci-pill {
+        .badge-trend-green {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 3px 8px;
-            background: rgba(12, 140, 238, 0.1);
-            border: 1px solid rgba(12, 140, 238, 0.25);
-            border-radius: 6px;
-            font-size: 11px;
-            font-family: var(--font-mono);
-            font-weight: 600;
-            color: #38bdf8;
-        }
-
-        .rate-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 8px;
+            padding: 2px 7px;
             background: rgba(16, 185, 129, 0.12);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 6px;
+            border-radius: 4px;
+            color: #34d399;
+            font-weight: 700;
             font-size: 11px;
             font-family: var(--font-mono);
-            font-weight: 700;
-            color: #34d399;
         }
 
-        /* Knapsack Optimizer Lab */
-        .optimizer-lab {
-            background: var(--bg-surface);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 26px 30px;
-            margin-bottom: 28px;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-        }
-
-        .lab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 22px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .lab-title-area h2 {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-            display: flex;
+        .badge-trend-blue {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .lab-title-area p {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .budget-control-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-medium);
-            border-radius: 12px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            min-width: 420px;
-        }
-
-        .budget-label-group {
-            flex: 1;
-        }
-
-        .budget-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .budget-display {
-            font-size: 22px;
-            font-weight: 800;
-            font-family: var(--font-mono);
+            gap: 4px;
+            padding: 2px 7px;
+            background: rgba(12, 140, 238, 0.12);
+            border: 1px solid rgba(12, 140, 238, 0.3);
+            border-radius: 4px;
             color: #38bdf8;
+            font-weight: 600;
+            font-size: 11px;
+            font-family: var(--font-mono);
         }
 
-        .capacity-slider-wrap {
-            flex: 2;
+        /* 2-Column Split Section (Knapsack Optimizer + Vectors) */
+        .dashboard-split-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .lab-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .lab-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .budget-control-box {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .custom-slider {
@@ -457,388 +587,185 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #0c8cee;
+            background: var(--primary);
             border: 2px solid white;
             box-shadow: 0 0 10px #0c8cee;
             cursor: pointer;
-            transition: all 0.15s ease;
         }
 
-        .custom-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 14px #0284c7;
-        }
-
-        /* Strategy Comparison Grid */
-        .strategy-grid {
+        .strategy-mini-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 22px;
+            gap: 12px;
         }
 
-        .strategy-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 18px 20px;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .strategy-card.optimal {
-            background: linear-gradient(145deg, rgba(12, 140, 238, 0.08) 0%, rgba(14, 20, 34, 0.9) 100%);
-            border-color: #0c8cee;
-            box-shadow: 0 0 24px rgba(12, 140, 238, 0.15);
-        }
-
-        .strategy-tag {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+        .strat-card {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
             display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .strategy-card.optimal .strategy-tag { color: #38bdf8; }
-        .strategy-card.greedy .strategy-tag { color: #94a3b8; }
-        .strategy-card.fifo .strategy-tag { color: #64748b; }
-
-        .strategy-value {
-            font-size: 24px;
-            font-weight: 800;
-            font-family: var(--font-mono);
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
-
-        .strategy-meta {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .lift-pill {
-            display: inline-flex;
-            align-items: center;
+            flex-direction: column;
             gap: 4px;
-            padding: 3px 8px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            border-radius: 20px;
+        }
+
+        .strat-card.active {
+            background: rgba(12, 140, 238, 0.08);
+            border-color: var(--primary);
+        }
+
+        .strat-name {
             font-size: 11px;
             font-weight: 700;
-            color: #34d399;
-            font-family: var(--font-mono);
-        }
-
-        .lab-actions-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        .rejected-candidates-hint {
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* 4 Recovery Vectors Breakdown Cards */
-        .vectors-container {
-            margin-bottom: 28px;
-        }
-
-        .section-heading {
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .vector-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .vector-card {
-            background: var(--bg-surface);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 18px 20px;
-            transition: all 0.2s ease;
-        }
-
-        .vector-card:hover {
-            border-color: var(--border-medium);
-            background: var(--bg-surface-hover);
-        }
-
-        .vector-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .vector-badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 6px;
+            color: var(--muted-foreground);
             text-transform: uppercase;
-            letter-spacing: 0.04em;
         }
 
-        .vector-badge.failed { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .vector-badge.partial { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-        .vector-badge.invoice { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-        .vector-badge.mismatch { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-
-        .vector-rate {
-            font-size: 14px;
-            font-weight: 800;
-            font-family: var(--font-mono);
-            color: #34d399;
-        }
-
-        .vector-progress-track {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-
-        .vector-progress-fill {
-            height: 100%;
-            background: var(--accent-success);
-            border-radius: 4px;
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .vector-stats-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .vector-stats-row strong {
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-        }
-
-        /* Opportunity Stream & Table */
-        .stream-card {
-            background: var(--bg-surface);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 24px 28px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .stream-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            background: var(--bg-elevated);
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .tab-btn {
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: transparent;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .tab-btn.active {
-            background: var(--brand-primary);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(12, 140, 238, 0.4);
-        }
-
-        .tab-btn:hover:not(.active) {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .opportunity-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 8px;
-        }
-
-        .opportunity-table th {
-            text-align: left;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 8px 16px;
-        }
-
-        .opportunity-table tbody tr {
-            background: var(--bg-elevated);
-            border-radius: 10px;
-            transition: all 0.15s ease;
-        }
-
-        .opportunity-table tbody tr:hover {
-            background: var(--bg-surface-hover);
-            transform: scale(1.002);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .opportunity-table td {
-            padding: 14px 16px;
-            font-size: 13px;
-            color: var(--text-primary);
-            border-top: 1px solid var(--border-subtle);
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .opportunity-table td:first-child {
-            border-left: 1px solid var(--border-subtle);
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        .opportunity-table td:last-child {
-            border-right: 1px solid var(--border-subtle);
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .id-badge {
-            font-family: var(--font-mono);
-            font-weight: 700;
-            font-size: 12px;
+        .strat-card.active .strat-name {
             color: #38bdf8;
         }
 
-        .amount-cell {
+        .strat-val {
+            font-size: 18px;
+            font-weight: 800;
             font-family: var(--font-mono);
-            font-weight: 700;
-            color: var(--text-primary);
+            color: #f8fafc;
         }
 
-        .prob-bar-wrap {
+        .strat-sub {
+            font-size: 11px;
+            color: var(--muted-foreground);
+        }
+
+        /* 4 Vectors Column */
+        .vector-list-wrap {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 120px;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .prob-track {
-            flex: 1;
-            height: 6px;
+        .vector-row-card {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .vector-row-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .vector-row-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .v-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .v-pill.failed { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .v-pill.partial { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .v-pill.invoice { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .v-pill.mismatch { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        .v-progress-bar {
+            width: 100%;
+            height: 5px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 3px;
             overflow: hidden;
         }
 
-        .prob-fill {
+        .v-progress-fill {
             height: 100%;
+            background: #10b981;
             border-radius: 3px;
         }
 
-        .prob-number {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 700;
-            width: 38px;
-            text-align: right;
+        .v-meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted-foreground);
         }
 
-        .status-pill {
+        /* shadcn Data Table Card */
+        .table-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-filter-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted-foreground);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #f8fafc;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .pill-status {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 4px 10px;
-            border-radius: 20px;
+            padding: 3px 8px;
+            border-radius: 4px;
             font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.03em;
+            font-weight: 600;
             text-transform: uppercase;
         }
 
-        .status-pill.optimal { background: rgba(12, 140, 238, 0.15); color: #38bdf8; border: 1px solid #0c8cee; }
-        .status-pill.recovered { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #10b981; }
-        .status-pill.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #f59e0b; }
-        .status-pill.excluded { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid #64748b; }
+        .pill-status.optimal { background: rgba(12, 140, 238, 0.15); color: #38bdf8; border: 1px solid #0c8cee; }
+        .pill-status.recovered { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #10b981; }
+        .pill-status.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #f59e0b; }
+        .pill-status.excluded { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid #64748b; }
 
-        /* Action Buttons */
-        .btn-table {
-            padding: 6px 12px;
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.15s ease;
-            white-space: nowrap;
-        }
-
-        .btn-table.primary {
-            background: var(--brand-primary);
-            color: #ffffff;
-            border-color: #0284c7;
-        }
-
-        .btn-table.primary:hover {
-            background: #0284c7;
-            box-shadow: 0 2px 8px rgba(12, 140, 238, 0.4);
-        }
-
-        .btn-table.ghost {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border-color: var(--border-subtle);
-        }
-
-        .btn-table.ghost:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-        }
-
-        /* Slide-in Diagnostic Drawer */
-        .drawer-overlay {
+        /* Slide-over Diagnostic Sheet */
+        .sheet-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -846,23 +773,23 @@
             bottom: 0;
             background: rgba(5, 8, 15, 0.7);
             backdrop-filter: blur(8px);
-            z-index: 1000;
+            z-index: 100;
             display: none;
             justify-content: flex-end;
         }
 
-        .drawer-panel {
-            width: 540px;
+        .sheet-panel {
+            width: 520px;
             height: 100%;
-            background: var(--bg-surface);
-            border-left: 1px solid var(--border-medium);
-            padding: 32px;
+            background: var(--card);
+            border-left: 1px solid var(--border);
+            padding: 28px;
             overflow-y: auto;
-            box-shadow: var(--shadow-lg);
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            animation: slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 20px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            animation: slideLeft 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes slideLeft {
@@ -870,84 +797,26 @@
             to { transform: translateX(0); }
         }
 
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .drawer-close {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        .sheet-close-btn {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            color: var(--muted-foreground);
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
         }
 
-        .drawer-close:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.1);
+        .sheet-close-btn:hover {
+            color: #f8fafc;
+            background: var(--accent);
         }
 
-        .diagnostic-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 18px 20px;
-        }
-
-        .diagnostic-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 8px;
-        }
-
-        .diagnostic-value {
-            font-size: 14px;
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-
-        .check-badge {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .check-badge.passed { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #10b981; }
-        .check-badge.warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #f59e0b; }
-
-        /* Generic Modals */
-        .modal-overlay {
+        /* Modal Dialog */
+        .dialog-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -955,468 +824,512 @@
             bottom: 0;
             background: rgba(5, 8, 15, 0.75);
             backdrop-filter: blur(10px);
-            z-index: 1000;
+            z-index: 100;
             display: none;
             align-items: center;
             justify-content: center;
         }
 
-        .modal-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-medium);
-            border-radius: 16px;
-            width: 700px;
+        .dialog-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 680px;
             max-width: 90vw;
             max-height: 85vh;
             overflow-y: auto;
-            padding: 30px;
-            box-shadow: var(--shadow-lg);
+            padding: 28px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .modal-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            margin-top: 14px;
-        }
-
-        .modal-table th {
-            text-align: left;
-            padding: 10px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-subtle);
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-
-        .modal-table td {
-            padding: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        /* Toast Notifications */
+        /* Toast */
         #toast {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
+            bottom: 24px;
+            right: 24px;
             background: #111a2e;
-            color: var(--text-primary);
-            padding: 14px 22px;
-            border-radius: 10px;
+            color: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 8px;
             border: 1px solid #0c8cee;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
             font-size: 13px;
             font-weight: 600;
             display: none;
-            z-index: 2000;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            z-index: 200;
         }
     </style>
 </head>
 <body>
 
-    <!-- Atmospheric Elegant Dark Gradient Background (Skewed Cyan Streaks + Dot Matrix + Texture) -->
-    <div class="elegant-bg-backdrop" style="position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden; background: #000000;">
-        <div style="position: absolute; inset: 0;">
-            <div style="position: absolute; inset: 0; opacity: 1; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%); -webkit-mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%); mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%);">
-                <!-- Skewed fading cyan streaks -->
-                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
-                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
-                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0) 97%); transform: skewX(45deg);"></div>
-                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-                <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255) 0% 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-            </div>
+    <!-- Atmospheric Dark Gradient Background Backdrop -->
+    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background: #000000;">
+        <div style="position: absolute; inset: 0; opacity: 1; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%); -webkit-mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%); mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%);">
+            <!-- 5 Skewed Cyan Light Streaks -->
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
         </div>
-        <!-- Dot Pattern Overlay -->
         <div style="position: absolute; inset: 0; opacity: 0.20; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0); background-size: 20px 20px;"></div>
-        <!-- Radial Highlight -->
-        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.25) 0%, transparent 70%);"></div>
     </div>
 
-
-    <!-- Top Executive Header -->
-    <header class="top-bar">
-        <div class="brand-cluster">
-            <div class="brand-logo-mark">R</div>
+    <!-- Left Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand-header">
+            <div class="brand-logo-icon">R</div>
             <div>
-                <div class="brand-title">REVORA <span>Platform</span></div>
-                <div class="brand-subtitle">Autonomous Revenue Recovery and Constrained Knapsack Optimization</div>
+                <div class="brand-name">REVORA Studio</div>
             </div>
-            <div class="system-badges">
-                <span class="badge-live-pulse"><span class="pulse-dot"></span> Live Razorpay Cloud</span>
-                <span class="badge-arch">Production Architecture</span>
-            </div>
+            <span class="brand-tag">v10</span>
         </div>
 
-        <nav class="header-actions">
-            <button id="btn-sync-live" class="btn-modern sync-api" onclick="syncLiveRazorpayData()">
+        <div class="sidebar-scroll-area">
+            <button class="sidebar-action-btn" onclick="syncLiveRazorpayData()">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                Sync Live Razorpay API
+                Sync Razorpay API
             </button>
-            <button class="btn-modern purple" onclick="openCalibrationModal()">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
-                Model Calibration & Brier
-            </button>
-            <button class="btn-modern green" onclick="openTrendsModal()">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                7-Day Recovery Trend
-            </button>
-            <button id="btn-reset-queue" class="btn-modern" onclick="resetDemoQueue()">Reset Queue</button>
-            <button id="btn-refresh" class="btn-modern primary" onclick="loadDashboard(true)">Refresh</button>
-        </nav>
-    </header>
 
-    <!-- Hero Financial Metrics Ribbon -->
-    <section class="metric-grid">
-        <div class="metric-card danger">
-            <div class="metric-header">
-                <span class="metric-title">1. Revenue at Risk</span>
-                <div class="metric-icon-box">
-                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                </div>
-            </div>
-            <div class="metric-value" id="stat-risk">INR 0</div>
-            <div class="metric-footer">
-                <span id="stat-opp-count">0 Opportunities</span> across 4 vectors
-            </div>
-        </div>
-
-        <div class="metric-card predictive">
-            <div class="metric-header">
-                <span class="metric-title">2. Predicted Recoverable (EV)</span>
-                <div class="metric-icon-box">
-                    <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                </div>
-            </div>
-            <div class="metric-value" id="stat-predicted">INR 0</div>
-            <div class="metric-footer">
-                <span class="ci-pill" id="stat-ci-range">90% CI: Computing...</span>
-            </div>
-        </div>
-
-        <div class="metric-card success">
-            <div class="metric-header">
-                <span class="metric-title">3. Recovered Revenue</span>
-                <div class="metric-icon-box">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-            </div>
-            <div class="metric-value" id="stat-recovered" style="color: #34d399;">INR 0</div>
-            <div class="metric-footer">
-                <span class="rate-pill" id="stat-rate">0.0% Rate</span>
-                <span id="stat-recovered-count">0 settled</span>
-            </div>
-        </div>
-
-        <div class="metric-card efficiency">
-            <div class="metric-header">
-                <span class="metric-title">4. Knapsack Mathematical Lift</span>
-                <div class="metric-icon-box">
-                    <svg class="icon" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                </div>
-            </div>
-            <div class="metric-value" id="stat-lift" style="color: #c084fc;">+72.8%</div>
-            <div class="metric-footer">
-                <span>Versus naive greedy expected value sorting</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Knapsack Optimizer Control Lab -->
-    <section class="optimizer-lab">
-        <div class="lab-header">
-            <div class="lab-title-area">
-                <h2>
-                    <svg class="icon-lg" style="color: #38bdf8;" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    Resource-Constrained Knapsack Optimization Deck
-                </h2>
-                <p>Merchants face daily effort budgets (W). REVORA solves the exact 0/1 Knapsack Dynamic Program to maximize total expected revenue.</p>
-            </div>
-
-            <div class="budget-control-card">
-                <div class="budget-label-group">
-                    <div class="budget-title">Daily Effort Budget (W)</div>
-                    <div class="budget-display"><span id="capacity-display">6</span> Units</div>
-                </div>
-                <div class="capacity-slider-wrap">
-                    <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
-                </div>
-            </div>
-        </div>
-
-        <!-- Strategy Battle Arena -->
-        <div class="strategy-grid">
-            <div class="strategy-card optimal">
-                <div class="strategy-tag">
-                    <svg class="icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    1. REVORA 0/1 Knapsack DP (Global Optimum)
-                </div>
-                <div class="strategy-value" id="dp-ev-display">INR 0</div>
-                <div class="strategy-meta">
-                    <span id="dp-count-display">0 Actions</span> Selected | Effort <span id="dp-weight-display">0</span>/<span id="dp-cap-ref">6</span>
-                    <div style="margin-top: 6px;"><span class="lift-pill" id="dp-lift-pill">+72.8% Lift</span></div>
-                </div>
-            </div>
-
-            <div class="strategy-card greedy">
-                <div class="strategy-tag">
-                    <svg class="icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    2. Greedy Ratio Sorting (EV / Effort)
-                </div>
-                <div class="strategy-value" id="greedy-ev-display" style="color: #94a3b8;">INR 0</div>
-                <div class="strategy-meta">
-                    <span id="greedy-count-display">0 Actions</span> | Effort <span id="greedy-weight-display">0</span>/<span id="greedy-cap-ref">6</span>
-                    <div style="margin-top: 6px; color: var(--text-muted);">Sub-optimal due to boundary items</div>
-                </div>
-            </div>
-
-            <div class="strategy-card fifo">
-                <div class="strategy-tag">
-                    <svg class="icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    3. Naive FIFO (Chronological Execution)
-                </div>
-                <div class="strategy-value" id="fifo-ev-display" style="color: #64748b;">INR 0</div>
-                <div class="strategy-meta">
-                    <span id="fifo-count-display">0 Actions</span> | Effort <span id="fifo-weight-display">0</span>/<span id="fifo-cap-ref">6</span>
-                    <div style="margin-top: 6px; color: var(--text-muted);">Uninformed queue order</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="lab-actions-row">
-            <div class="rejected-candidates-hint" id="rejected-summary">
-                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-                <span>Excluded Candidates Drawer: Select opportunities to review economic trade-off rationales.</span>
-            </div>
-            <button class="btn-modern primary" onclick="executeOptimalBatch()">
-                <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Execute Optimal Action Set (1-Click)
-            </button>
-        </div>
-    </section>
-
-    <!-- 4 Recovery Vectors Breakdown Grid -->
-    <section class="vectors-container">
-        <div class="section-heading">
-            <span>Recovery Breakdown by Opportunity Vector</span>
-            <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">Real-Time Resolution Telemetry</span>
-        </div>
-        <div class="vector-grid" id="vector-breakdown-container">
-            <!-- Populated dynamically via renderSegmentedBreakdown -->
-        </div>
-    </section>
-
-    <!-- Opportunity Stream & Live Table -->
-    <section class="stream-card">
-        <div class="stream-header">
+            <!-- Navigation Group: Dashboards -->
             <div>
-                <h3 style="font-size: 17px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;">Prioritized Opportunity Queue</h3>
-                <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Evaluated by 5-Fold Platt Scaled Random Forest and Knapsack Optimization</p>
+                <div class="sidebar-group-label">Dashboards</div>
+                <ul class="sidebar-nav-list">
+                    <li class="sidebar-nav-item active">
+                        <a href="#overview">
+                            <svg class="icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                            Default Overview
+                            <span class="sidebar-nav-badge" id="side-opp-count">15</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="openCalibrationModal()">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                            Model Calibration
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="openTrendsModal()">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            7-Day Trends
+                        </button>
+                    </li>
+                </ul>
             </div>
 
-            <div class="filter-tabs">
-                <button class="tab-btn active" onclick="filterQueue('ALL', this)">All Vectors</button>
-                <button class="tab-btn" onclick="filterQueue('failed_payment', this)">Failed Checkout</button>
-                <button class="tab-btn" onclick="filterQueue('partial_payment', this)">Partial Balance</button>
-                <button class="tab-btn" onclick="filterQueue('overdue_payment', this)">Overdue B2B</button>
-                <button class="tab-btn" onclick="filterQueue('refund_mismatch', this)">Pre-Auth Mismatch</button>
+            <!-- Navigation Group: Recovery Vectors -->
+            <div>
+                <div class="sidebar-group-label">Recovery Vectors</div>
+                <ul class="sidebar-nav-list">
+                    <li class="sidebar-nav-item">
+                        <button onclick="filterQueue('failed_payment', document.getElementById('tab-failed'))">
+                            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Failed Checkouts
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="filterQueue('partial_payment', document.getElementById('tab-partial'))">
+                            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            Partial Balances
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="filterQueue('overdue_payment', document.getElementById('tab-overdue'))">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            Overdue Invoices
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="filterQueue('refund_mismatch', document.getElementById('tab-mismatch'))">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            Pre-Auth Mismatches
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Navigation Group: Controls -->
+            <div>
+                <div class="sidebar-group-label">Controls</div>
+                <ul class="sidebar-nav-list">
+                    <li class="sidebar-nav-item">
+                        <button onclick="resetDemoQueue()">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                            Reset Demo Queue
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button onclick="loadDashboard(true)">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                            Refresh Telemetry
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="opportunity-table">
-                <thead>
-                    <tr>
-                        <th>Opportunity ID</th>
-                        <th>Vector Category</th>
-                        <th>Customer</th>
-                        <th>At Risk Amount</th>
-                        <th>ML Recovery Rate</th>
-                        <th>Expected Value (EV)</th>
-                        <th>Knapsack Decision</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="opp-tbody">
-                    <!-- Populated dynamically via renderOpportunities -->
-                </tbody>
-            </table>
+        <div class="sidebar-footer">
+            <div class="user-avatar">RZ</div>
+            <div class="user-info">
+                <div class="user-name">Merchant Admin</div>
+                <div class="user-sub">Live Razorpay Test Mode</div>
+            </div>
         </div>
-    </section>
+    </aside>
 
-    <!-- Slide-in AI Opportunity Diagnostic Drawer -->
-    <div class="drawer-overlay" id="diagnostic-drawer" onclick="closeDrawer(event)">
-        <div class="drawer-panel" onclick="event.stopPropagation()">
-            <div class="drawer-header">
+    <!-- Main Content Canvas -->
+    <main class="app-canvas" style="position: relative; z-index: 10;">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <div class="breadcrumb-trail">
+                    <span>Dashboards</span>
+                    <span>/</span>
+                    <span>Recovery Engine</span>
+                    <span>/</span>
+                    <span class="breadcrumb-item active">Default</span>
+                </div>
+            </div>
+
+            <div class="navbar-search">
+                <svg class="icon search-icon-left" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Search opportunities, IDs..." oninput="searchQueue(this.value)">
+                <span class="search-kbd-right">Ctrl K</span>
+            </div>
+
+            <div class="navbar-right">
+                <button id="btn-sync-nav" class="btn-shadcn sync" onclick="syncLiveRazorpayData()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    Sync Live API
+                </button>
+                <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
+                    <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Execute Optimal Batch
+                </button>
+                <button class="btn-shadcn" onclick="loadDashboard(true)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard View Container -->
+        <div class="content-wrap">
+            <!-- Page Title Row -->
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>Revenue Recovery Overview</h1>
+                    <p>Real-time autonomous delinquency prioritization via 0/1 Knapsack Dynamic Program</p>
+                </div>
+
+                <div class="shadcn-tabs">
+                    <button class="shadcn-tab-btn active" onclick="switchDashboardTab('overview', this)">Overview</button>
+                    <button class="shadcn-tab-btn" onclick="switchDashboardTab('knapsack', this)">Knapsack Lab</button>
+                    <button class="shadcn-tab-btn" onclick="switchDashboardTab('vectors', this)">Vector Telemetry</button>
+                </div>
+            </div>
+
+            <!-- 4 Core Metric Cards -->
+            <section class="stats-grid">
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Revenue at Risk</span>
+                        <svg class="icon" style="color: #ef4444;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    </div>
+                    <div class="card-value" id="stat-risk">INR 0</div>
+                    <div class="card-footer-text">
+                        <span id="stat-opp-count">0 Opportunities</span> in queue
+                    </div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Predicted Recoverable (EV)</span>
+                        <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <div class="card-value" id="stat-predicted" style="color: #38bdf8;">INR 0</div>
+                    <div class="card-footer-text">
+                        <span class="badge-trend-blue" id="stat-ci-range">90% CI: Computing...</span>
+                    </div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Recovered Liquidity</span>
+                        <svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="card-value" id="stat-recovered" style="color: #34d399;">INR 0</div>
+                    <div class="card-footer-text">
+                        <span class="badge-trend-green" id="stat-rate">0.0% Rate</span>
+                        <span id="stat-recovered-count">0 settled</span>
+                    </div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Knapsack Math Lift</span>
+                        <svg class="icon" style="color: #c084fc;" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </div>
+                    <div class="card-value" id="stat-lift" style="color: #c084fc;">+72.8%</div>
+                    <div class="card-footer-text">
+                        <span>vs greedy expected value sorting</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2-Column Split: Knapsack Lab + Recovery Vectors -->
+            <section class="dashboard-split-grid">
+                <!-- Left: Knapsack Dynamic Program Controller -->
+                <div class="lab-card">
+                    <div class="lab-card-title">
+                        <span>Knapsack Optimization Controller</span>
+                        <span style="font-size: 11px; font-weight: 600; color: #38bdf8; background: rgba(12, 140, 238, 0.12); padding: 3px 8px; border-radius: 4px;">Dynamic Program</span>
+                    </div>
+
+                    <div class="budget-control-box">
+                        <div style="min-width: 140px;">
+                            <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Effort Budget (W)</div>
+                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;"><span id="capacity-display">6</span> Units</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- 3 Strategy Cards -->
+                    <div class="strategy-mini-grid">
+                        <div class="strat-card active">
+                            <div class="strat-name">1. 0/1 Knapsack DP</div>
+                            <div class="strat-val" id="dp-ev-display">INR 0</div>
+                            <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: #34d399; font-weight: 700;">+72.8% Lift</span></div>
+                        </div>
+
+                        <div class="strat-card">
+                            <div class="strat-name">2. Greedy Ratio</div>
+                            <div class="strat-val" id="greedy-ev-display" style="color: #94a3b8;">INR 0</div>
+                            <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Sub-optimal</div>
+                        </div>
+
+                        <div class="strat-card">
+                            <div class="strat-name">3. Naive FIFO</div>
+                            <div class="strat-val" id="fifo-ev-display" style="color: #64748b;">INR 0</div>
+                            <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Uninformed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: 4 Recovery Vectors Telemetry -->
+                <div class="lab-card">
+                    <div class="lab-card-title">
+                        <span>Recovery Channels</span>
+                        <span style="font-size: 11px; color: var(--muted-foreground);">4 Active Vectors</span>
+                    </div>
+
+                    <div class="vector-list-wrap" id="vector-breakdown-container">
+                        <!-- Populated dynamically via renderSegmentedBreakdown -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Data Table Card -->
+            <section class="table-card">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 700; color: #f8fafc;">Prioritized Opportunity Queue</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">ML Recovery Probability & Deterministic Guardrail Status</p>
+                    </div>
+
+                    <div class="table-filter-group">
+                        <div class="shadcn-tabs">
+                            <button id="tab-all" class="shadcn-tab-btn active" onclick="filterQueue('ALL', this)">All</button>
+                            <button id="tab-failed" class="shadcn-tab-btn" onclick="filterQueue('failed_payment', this)">Checkout</button>
+                            <button id="tab-partial" class="shadcn-tab-btn" onclick="filterQueue('partial_payment', this)">Partial</button>
+                            <button id="tab-overdue" class="shadcn-tab-btn" onclick="filterQueue('overdue_payment', this)">Overdue B2B</button>
+                            <button id="tab-mismatch" class="shadcn-tab-btn" onclick="filterQueue('refund_mismatch', this)">Pre-Auth</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Opportunity ID</th>
+                                <th>Channel Vector</th>
+                                <th>Customer</th>
+                                <th>At Risk Amount</th>
+                                <th>ML Recovery Probability</th>
+                                <th>Expected Value</th>
+                                <th>Optimization Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="opp-tbody">
+                            <!-- Populated dynamically via renderOpportunities -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Slide-in Sheet / Diagnostic Drawer -->
+    <div class="sheet-overlay" id="diagnostic-drawer" onclick="closeDrawer(event)">
+        <div class="sheet-panel" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
                 <div>
-                    <div class="diagnostic-label">Opportunity Telemetry</div>
+                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Diagnostic Telemetry</div>
                     <h2 id="drawer-opp-id" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;">OPP_101</h2>
-                    <div id="drawer-opp-type" style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">failed_payment</div>
+                    <div id="drawer-opp-type" style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">failed_payment</div>
                 </div>
-                <button class="drawer-close" onclick="closeDrawer()"><svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                <button class="sheet-close-btn" onclick="closeDrawer()">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
 
-            <!-- Financial Diagnostic Card -->
-            <div class="diagnostic-card">
-                <div class="diagnostic-label">Financial Valuation & Action Cost</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 6px;">
+            <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
+                <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">Financial Valuation</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
                     <div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Recoverable Amount</div>
-                        <div id="drawer-amount" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: var(--text-primary);">INR 0</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">Recoverable Amount</div>
+                        <div id="drawer-amount" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #f8fafc;">INR 0</div>
                     </div>
                     <div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Expected Value (EV)</div>
-                        <div id="drawer-ev" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">INR 0</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">Expected Value (EV)</div>
+                        <div id="drawer-ev" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">INR 0</div>
                     </div>
                     <div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Effort Weight</div>
-                        <div id="drawer-weight" style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: #c084fc;">1 Unit</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">Effort Weight</div>
+                        <div id="drawer-weight" style="font-size: 14px; font-weight: 700; font-family: var(--font-mono); color: #c084fc;">1 Unit</div>
                     </div>
                 </div>
             </div>
 
-            <!-- AI Explanation Layer -->
-            <div class="diagnostic-card">
-                <div class="diagnostic-label">AI Diagnostic & Root Cause Explanation</div>
-                <div class="diagnostic-value" id="drawer-rationale" style="font-size: 13px; color: var(--text-primary); line-height: 1.6;">
-                    Loading diagnostic telemetry...
+            <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
+                <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">AI Root Cause Diagnosis</div>
+                <div id="drawer-rationale" style="font-size: 13px; color: #f8fafc; line-height: 1.6;">Loading diagnosis...</div>
+            </div>
+
+            <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
+                <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 10px;">Deterministic Safety Guardrails</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                        <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Spend Limit Policy: Within INR 25,000 threshold</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                        <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Issuer Switch Health: Gateway operational</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                        <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Notification Cooldown: 15m backoff verified</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                        <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Pre-Auth Capture Safety: Under INR 7,500 ceiling</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Deterministic Guardrails Checklist -->
-            <div class="diagnostic-card">
-                <div class="diagnostic-label">Deterministic Financial Safety Guardrails</div>
-                <div class="checklist-item">
-                    <span class="check-badge passed"><svg class="icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-                    <span>Spend Limit Policy: Amount within INR 25,000 threshold</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-badge passed"><svg class="icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-                    <span>Issuer Switch Circuit Breaker: Gateway operational</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-badge passed"><svg class="icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-                    <span>Customer Notification Cooldown: 15m backoff verified</span>
-                </div>
-                <div class="checklist-item">
-                    <span class="check-badge passed" id="drawer-preauth-badge"><svg class="icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-                    <span id="drawer-preauth-text">Pre-Auth Capture Safety: Under INR 7,500 ceiling</span>
-                </div>
-            </div>
-
-            <!-- Action Controls -->
             <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
                 <div id="drawer-link-container" style="display: none; padding: 12px; background: rgba(12, 140, 238, 0.1); border: 1px solid #0c8cee; border-radius: 8px;">
-                    <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">Live Razorpay Payment Link Generated:</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">Live Razorpay Payment Link:</div>
                     <a id="drawer-link-url" href="#" target="_blank" style="font-size: 12px; color: #f8fafc; word-break: break-all; font-family: var(--font-mono); margin-top: 4px; display: inline-block;"></a>
                 </div>
-                <button class="btn-modern primary" id="drawer-action-btn" onclick="recoverFromDrawer()" style="justify-content: center; padding: 12px;">
+                <button class="btn-shadcn primary" id="drawer-action-btn" onclick="recoverFromDrawer()" style="justify-content: center; height: 42px;">
                     Approve and Recover via Razorpay
                 </button>
-                <button class="btn-modern" onclick="simulateWebhookForDrawer()" style="justify-content: center;">
+                <button class="btn-shadcn" onclick="simulateWebhookForDrawer()" style="justify-content: center; height: 38px;">
                     Simulate Webhook Payment
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Model Calibration & Brier Score Modal -->
-    <div class="modal-overlay" id="calibration-modal" onclick="closeCalibrationModal(event)">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="modal-header">
+    <!-- Calibration Dialog Modal -->
+    <div class="dialog-overlay" id="calibration-modal" onclick="closeCalibrationModal(event)">
+        <div class="dialog-box" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
                 <div>
-                    <h3 style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Model Calibration & Reliability Verification</h3>
-                    <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">5-Fold Platt Scaling vs Observed Ground-Truth Outcomes</p>
+                    <h3 style="font-size: 18px; font-weight: 800; color: #f8fafc;">Model Calibration & Brier Score</h3>
+                    <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">5-Fold Platt Scaled Random Forest Reliability Deciles</p>
                 </div>
-                <button class="drawer-close" onclick="closeCalibrationModal()"><svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                <button class="sheet-close-btn" onclick="closeCalibrationModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px;">
-                <div class="diagnostic-card">
-                    <div class="diagnostic-label">Brier Score</div>
-                    <div id="cal-brier" style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">0.1142</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Lower is better (0.25 random)</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
+                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Brier Score</div>
+                    <div id="cal-brier" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #34d399; margin-top: 4px;">0.1142</div>
                 </div>
-                <div class="diagnostic-card">
-                    <div class="diagnostic-label">Brier Skill Score</div>
-                    <div id="cal-bss" style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;">+54.3%</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Improvement over baseline</div>
+                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Brier Skill Score</div>
+                    <div id="cal-bss" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8; margin-top: 4px;">+54.3%</div>
                 </div>
-                <div class="diagnostic-card">
-                    <div class="diagnostic-label">Mean Calibration Gap</div>
-                    <div id="cal-gap" style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #c084fc;">2.6%</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Average predicted vs actual error</div>
+                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Calibration Gap</div>
+                    <div id="cal-gap" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #c084fc; margin-top: 4px;">2.6%</div>
                 </div>
             </div>
 
-            <div class="diagnostic-label">Reliability Decile Calibration Table</div>
-            <table class="modal-table">
+            <table class="data-table">
                 <thead>
                     <tr>
                         <th>Probability Tier</th>
                         <th>Predicted Mean</th>
-                        <th>Observed Empirical Rate</th>
-                        <th>Calibration Error</th>
-                        <th>Sample Size</th>
+                        <th>Observed Rate</th>
+                        <th>Calibration Gap</th>
+                        <th>Count</th>
                     </tr>
                 </thead>
                 <tbody id="cal-tbody">
-                    <!-- Dynamic Deciles -->
+                    <!-- Populated dynamically -->
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- 7-Day Compounding Recovery Trends Modal -->
-    <div class="modal-overlay" id="trends-modal" onclick="closeTrendsModal(event)">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="modal-header">
+    <!-- 7-Day Trends Dialog Modal -->
+    <div class="dialog-overlay" id="trends-modal" onclick="closeTrendsModal(event)">
+        <div class="dialog-box" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
                 <div>
-                    <h3 style="font-size: 18px; font-weight: 800; color: var(--text-primary);">7-Day Compounding Performance Analytics</h3>
-                    <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Daily recovered capital, rolling success rate, and volume progression</p>
+                    <h3 style="font-size: 18px; font-weight: 800; color: #f8fafc;">7-Day Compounding Trends</h3>
+                    <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">Daily rolling recovery metrics and resolution progress</p>
                 </div>
-                <button class="drawer-close" onclick="closeTrendsModal()"><svg class="icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                <button class="sheet-close-btn" onclick="closeTrendsModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
 
-            <table class="modal-table">
+            <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Timeline</th>
-                        <th>Calendar Date</th>
+                        <th>Day</th>
+                        <th>Date</th>
                         <th>Recovered Liquidity</th>
                         <th>Recovery Rate</th>
                         <th>Resolved Invoices</th>
                     </tr>
                 </thead>
                 <tbody id="trend-tbody">
-                    <!-- Dynamic Trend Points -->
+                    <!-- Populated dynamically -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast">Live Razorpay Cloud Synchronized</div>
+    <div id="toast">Dashboard Synced</div>
 
     <script>
         let currentCapacity = 6;
         let globalOpportunities = [];
         let currentActiveOpp = null;
         let activeFilter = 'ALL';
+        let searchQuery = '';
 
         function showToast(msg) {
             const t = document.getElementById('toast');
@@ -1428,28 +1341,29 @@
         function onCapacityChange(val) {
             currentCapacity = parseInt(val);
             document.getElementById('capacity-display').textContent = val;
-            document.getElementById('dp-cap-ref').textContent = val;
-            document.getElementById('greedy-cap-ref').textContent = val;
-            document.getElementById('fifo-cap-ref').textContent = val;
             loadDashboard(false);
         }
 
         function filterQueue(category, btn) {
             activeFilter = category;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            document.querySelectorAll('.shadcn-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
             renderOpportunities(globalOpportunities);
         }
 
-        async function loadDashboard(showNotification = false) {
-            const refreshBtn = document.getElementById('btn-refresh');
-            if (refreshBtn) {
-                refreshBtn.textContent = 'Syncing...';
-                refreshBtn.disabled = true;
-            }
+        function searchQueue(q) {
+            searchQuery = q.toLowerCase();
+            renderOpportunities(globalOpportunities);
+        }
 
+        function switchDashboardTab(tab, btn) {
+            document.querySelectorAll('.page-header-row .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        async function loadDashboard(showNotification = false) {
             try {
-                // 1. Fetch Headline Stats
+                // 1. Stats
                 const statsRes = await fetch('/stats');
                 const stats = await statsRes.json();
                 
@@ -1459,18 +1373,18 @@
                 document.getElementById('stat-recovered').textContent = 'INR ' + Math.round(hm.recovered_revenue || 0).toLocaleString('en-IN');
                 document.getElementById('stat-rate').textContent = (hm.recovery_rate || 0).toFixed(1) + '% Rate';
                 document.getElementById('stat-opp-count').textContent = (hm.total_opportunities_count || 0) + ' Opportunities';
+                document.getElementById('side-opp-count').textContent = hm.total_opportunities_count || 0;
                 document.getElementById('stat-recovered-count').textContent = (hm.recovered_count || 0) + ' settled';
 
                 if (hm.predicted_recoverable_ci && hm.predicted_recoverable_ci.formatted_range) {
                     document.getElementById('stat-ci-range').textContent = '90% CI: ' + hm.predicted_recoverable_ci.formatted_range;
                 }
 
-                // Render 4 Vector Breakdown Cards
                 if (stats.segmented_by_type) {
                     renderSegmentedBreakdown(stats.segmented_by_type);
                 }
 
-                // 2. Fetch Knapsack Optimization Strategy
+                // 2. Knapsack Optimization
                 const optRes = await fetch(`/optimize?capacity=${currentCapacity}`);
                 const opt = await optRes.json();
 
@@ -1480,7 +1394,6 @@
 
                 document.getElementById('dp-ev-display').textContent = 'INR ' + Math.round(dp.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('dp-count-display').textContent = (dp.item_count || 0) + ' Actions';
-                document.getElementById('dp-weight-display').textContent = dp.total_weight_used || 0;
                 
                 const lift = opt.comparison?.lift_over_greedy_percent || 72.8;
                 document.getElementById('dp-lift-pill').textContent = '+' + lift.toFixed(1) + '% Lift';
@@ -1488,13 +1401,11 @@
 
                 document.getElementById('greedy-ev-display').textContent = 'INR ' + Math.round(greedy.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('greedy-count-display').textContent = (greedy.item_count || 0) + ' Actions';
-                document.getElementById('greedy-weight-display').textContent = greedy.total_weight_used || 0;
 
                 document.getElementById('fifo-ev-display').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('fifo-count-display').textContent = (fifo.item_count || 0) + ' Actions';
-                document.getElementById('fifo-weight-display').textContent = fifo.total_weight_used || 0;
 
-                // 3. Fetch Opportunities Queue
+                // 3. Opportunities Queue
                 const oppRes = await fetch('/opportunities');
                 const oppData = await oppRes.json();
                 globalOpportunities = oppData.opportunities || [];
@@ -1506,11 +1417,6 @@
             } catch (err) {
                 console.error('Error loading dashboard:', err);
                 showToast('Sync error: ' + err.message);
-            } finally {
-                if (refreshBtn) {
-                    refreshBtn.textContent = 'Refresh';
-                    refreshBtn.disabled = false;
-                }
             }
         }
 
@@ -1522,7 +1428,7 @@
                 'failed_payment': 'Failed Checkouts',
                 'partial_payment': 'Partial Balances',
                 'overdue_payment': 'Overdue Invoices',
-                'refund_mismatch': 'Gateway Mismatches'
+                'refund_mismatch': 'Pre-Auth Mismatches'
             };
 
             for (const [key, val] of Object.entries(segmented)) {
@@ -1534,18 +1440,18 @@
                 const progressWidth = Math.min(100, Math.max(0, val.recovery_rate || 0));
 
                 const card = document.createElement('div');
-                card.className = 'vector-card';
+                card.className = 'vector-row-card';
                 card.innerHTML = `
-                    <div class="vector-title-row">
-                        <span class="vector-badge ${badgeClass}">${titles[key] || key}</span>
-                        <span class="vector-rate">${(val.recovery_rate || 0).toFixed(1)}%</span>
+                    <div class="vector-row-head">
+                        <span class="v-pill ${badgeClass}">${titles[key] || key}</span>
+                        <span style="font-size: 12px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
                     </div>
-                    <div class="vector-progress-track">
-                        <div class="vector-progress-fill" style="width: ${progressWidth}%;"></div>
+                    <div class="v-progress-bar">
+                        <div class="v-progress-fill" style="width: ${progressWidth}%;"></div>
                     </div>
-                    <div class="vector-stats-row">
-                        <span>Risk: <strong>INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
-                        <span>Recovered: <strong>INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
+                    <div class="v-meta-row">
+                        <span>Risk: <strong style="color: #f8fafc; font-family: var(--font-mono);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
+                        <span>Recovered: <strong style="color: #34d399; font-family: var(--font-mono);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1556,25 +1462,31 @@
             const tbody = document.getElementById('opp-tbody');
             tbody.innerHTML = '';
 
-            const filtered = activeFilter === 'ALL' ? opps : opps.filter(o => o.type === activeFilter);
+            let filtered = activeFilter === 'ALL' ? opps : opps.filter(o => o.type === activeFilter);
+            if (searchQuery) {
+                filtered = filtered.filter(o => 
+                    o.id.toLowerCase().includes(searchQuery) ||
+                    (o.customer_name && o.customer_name.toLowerCase().includes(searchQuery)) ||
+                    (o.title && o.title.toLowerCase().includes(searchQuery))
+                );
+            }
 
             filtered.forEach(o => {
                 const tr = document.createElement('tr');
                 
-                // Color logic for probability bar
                 let probColor = '#10b981';
                 if (o.probability < 50) probColor = '#ef4444';
                 else if (o.probability < 75) probColor = '#f59e0b';
 
                 let statusBadge = '';
                 if (o.status === 'RECOVERED') {
-                    statusBadge = '<span class="status-pill recovered">Recovered</span>';
+                    statusBadge = '<span class="pill-status recovered">Recovered</span>';
                 } else if (o.is_knapsack_optimal) {
-                    statusBadge = '<span class="status-pill optimal">Optimal Set</span>';
+                    statusBadge = '<span class="pill-status optimal">Optimal Set</span>';
                 } else if (o.status === 'MANUAL_REVIEW') {
-                    statusBadge = '<span class="status-pill review">Manual Review</span>';
+                    statusBadge = '<span class="pill-status review">Manual Review</span>';
                 } else {
-                    statusBadge = '<span class="status-pill excluded">Excluded</span>';
+                    statusBadge = '<span class="pill-status excluded">Excluded</span>';
                 }
 
                 const amountFormatted = 'INR ' + Math.round(o.amount || 0).toLocaleString('en-IN');
@@ -1582,33 +1494,33 @@
 
                 tr.innerHTML = `
                     <td>
-                        <div class="id-badge">${o.id}</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">${o.source_reference_id}</div>
+                        <div style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">${o.source_reference_id}</div>
                     </td>
                     <td>
-                        <span class="vector-badge ${getBadgeClass(o.type)}">${formatType(o.type)}</span>
+                        <span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span>
                     </td>
                     <td>
                         <div style="font-weight: 600;">${o.customer_name || 'Customer'}</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">${o.payment_method?.toUpperCase()}</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">${o.payment_method?.toUpperCase()}</div>
                     </td>
-                    <td class="amount-cell">${amountFormatted}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700;">${amountFormatted}</td>
                     <td>
-                        <div class="prob-bar-wrap">
-                            <div class="prob-track">
-                                <div class="prob-fill" style="width: ${o.probability}%; background: ${probColor};"></div>
+                        <div style="display: flex; align-items: center; gap: 8px; width: 110px;">
+                            <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
+                                <div style="height: 100%; width: ${o.probability}%; background: ${probColor};"></div>
                             </div>
-                            <span class="prob-number" style="color: ${probColor};">${o.probability}%</span>
+                            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${probColor};">${o.probability}%</span>
                         </div>
                     </td>
-                    <td class="amount-cell" style="color: #34d399;">${evFormatted}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">${evFormatted}</td>
                     <td>${statusBadge}</td>
-                    <td>
-                        <div style="display: flex; gap: 6px;">
+                    <td style="text-align: right;">
+                        <div style="display: inline-flex; gap: 6px;">
                             ${o.status === 'RECOVERED' ? 
-                                `<button class="btn-table ghost" onclick="openDrawerForOpp('${o.id}')">View Receipt</button>` :
-                                `<button class="btn-table primary" onclick="recoverSingle('${o.id}')">Recover</button>
-                                 <button class="btn-table ghost" onclick="openDrawerForOpp('${o.id}')">Inspect</button>`
+                                `<button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>` :
+                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>
+                                 <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>`
                             }
                         </div>
                     </td>
@@ -1658,11 +1570,11 @@
             if (opp.status === 'RECOVERED') {
                 actionBtn.textContent = 'Already Recovered & Settled';
                 actionBtn.disabled = true;
-                actionBtn.className = 'btn-modern';
+                actionBtn.className = 'btn-shadcn';
             } else {
                 actionBtn.textContent = 'Approve and Recover via Razorpay';
                 actionBtn.disabled = false;
-                actionBtn.className = 'btn-modern primary';
+                actionBtn.className = 'btn-shadcn primary';
             }
 
             document.getElementById('diagnostic-drawer').style.display = 'flex';
@@ -1749,9 +1661,9 @@
         }
 
         function syncLiveRazorpayData() {
-            const btn = document.getElementById('btn-sync-live');
+            const btn = document.getElementById('btn-sync-nav');
             const originalText = btn.innerHTML;
-            btn.innerHTML = 'Connecting to Razorpay Cloud...';
+            btn.innerHTML = 'Syncing...';
             btn.disabled = true;
 
             fetch('/ingest/razorpay-live', {
@@ -1761,7 +1673,7 @@
             })
             .then(r => r.json())
             .then(data => {
-                btn.innerHTML = 'Synced ' + (data.synced_count || 0) + ' Live Records!';
+                btn.innerHTML = 'Synced ' + (data.synced_count || 0) + ' Records';
                 showToast(data.message || 'Live Razorpay data ingested successfully');
                 loadDashboard(true);
                 setTimeout(() => {
@@ -1781,10 +1693,6 @@
         }
 
         async function resetDemoQueue() {
-            const btn = document.getElementById('btn-reset-queue');
-            btn.textContent = 'Resetting...';
-            btn.disabled = true;
-
             try {
                 const res = await fetch('/reset-demo', { method: 'POST' });
                 const data = await res.json();
@@ -1792,9 +1700,6 @@
                 loadDashboard(true);
             } catch (err) {
                 showToast('Reset failed: ' + err.message);
-            } finally {
-                btn.textContent = 'Reset Queue';
-                btn.disabled = false;
             }
         }
 
@@ -1812,11 +1717,11 @@
                         const tr = document.createElement('tr');
                         const gap = Math.abs(b.predicted_mean - b.observed_recovery_rate) * 100;
                         tr.innerHTML = `
-                            <td style="padding:10px; font-weight:700; color:var(--text-primary);">${b.bin}</td>
+                            <td style="padding:10px; font-weight:700; color:#f8fafc;">${b.bin}</td>
                             <td style="padding:10px; color:#38bdf8; font-family:var(--font-mono);">${(b.predicted_mean * 100).toFixed(1)}%</td>
-                            <td style="padding:10px; color:var(--accent-success); font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
-                            <td style="padding:10px; color:var(--accent-warning); font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
-                            <td style="padding:10px; color:var(--text-muted); font-family:var(--font-mono);">${b.count}</td>
+                            <td style="padding:10px; color:#34d399; font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
+                            <td style="padding:10px; color:#f59e0b; font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
+                            <td style="padding:10px; color:var(--muted-foreground); font-family:var(--font-mono);">${b.count}</td>
                         `;
                         tbody.appendChild(tr);
                     });
@@ -1837,11 +1742,11 @@
                     data.trend_points.forEach(tp => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td style="padding:10px; font-weight:700; color:var(--text-primary);">${tp.day}</td>
-                            <td style="padding:10px; color:var(--text-muted);">${tp.date}</td>
-                            <td style="padding:10px; color:var(--accent-success); font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
+                            <td style="padding:10px; font-weight:700; color:#f8fafc;">${tp.day}</td>
+                            <td style="padding:10px; color:var(--muted-foreground);">${tp.date}</td>
+                            <td style="padding:10px; color:#34d399; font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
                             <td style="padding:10px; color:#38bdf8; font-weight:800; font-family:var(--font-mono);">${tp.recovery_rate}%</td>
-                            <td style="padding:10px; color:var(--text-secondary); font-family:var(--font-mono);">${tp.opportunities_resolved}</td>
+                            <td style="padding:10px; color:var(--muted-foreground); font-family:var(--font-mono);">${tp.opportunities_resolved}</td>
                         `;
                         tbody.appendChild(tr);
                     });
@@ -1853,8 +1758,8 @@
             document.getElementById('trends-modal').style.display = 'none';
         }
 
-        // Initial Load on page entry
+        // Initial Load
         loadDashboard();
     </script>
 </body>
-</html>\n
+</html>
