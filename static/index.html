@@ -1189,7 +1189,7 @@
                         <p style="font-size: 12px; color: var(--muted-foreground);">Top actionable delinquencies scored by ML models</p>
                     </div>
                     <button class="btn-shadcn" onclick="navigateTo('queue')">
-                        View Full Opportunity Queue (${totalOpportunitiesCount} Items) ->
+                        View Full Opportunity Queue <span id="overview-btn-opp-count"></span> ->
                     </button>
                 </div>
                 <div style="overflow-x: auto;">
@@ -1646,9 +1646,9 @@
         function showToast(msg) {
             const t = document.getElementById('toast');
             if (!t) return;
-            t.textContent = msg;
+            t.innerHTML = msg;
             t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 3500);
+            setTimeout(() => { t.style.display = 'none'; }, 4500);
         }
 
         // ==========================================
@@ -1770,30 +1770,56 @@
                 const optRes = await fetch(`/optimize?capacity=${currentCapacity}`);
                 const opt = await optRes.json();
 
-                const dp = opt.dynamic_programming_optimal || {};
-                const greedy = opt.greedy_by_ratio || {};
-                const fifo = opt.naive_fifo || {};
+                const dp = opt.optimal_dp_solution || opt.dynamic_programming_optimal || {};
+                const greedy = opt.greedy_ratio_solution || opt.greedy_by_ratio || {};
+                const fifo = opt.naive_fifo_solution || opt.naive_fifo || {};
+
+                const dpEv = dp.total_expected_revenue ?? (dp.total_expected_value ?? 0);
+                const dpCount = dp.selected_count ?? (dp.item_count ?? 0);
+
+                const greedyEv = greedy.total_expected_revenue ?? (greedy.total_expected_value ?? 0);
+                const greedyCount = greedy.selected_count ?? (greedy.item_count ?? 0);
+
+                const fifoEv = fifo.total_expected_revenue ?? (fifo.total_expected_value ?? 0);
+                const fifoCount = fifo.selected_count ?? (fifo.item_count ?? 0);
+
+                const lift = opt.performance_lift?.dp_over_greedy_percent ?? (opt.comparison?.lift_over_greedy_percent ?? 72.8);
 
                 // Update Engine & Overview displays
-                document.getElementById('dp-ev-display').textContent = 'INR ' + Math.round(dp.total_expected_value || 0).toLocaleString('en-IN');
-                document.getElementById('dp-count-display').textContent = (dp.item_count || 0) + ' Actions';
-                document.getElementById('overview-dp-val').textContent = 'INR ' + Math.round(dp.total_expected_value || 0).toLocaleString('en-IN');
-                document.getElementById('overview-dp-count').textContent = dp.item_count || 0;
+                const dpEvEl = document.getElementById('dp-ev-display');
+                if (dpEvEl) dpEvEl.textContent = 'INR ' + Math.round(dpEv).toLocaleString('en-IN');
+                const dpCountEl = document.getElementById('dp-count-display');
+                if (dpCountEl) dpCountEl.textContent = dpCount + ' Actions';
 
-                const lift = opt.comparison?.lift_over_greedy_percent || 72.8;
-                document.getElementById('dp-lift-pill').textContent = '+' + lift.toFixed(1) + '% Lift';
-                document.getElementById('stat-lift').textContent = '+' + lift.toFixed(1) + '%';
+                const overviewDpVal = document.getElementById('overview-dp-val');
+                if (overviewDpVal) overviewDpVal.textContent = 'INR ' + Math.round(dpEv).toLocaleString('en-IN');
+                const overviewDpCount = document.getElementById('overview-dp-count');
+                if (overviewDpCount) overviewDpCount.textContent = dpCount;
 
-                document.getElementById('greedy-ev-display').textContent = 'INR ' + Math.round(greedy.total_expected_value || 0).toLocaleString('en-IN');
-                document.getElementById('greedy-count-display').textContent = (greedy.item_count || 0) + ' Actions';
-                document.getElementById('overview-greedy-val').textContent = 'INR ' + Math.round(greedy.total_expected_value || 0).toLocaleString('en-IN');
+                const dpLiftPill = document.getElementById('dp-lift-pill');
+                if (dpLiftPill) dpLiftPill.textContent = '+' + lift.toFixed(1) + '% Lift';
+                const statLift = document.getElementById('stat-lift');
+                if (statLift) statLift.textContent = '+' + lift.toFixed(1) + '%';
 
-                document.getElementById('fifo-ev-display').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
-                document.getElementById('fifo-count-display').textContent = (fifo.item_count || 0) + ' Actions';
-                document.getElementById('overview-fifo-val').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
+                const greedyEvEl = document.getElementById('greedy-ev-display');
+                if (greedyEvEl) greedyEvEl.textContent = 'INR ' + Math.round(greedyEv).toLocaleString('en-IN');
+                const greedyCountEl = document.getElementById('greedy-count-display');
+                if (greedyCountEl) greedyCountEl.textContent = greedyCount + ' Actions';
+                const overviewGreedyVal = document.getElementById('overview-greedy-val');
+                if (overviewGreedyVal) overviewGreedyVal.textContent = 'INR ' + Math.round(greedyEv).toLocaleString('en-IN');
 
-                // 3. Opportunities Queue
-                const oppRes = await fetch('/opportunities');
+                const fifoEvEl = document.getElementById('fifo-ev-display');
+                if (fifoEvEl) fifoEvEl.textContent = 'INR ' + Math.round(fifoEv).toLocaleString('en-IN');
+                const fifoCountEl = document.getElementById('fifo-count-display');
+                if (fifoCountEl) fifoCountEl.textContent = fifoCount + ' Actions';
+                const overviewFifoVal = document.getElementById('overview-fifo-val');
+                if (overviewFifoVal) overviewFifoVal.textContent = 'INR ' + Math.round(fifoEv).toLocaleString('en-IN');
+
+                const oppBtnCountEl = document.getElementById('overview-btn-opp-count');
+                if (oppBtnCountEl) oppBtnCountEl.textContent = `(${hm.total_opportunities_count || 0} Items)`;
+
+                // 3. Opportunities Queue (synchronized with capacity constraint)
+                const oppRes = await fetch(`/opportunities?capacity_budget=${currentCapacity}`);
                 const oppData = await oppRes.json();
                 const rawOpps = oppData.opportunities || [];
                 
@@ -1949,7 +1975,13 @@
                     <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
                     <td>${statusBadge}</td>
                     <td style="text-align: right;">
-                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                        <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                            ${o.status === 'RECOVERED' ? 
+                                '<span class="pill-status recovered">Settled</span>' :
+                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
+                            }
+                            <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1978,10 +2010,13 @@
                     <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${Math.round(o.probability)}%</td>
                     <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
                     <td style="text-align: right;">
-                        ${o.status === 'RECOVERED' ? 
-                            '<span class="pill-status recovered">Settled</span>' :
-                            `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
-                        }
+                        <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                            ${o.status === 'RECOVERED' ? 
+                                '<span class="pill-status recovered">Settled</span>' :
+                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
+                            }
+                            <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                        </div>
                     </td>
                 `;
                 optimalTbody.appendChild(tr);
@@ -2187,9 +2222,17 @@
                 });
                 const data = await res.json();
                 
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                }
+
                 if (data.razorpay_link_url) {
-                    showToast('Live Payment Link Generated! Opening link...');
-                    window.open(data.razorpay_link_url, '_blank');
+                    try {
+                        window.open(data.razorpay_link_url, '_blank');
+                    } catch (e) {
+                        console.warn('Popup blocked:', e);
+                    }
+                    showToast(`Recovery Link Generated! <a href="${data.razorpay_link_url}" target="_blank" style="color: var(--chart-2); font-weight: 700; text-decoration: underline; margin-left: 6px;">Open Payment Link</a>`);
                 } else {
                     showToast(data.message || 'Recovery Action Executed Successfully');
                 }
@@ -2363,6 +2406,21 @@
         }
 
         loadDashboard();
+
+        // Keyboard Shortcuts (Ctrl+K for search, Escape for drawer)
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const input = document.getElementById('global-search-input');
+                if (input) {
+                    input.focus();
+                    input.select();
+                }
+            }
+            if (e.key === 'Escape') {
+                closeDrawer();
+            }
+        });
     </script>
 </body>
 </html>
