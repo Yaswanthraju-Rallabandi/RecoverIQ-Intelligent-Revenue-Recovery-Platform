@@ -133,7 +133,14 @@ class SimulateWebhookRequest(BaseModel):
 def serve_dashboard():
     static_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "index.html")
     if os.path.exists(static_file):
-        return FileResponse(static_file)
+        return FileResponse(
+            static_file,
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
     return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize, /backtest-simulation or /stats"}
 
 @app.get("/health")
