@@ -4,52 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVORA | Intelligent Revenue Recovery Platform - Vercel Remix Studio</title>
-    <link rel="preconnect" href="https://api.fontshare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- 21st.dev Signature Typography: General Sans by Fontshare -->
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
-    <!-- Monospace: Geist Mono by Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            /* 21st.dev Exact OKLCH Design Tokens */
-            --background: oklch(0.141 0.004 285.824);
-            --foreground: oklch(0.968 0.001 286.375);
-            --card: oklch(0.141 0.004 285.824);
-            --card-foreground: oklch(0.985 0 0);
-            --popover: oklch(0.204 0 0);
-            --popover-foreground: oklch(0.985 0 0);
-            --primary: oklch(0.485 0.291 264.121);
-            --primary-foreground: oklch(1 0 0);
-            --secondary: oklch(0.274 0.005 286.033);
-            --secondary-foreground: oklch(0.985 0 0);
-            --muted: oklch(0.21 0.006 285.883);
-            --muted-foreground: oklch(0.654 0.014 286.01);
-            --accent: oklch(0.21 0.006 285.883);
-            --accent-foreground: oklch(0.985 0 0);
-            --destructive: oklch(0.637 0.208 25.326);
-            --destructive-foreground: oklch(1 0 0);
-            --border: oklch(0.274 0.005 286.033);
-            --border-hover: oklch(0.35 0.005 286.033);
-            --input: oklch(0.274 0.005 286.033);
-            --ring: oklch(0.485 0.291 264.121);
-            --radius: 0.5rem;
+  --card: oklch(1.00 0 0);
+  --ring: oklch(0 0 0);
+  --input: oklch(0.94 0 0);
+  --muted: oklch(0.97 0 0);
+  --accent: oklch(0.94 0 0);
+  --border: oklch(0.92 0 0);
+  --radius: 0.5rem;
+  --chart-1: oklch(0.81 0.17 75.35);
+  --chart-2: oklch(0.55 0.22 264.53);
+  --chart-3: oklch(0.72 0 0);
+  --chart-4: oklch(0.92 0 0);
+  --chart-5: oklch(0.56 0 0);
+  --popover: oklch(0.99 0 0);
+  --primary: oklch(0 0 0);
+  --sidebar: oklch(0.99 0 0);
+  --spacing: 0.25rem;
+  --font-mono: 'Geist Mono', monospace;
+  --font-sans: 'Geist', sans-serif;
+  --secondary: oklch(0.94 0 0);
+  --background: oklch(0.99 0 0);
+  --font-serif: Georgia, serif;
+  --foreground: oklch(0 0 0);
+  --destructive: oklch(0.63 0.19 23.03);
+  --shadow-blur: 2px;
+  --shadow-color: hsl(0 0% 0%);
+  --sidebar-ring: oklch(0 0 0);
+  --shadow-spread: 0px;
+  --letter-spacing: 0em;
+  --shadow-opacity: 0.18;
+  --sidebar-accent: oklch(0.94 0 0);
+  --sidebar-border: oklch(0.94 0 0);
+  --card-foreground: oklch(0 0 0);
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 1px;
+  --sidebar-primary: oklch(0 0 0);
+  --muted-foreground: oklch(0.44 0 0);
+  --accent-foreground: oklch(0 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --primary-foreground: oklch(1.00 0 0);
+  --sidebar-foreground: oklch(0 0 0);
+  --secondary-foreground: oklch(0 0 0);
+  --destructive-foreground: oklch(1.00 0 0);
+  --sidebar-accent-foreground: oklch(0 0 0);
+  --sidebar-primary-foreground: oklch(1.00 0 0);
 
-            --sidebar-width: 260px;
-            --sidebar-bg: oklch(0.12 0.004 285.8);
-            --sidebar-border: oklch(0.22 0.005 286);
-            --sidebar-foreground: oklch(0.654 0.014 286.01);
-            --sidebar-active: oklch(0.985 0 0);
+  --sidebar-width: 260px;
+}
 
-            --font-sans: 'General Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-mono: 'Geist Mono', monospace;
+.dark {
+  --card: oklch(0.14 0 0);
+  --ring: oklch(0.72 0 0);
+  --input: oklch(0.32 0 0);
+  --muted: oklch(0.23 0 0);
+  --accent: oklch(0.32 0 0);
+  --border: oklch(0.26 0 0);
+  --radius: 0.375rem;
+  --chart-1: oklch(0.81 0.17 75.35);
+  --chart-2: oklch(0.58 0.21 260.84);
+  --chart-3: oklch(0.56 0 0);
+  --chart-4: oklch(0.44 0 0);
+  --chart-5: oklch(0.92 0 0);
+  --popover: oklch(0.18 0 0);
+  --primary: oklch(1.00 0 0);
+  --sidebar: oklch(0.18 0 0);
+  --spacing: 0.25rem;
+  --font-mono: 'Geist Mono', monospace;
+  --font-sans: 'Geist', sans-serif;
+  --secondary: oklch(0.25 0 0);
+  --background: oklch(0 0 0);
+  --font-serif: Georgia, serif;
+  --foreground: oklch(1.00 0 0);
+  --destructive: oklch(0.69 0.20 23.91);
+  --shadow-blur: 8px;
+  --shadow-color: hsl(0 0% 0%);
+  --sidebar-ring: oklch(0.72 0 0);
+  --shadow-spread: -1px;
+  --letter-spacing: 0em;
+  --shadow-opacity: 0.1;
+  --sidebar-accent: oklch(0.32 0 0);
+  --sidebar-border: oklch(0.32 0 0);
+  --card-foreground: oklch(1.00 0 0);
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 4px;
+  --sidebar-primary: oklch(1.00 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent-foreground: oklch(1.00 0 0);
+  --popover-foreground: oklch(1.00 0 0);
+  --primary-foreground: oklch(0 0 0);
+  --sidebar-foreground: oklch(1.00 0 0);
+  --secondary-foreground: oklch(1.00 0 0);
+  --destructive-foreground: oklch(0 0 0);
+  --sidebar-accent-foreground: oklch(1.00 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
 
-            /* 21st.dev Inset Multi-layer Glass Shadows */
-            --card-shadow-rest: 0 12px 24px 0 rgba(255, 255, 255, 0.03) inset, 0 0.5px 0.5px 0 rgba(255, 255, 255, 0.06) inset, 0 0.25px 0.25px 0 rgba(255, 255, 255, 0.12) inset, 0 32px 44px -12px rgba(0, 0, 0, 0.4);
-            --card-shadow-hover: 0 12px 24px 0 rgba(255, 255, 255, 0.06) inset, 0 0.5px 0.5px 0 rgba(255, 255, 255, 0.08) inset, 0 0.25px 0.25px 0 rgba(255, 255, 255, 0.16) inset, 0 48px 72px -12px rgba(0, 0, 0, 0.55);
-        }
+  --sidebar-width: 260px;
+}
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -62,7 +118,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            letter-spacing: -0.01em;
+            letter-spacing: var(--letter-spacing);
         }
 
         /* SVG Icons */
@@ -84,7 +140,7 @@
         /* Left Sidebar (shadcn Studio Admin Layout) */
         .admin-sidebar {
             width: var(--sidebar-width);
-            background: var(--sidebar-bg);
+            background: var(--sidebar);
             border-right: 1px solid var(--sidebar-border);
             display: flex;
             flex-direction: column;
@@ -209,10 +265,10 @@
         }
 
         .sidebar-nav-item button.active {
-            background: #141414 !important;
-            color: #ffffff !important;
+            background: var(--sidebar-accent) !important;
+            color: var(--sidebar-accent-foreground) !important;
             font-weight: 600 !important;
-            border-left: 2px solid #ffffff;
+            border-left: 2px solid var(--sidebar-primary);
         }
 
         .sidebar-nav-badge {
@@ -283,7 +339,7 @@
         /* Top Sticky Navbar */
         .top-navbar {
             height: 64px;
-            background: rgba(8, 12, 20, 0.85);
+            background: color-mix(in srgb, var(--background) 85%, transparent);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
@@ -411,15 +467,14 @@
         .btn-shadcn.primary {
             background: var(--primary);
             border-color: var(--primary);
-            color: #ffffff;
+            color: var(--primary-foreground);
             font-weight: 600;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 0 16px oklch(0.485 0.291 264.121 / 0.35);
+            box-shadow: 0 var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(0, 0, 0, 0.4);
         }
         .btn-shadcn.primary:hover {
-            background: oklch(0.44 0.27 264.1);
-            border-color: oklch(0.44 0.27 264.1);
-            box-shadow: 0 4px 20px oklch(0.485 0.291 264.121 / 0.5);
-            color: #ffffff;
+            opacity: 0.9;
+            box-shadow: 0 4px 12px 0 rgba(255, 255, 255, 0.2);
+            color: var(--primary-foreground);
         }
         .btn-shadcn.primary:hover {
             background: #eaeaea;
@@ -524,9 +579,10 @@
 
         .shadcn-card {
             background: var(--card);
+            color: var(--card-foreground);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: var(--card-shadow-rest);
+            box-shadow: 0 var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(0, 0, 0, 0.3);
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -535,8 +591,7 @@
             transition: all 0.2s ease;
         }
         .shadcn-card:hover {
-            border-color: oklch(0.485 0.291 264.121 / 0.4);
-            box-shadow: var(--card-shadow-hover);
+            border-color: var(--ring);
             transform: translateY(-1px);
         }
         .shadcn-card:hover {
@@ -914,26 +969,24 @@
     </style>
 </head>
 <body>
-    <!-- Background Atmospheric Pattern (21st.dev Vercel Remix) -->
-    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background-color: oklch(0.12 0.004 285.824);">
-        <!-- Top Spotlight Glow -->
-        <div style="position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 1100px; height: 500px; background: radial-gradient(ellipse 70% 50% at 50% 0%, oklch(0.485 0.291 264.121 / 0.16), transparent 70%);"></div>
-        <!-- Right Ambient Glow -->
-        <div style="position: absolute; top: -50px; right: 0; width: 600px; height: 500px; background: radial-gradient(circle at 80% 20%, oklch(0.619 0.204 312.728 / 0.08), transparent 60%);"></div>
-        <!-- 21st.dev Hairline Micro-Grid -->
-        <div style="position: absolute; inset: 0; opacity: 0.12; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px); background-size: 32px 32px;"></div>
+    <!-- Background Atmospheric Pattern -->
+    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background-color: var(--background);">
+        <!-- Subtle Top Glow -->
+        <div style="position: absolute; top: -150px; left: 50%; transform: translateX(-50%); width: 1000px; height: 500px; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.05), transparent 70%);"></div>
+        <!-- Micro Grid -->
+        <div style="position: absolute; inset: 0; opacity: 0.10; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px); background-size: 32px 32px;"></div>
     </div>
 
     <!-- Left Admin Sidebar -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand-header">
-            <div class="brand-logo-icon" style="background: var(--primary); color: #ffffff; box-shadow: 0 0 16px oklch(0.485 0.291 264.121 / 0.45);">
+            <div class="brand-logo-icon" style="background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius); box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);">
                 <svg viewBox="0 0 24 24" class="icon" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
             </div>
             <div>
-                <div class="brand-name" style="letter-spacing: -0.02em;">REVORA</div>
+                <div class="brand-name" style="letter-spacing: var(--letter-spacing); font-family: var(--font-sans);">REVORA</div>
             </div>
-            <span class="brand-tag" style="background: oklch(0.485 0.291 264.121 / 0.12); color: oklch(0.7 0.18 264); border: 1px solid oklch(0.485 0.291 264.121 / 0.28);">21st Remix</span>
+            <span class="brand-tag" style="background: var(--muted); color: var(--muted-foreground); border: 1px solid var(--border);">Vercel</span>
         </div>
 
         <div class="sidebar-scroll-area">
