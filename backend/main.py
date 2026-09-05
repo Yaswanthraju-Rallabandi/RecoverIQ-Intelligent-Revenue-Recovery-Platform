@@ -143,6 +143,31 @@ def serve_dashboard():
         )
     return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize, /backtest-simulation or /stats"}
 
+@app.get("/presentation")
+def serve_presentation():
+    static_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "presentation.html")
+    if os.path.exists(static_file):
+        return FileResponse(
+            static_file,
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
+    raise HTTPException(status_code=404, detail="Presentation deck not found")
+
+@app.get("/download-ppt")
+def download_powerpoint():
+    ppt_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "RecoverIQ_Razorpay_AI_Buildathon.pptx")
+    if os.path.exists(ppt_path):
+        return FileResponse(
+            ppt_path,
+            filename="RecoverIQ_Razorpay_AI_Buildathon.pptx",
+            media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        )
+    raise HTTPException(status_code=404, detail="PowerPoint presentation file not found")
+
 @app.get("/health")
 def health_check():
     return {

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoverIQ — AI Revenue Recovery Opportunity Engine (Presentation Deck)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #141c2c;
+            --card-border: #26354d;
+            --text-primary: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-blue: #3395ff;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* Top Progress Bar */
+        .progress-container {
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            width: 11.11%;
+            transition: width 0.3s ease;
+        }
+
+        /* Top Bar */
+        .deck-header {
+            padding: 16px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(11, 15, 25, 0.95);
+            z-index: 50;
+        }
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-logo {
+            background: var(--accent-blue);
+            color: #fff;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        .brand-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-deck {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+        .btn-deck:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-blue);
+        }
+        .btn-deck.primary {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
+        .btn-deck.primary:hover {
+            background: #2580e6;
+        }
+
+        /* Slide Stage */
+        .stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 50px;
+            position: relative;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            background: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.25s ease-out;
+        }
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide Typography */
+        .slide-tag {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+        .slide-title {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .slide-subtitle {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 26px;
+            max-width: 950px;
+        }
+
+        /* Grid Cards */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header-bar {
+            height: 3px;
+            width: 100%;
+            border-radius: 3px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Bottom Controls */
+        .deck-footer {
+            padding: 16px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(11, 15, 25, 0.95);
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .nav-arrows {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.15s ease;
+        }
+        .btn-nav:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .slide-counter {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            padding: 0 8px;
+        }
+
+        /* Custom Specific Elements */
+        .stat-value {
+            font-size: 40px;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            margin: 6px 0;
+        }
+        .pill-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            margin-bottom: 12px;
+        }
+        .pill-blue { background: rgba(51, 149, 255, 0.15); color: var(--accent-blue); border: 1px solid rgba(51, 149, 255, 0.3); }
+        .pill-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .pill-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .pill-red { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .pipeline-flow {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .pipe-node {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .pipe-node.highlight {
+            border-color: var(--accent-blue);
+            background: rgba(51, 149, 255, 0.1);
+        }
+        .pipe-num {
+            font-size: 9px;
+            color: var(--accent-blue);
+            font-family: var(--font-mono);
+        }
+
+        /* Print styles */
+        @media print {
+            body { height: auto; overflow: visible; }
+            .deck-header, .deck-footer, .progress-container { display: none; }
+            .slide { display: flex !important; page-break-after: always; height: 100vh; padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="deck-header">
+        <div class="brand-badge">
+            <span class="brand-logo">RecoverIQ</span>
+            <span class="brand-text">Razorpay AI Buildathon — Track 3</span>
+        </div>
+        <div class="header-controls">
+            <a href="/" class="btn-deck">Open Live App</a>
+            <a href="/download-ppt" class="btn-deck primary" download>Download .PPTX</a>
+            <button class="btn-deck" onclick="toggleFullScreen()">Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- Main Stage -->
+    <main class="stage">
+        <div class="slide-container">
+
+            <!-- SLIDE 1: Title -->
+            <div class="slide active" id="slide-1">
+                <div class="card" style="padding: 56px; border-color: rgba(51, 149, 255, 0.3); background: radial-gradient(circle at top right, rgba(51, 149, 255, 0.08), var(--card-bg) 60%);">
+                    <span class="pill-badge pill-blue" style="width: fit-content; font-size: 12px; padding: 6px 14px; margin-bottom: 20px;">
+                        Razorpay AI Buildathon — Track 3
+                    </span>
+                    <h1 style="font-size: 64px; font-weight: 900; letter-spacing: -1.5px; color: #fff; margin-bottom: 8px;">
+                        RecoverIQ
+                    </h1>
+                    <div style="font-size: 26px; font-weight: 700; color: var(--accent-blue); margin-bottom: 16px;">
+                        AI Revenue Recovery Opportunity Engine
+                    </div>
+                    <p style="font-size: 20px; color: var(--text-muted); font-style: italic; margin-bottom: 40px;">
+                        "Detect. Predict. Prioritize. Recover — safely."
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 24px; border-top: 1px solid var(--card-border); padding-top: 24px; font-size: 14px;">
+                        <div>
+                            <span style="color: var(--text-muted);">Architect & Developer:</span>
+                            <strong style="color: #fff; margin-left: 6px;">R Yaswanth Raju</strong>
+                        </div>
+                        <div style="color: var(--card-border);">|</div>
+                        <div>
+                            <span style="color: var(--text-muted);">Payment Gateway:</span>
+                            <strong style="color: var(--accent-blue); margin-left: 6px;">Razorpay Test Mode Integration</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: The Problem -->
+            <div class="slide" id="slide-2">
+                <div class="slide-tag">Slide 2 — The Problem</div>
+                <h2 class="slide-title">Revenue leaks through more than one door</h2>
+                <p class="slide-subtitle">
+                    Merchants lose revenue across four channels, and not every recoverable rupee is worth equal effort to chase.
+                </p>
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-header-bar" style="background: var(--accent-red);"></div>
+                        <div class="card-title">1. Failed Checkouts</div>
+                        <div class="card-desc">
+                            Card declines, bank network timeouts, issuer switches, and insufficient customer account funds.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header-bar" style="background: var(--accent-amber);"></div>
+                        <div class="card-title">2. Partial Payments</div>
+                        <div class="card-desc">
+                            Token advance paid, milestone deposit collected, but remaining installment balance abandoned.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header-bar" style="background: var(--accent-blue);"></div>
+                        <div class="card-title">3. Overdue Invoices</div>
+                        <div class="card-desc">
+                            B2B commercial accounts receivable slipping well past contractual net-term due dates.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header-bar" style="background: var(--accent-green);"></div>
+                        <div class="card-title">4. Refund Mismatches</div>
+                        <div class="card-desc">
+                            Pre-authorized gateway funds captured at gateway level but left unreconciled against order records.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: The Solution -->
+            <div class="slide" id="slide-3">
+                <div class="slide-tag">Slide 3 — The Solution</div>
+                <h2 class="slide-title">One engine that ranks opportunities, not just retries payments</h2>
+                <p class="slide-subtitle">
+                    Transforming raw delinquency events into an optimal, risk-bounded recovery action plan.
+                </p>
+                <div class="grid-4">
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Phase 01</span>
+                        <div class="card-title">Detect</div>
+                        <div class="card-desc">
+                            Continuously scans transaction events across all four opportunity types across checkouts, orders, invoices, and card authorizations.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Phase 02</span>
+                        <div class="card-title">Predict</div>
+                        <div class="card-desc">
+                            Calibrated ML model estimates true recovery probability from historical behavior, retry counts, age, and payment rails.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Phase 03</span>
+                        <div class="card-title">Prioritize</div>
+                        <div class="card-desc">
+                            Ranks opportunities by expected recovery value subject to a strict daily outreach effort limit via 0/1 Knapsack optimization.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <span class="pill-badge pill-green">Phase 04</span>
+                        <div class="card-title">Recover Safely</div>
+                        <div class="card-desc">
+                            Deterministic guardrails approve, block, or route high-risk cases to manual review before dispatching live Razorpay links.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: Architecture -->
+            <div class="slide" id="slide-4">
+                <div class="slide-tag">Slide 4 — Architecture</div>
+                <h2 class="slide-title">From a raw event to a verified, audited outcome</h2>
+                <p class="slide-subtitle">
+                    End-to-end event-driven recovery pipeline with deterministic governance.
+                </p>
+                
+                <div class="pipeline-flow">
+                    <div class="pipe-node"><span class="pipe-num">01</span>Raw Event</div>
+                    <div class="pipe-node"><span class="pipe-num">02</span>Detect Vector</div>
+                    <div class="pipe-node highlight"><span class="pipe-num">03</span>ML Predict</div>
+                    <div class="pipe-node highlight"><span class="pipe-num">04</span>Expected Value</div>
+                    <div class="pipe-node highlight"><span class="pipe-num">05</span>Guardrails</div>
+                    <div class="pipe-node highlight"><span class="pipe-num">06</span>Knapsack DP</div>
+                    <div class="pipe-node"><span class="pipe-num">07</span>Razorpay API</div>
+                    <div class="pipe-node"><span class="pipe-num">08</span>Audit Log</div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card" style="border-color: var(--accent-green);">
+                        <span class="pill-badge pill-green">Safety Architecture</span>
+                        <div class="card-title" style="font-size: 19px; margin-bottom: 10px;">
+                            Guaranteed Bounded Execution
+                        </div>
+                        <p class="card-desc" style="font-size: 14px; line-height: 1.6;">
+                            <strong>A high-value, low-confidence case never executes automatically.</strong> It is immediately quarantined for manual staff review. AI generates the explanation and root-cause diagnosis; a hard-coded deterministic rule decides whether it is safe to act.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Production Stack</span>
+                        <div class="card-title" style="font-size: 19px; margin-bottom: 10px;">
+                            Engineering Specifications
+                        </div>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.8; padding-left: 18px;">
+                            <li><strong>FastAPI Backend</strong>: Asynchronous typed endpoints with SQLite persistence</li>
+                            <li><strong>Razorpay Test SDK</strong>: Real payment links, smart switch, pre-auth capture</li>
+                            <li><strong>Idempotency & HMAC</strong>: Unique reference IDs and SHA256 webhook verification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: The Differentiator -->
+            <div class="slide" id="slide-5">
+                <div class="slide-tag">Slide 5 — The Differentiator</div>
+                <h2 class="slide-title">Not a sorted list — a solved allocation problem</h2>
+                <p class="slide-subtitle">
+                    Given a daily effort capacity of 6 units, RecoverIQ computes the exact combination of actions maximizing total expected recovered revenue.
+                </p>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 14px;">0/1 Knapsack Decision Log (Capacity = 6 Units)</div>
+                        <div style="font-size: 13px; margin-bottom: 16px;">
+                            <div style="color: var(--accent-green); font-weight: 700; margin-bottom: 6px;">SELECTED BY DP (Optimal Bundle):</div>
+                            <div style="font-family: var(--font-mono); color: #fff; margin-bottom: 4px;">• INV-2026-001 (₹13,833) | 2 Units | EV: ₹11,896</div>
+                            <div style="font-family: var(--font-mono); color: #fff; margin-bottom: 4px;">• INV-2026-002 (₹10,159) | 2 Units | EV: ₹8,533</div>
+                            <div style="font-family: var(--font-mono); color: #fff;">• Partial INV-2026-002 (₹9,520) | 2 Units | EV: ₹7,425</div>
+                        </div>
+                        <div style="border-top: 1px solid var(--card-border); padding-top: 14px; font-size: 13px;">
+                            <div style="color: var(--accent-red); font-weight: 700; margin-bottom: 6px;">REJECTED (Trade-off Analysis):</div>
+                            <div style="color: var(--text-muted);">
+                                • <strong>INV-2026-003 (₹15,200)</strong> — Exceeds remaining capacity. Requires 2 units when 0 remain; lower EV-to-effort density than chosen set.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="align-items: center; justify-content: center; text-align: center; border-color: var(--accent-blue); background: radial-gradient(circle, rgba(51, 149, 255, 0.1), var(--card-bg) 70%);">
+                        <span class="pill-badge pill-blue">Mathematical Advantage</span>
+                        <div class="stat-value" style="color: var(--accent-green);">+72.8%</div>
+                        <div style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">
+                            Lift in Expected Recovered Revenue
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); max-width: 380px;">
+                            Vs. naive FIFO chronological ordering.<br>
+                            <em>Footnote: Measured against synthetic ground-truth outcomes, identical opportunity set.</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: Bounded AI -->
+            <div class="slide" id="slide-6">
+                <div class="slide-tag">Slide 6 — Bounded AI</div>
+                <h2 class="slide-title">AI explains the decision. It never makes the call alone.</h2>
+                <p class="slide-subtitle">
+                    Confidence is derived from the model's calibrated probability — never the LLM's self-assessment.
+                </p>
+                <div class="grid-2">
+                    <div class="card" style="border-color: var(--accent-green);">
+                        <span class="pill-badge pill-green">Case A: Passed & Auto-Recommended</span>
+                        <div style="font-size: 13px; line-height: 1.8;">
+                            <div><strong style="color: #fff;">Opportunity:</strong> <span style="font-family: var(--font-mono); color: var(--text-muted);">PARTIAL_INV_01 (₹9,520)</span></div>
+                            <div><strong style="color: #fff;">Root Cause:</strong> Token advance paid, balance abandoned after 3 days</div>
+                            <div><strong style="color: #fff;">Recommended Action:</strong> 1-click WhatsApp payment recovery link</div>
+                            <div><strong style="color: #fff;">Model Confidence:</strong> <span style="color: var(--accent-green); font-weight: 700;">85% [High Tier]</span> (Calibrated GBDT)</div>
+                            <div style="margin-top: 10px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; color: var(--accent-green); font-weight: 600;">
+                                Guardrail Passed: Dispatched to Razorpay Test Mode
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-color: var(--accent-amber);">
+                        <span class="pill-badge pill-amber">Case B: Quarantined for Manual Review</span>
+                        <div style="font-size: 13px; line-height: 1.8;">
+                            <div><strong style="color: #fff;">Opportunity:</strong> <span style="font-family: var(--font-mono); color: var(--text-muted);">OVERDUE_INV_99 (₹12,400)</span></div>
+                            <div><strong style="color: #fff;">Root Cause:</strong> High-value overdue invoice, no prior customer history</div>
+                            <div><strong style="color: #fff;">Recommended Action:</strong> Personalized account outreach first</div>
+                            <div><strong style="color: #fff;">Model Confidence:</strong> <span style="color: var(--accent-amber); font-weight: 700;">46% [Below 70% Threshold]</span></div>
+                            <div style="margin-top: 10px; padding: 10px; background: rgba(245, 158, 11, 0.1); border-radius: 6px; color: var(--accent-amber); font-weight: 600;">
+                                Quarantined: Zero auto-dispatch; routed to staff review
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Results -->
+            <div class="slide" id="slide-7">
+                <div class="slide-tag">Slide 7 — Results</div>
+                <h2 class="slide-title">Measured, not claimed</h2>
+                <p class="slide-subtitle">
+                    Live operational telemetry verified directly against database records.
+                </p>
+                <div class="grid-4" style="margin-bottom: 24px;">
+                    <div class="card">
+                        <div class="card-desc">Revenue at Risk</div>
+                        <div class="stat-value" style="color: var(--accent-red);">₹74,149</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Total delinquent volume</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-desc">Predicted Recoverable</div>
+                        <div class="stat-value" style="color: var(--accent-blue);">₹60,673</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Expected value pool</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-desc">Actual Settled</div>
+                        <div class="stat-value" style="color: var(--accent-green);">₹21,049</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Reconciled via Razorpay</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-desc">Recovery Rate</div>
+                        <div class="stat-value" style="color: var(--accent-green);">28.4%</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Net conversion rate</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 12px;">Recovery Rate by Opportunity Type</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; font-size: 13px;">
+                        <div>
+                            <div style="color: var(--accent-blue); font-weight: 700;">Failed Checkouts</div>
+                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-green); margin: 4px 0;">100.0%</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Instant retry & 1-click fallback links</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--accent-blue); font-weight: 700;">Partial Payments</div>
+                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-green); margin: 4px 0;">37.8%</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">WhatsApp/SMS balance links</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--accent-blue); font-weight: 700;">Overdue Invoices</div>
+                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-amber); margin: 4px 0;">Active</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">B2B payment links generated</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--accent-blue); font-weight: 700;">Refund Mismatches</div>
+                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-green); margin: 4px 0;">Reconciled</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Pre-auth capture executed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: Engineering Rigor -->
+            <div class="slide" id="slide-8">
+                <div class="slide-tag">Slide 8 — Engineering Rigor</div>
+                <h2 class="slide-title">Built to be checked, not just demoed</h2>
+                <p class="slide-subtitle">
+                    Prioritizing recall, statistical calibration, and deterministic architecture.
+                </p>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 16px;">Model Evaluation (Held-Out Test Set)</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
+                            <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: var(--text-muted);">Precision</div>
+                                <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #fff;">0.53</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: var(--text-muted);">Recall</div>
+                                <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-green);">0.84</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: var(--text-muted);">ROC-AUC</div>
+                                <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: var(--accent-blue);">0.70</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6; border-left: 3px solid var(--accent-amber); padding-left: 12px;">
+                            <strong style="color: #fff;">Deliberate Engineering Choice:</strong> Recall was prioritized deliberately (<span style="font-family: var(--font-mono); color: var(--accent-amber);">class_weight=balanced</span>) — in revenue recovery, missing a recoverable payment costs significantly more than chasing a lost cause.
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title" style="margin-bottom: 16px;">Production-Grade Stack</div>
+                        <ul style="font-size: 13px; color: var(--text-muted); line-height: 2.0; padding-left: 18px;">
+                            <li><strong style="color: #fff;">FastAPI + SQLAlchemy:</strong> High-performance typed REST endpoints</li>
+                            <li><strong style="color: #fff;">scikit-learn GBDT:</strong> Calibrated Gradient Boosting with Brier metrics</li>
+                            <li><strong style="color: #fff;">Razorpay Test-Mode APIs:</strong> Payment links, switch retry, pre-auth capture</li>
+                            <li><strong style="color: #fff;">Idempotency Keys & Audit:</strong> HMAC-SHA256 webhooks and immutable audit logs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: What's Next / Closing -->
+            <div class="slide" id="slide-9">
+                <div class="slide-tag">Slide 9 — What's Next / Closing</div>
+                <h2 class="slide-title">A decision system, not a retry bot</h2>
+                <p class="slide-subtitle">
+                    Autonomous revenue intelligence engineered for production deployment.
+                </p>
+                <div class="grid-3" style="margin-bottom: 24px;">
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Pillar 01</span>
+                        <div class="card-title">Feedback Loop</div>
+                        <div class="card-desc">
+                            Real recovery outcomes continuously feed back into periodic Bayesian model retraining, adapting to seasonal issuer shifts.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Pillar 02</span>
+                        <div class="card-title">More Opportunity Types</div>
+                        <div class="card-desc">
+                            Extend detection engine beyond the initial four vectors to subscription churn, UPI Autopay mandate renewal, and chargebacks.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <span class="pill-badge pill-blue">Pillar 03</span>
+                        <div class="card-title">Calibration Monitoring</div>
+                        <div class="card-desc">
+                            Real-time sliding window telemetry tracking predicted probability vs. empirical recovery rate to detect concept drift.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 24px 32px; border-color: var(--accent-blue); background: radial-gradient(circle at right, rgba(51, 149, 255, 0.15), var(--card-bg) 60%); display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 4px;">Thank You!</div>
+                        <div style="font-size: 15px; color: var(--accent-blue); font-weight: 600;">
+                            RecoverIQ  |  R Yaswanth Raju  |  Razorpay AI Buildathon — Track 3
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="/" class="btn-deck primary" style="padding: 10px 20px; font-size: 14px;">Open Live Platform</a>
+                        <a href="/download-ppt" class="btn-deck" style="padding: 10px 20px; font-size: 14px;">Download .PPTX</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="deck-footer">
+        <div>Use <strong style="color: #fff;">Left / Right Arrow</strong> or <strong style="color: #fff;">Spacebar</strong> to navigate</div>
+        <div class="nav-arrows">
+            <button class="btn-nav" onclick="prevSlide()" title="Previous slide (Left Arrow)">&#8592;</button>
+            <span class="slide-counter"><span id="current-slide">1</span> / 9</span>
+            <button class="btn-nav" onclick="nextSlide()" title="Next slide (Right Arrow)">&#8594;</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9;
+
+        function showSlide(n) {
+            if (n < 1) n = 1;
+            if (n > totalSlides) n = totalSlides;
+            currentSlide = n;
+
+            document.querySelectorAll('.slide').forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide - 1);
+            });
+
+            document.getElementById('current-slide').textContent = currentSlide;
+            document.getElementById('progress-fill').style.width = ((currentSlide / totalSlides) * 100) + '%';
+            window.location.hash = 'slide-' + currentSlide;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                showSlide(1);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides);
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullScreen();
+            }
+        });
+
+        // Hash Navigation on Load
+        const initialHash = window.location.hash;
+        if (initialHash && initialHash.startsWith('#slide-')) {
+            const num = parseInt(initialHash.replace('#slide-', ''), 10);
+            if (!isNaN(num) && num >= 1 && num <= totalSlides) {
+                showSlide(num);
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
