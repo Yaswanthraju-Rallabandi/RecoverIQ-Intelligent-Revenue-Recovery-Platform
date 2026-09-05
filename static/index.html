@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVORA | Intelligent Revenue Recovery Platform - Vercel Remix Studio</title>
+    <title>REVORA | Intelligent Revenue Recovery Platform - Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -54,55 +54,6 @@
   --destructive-foreground: oklch(1.00 0 0);
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-primary-foreground: oklch(1.00 0 0);
-
-  --sidebar-width: 260px;
-}
-
-.dark {
-  --card: oklch(0.14 0 0);
-  --ring: oklch(0.72 0 0);
-  --input: oklch(0.32 0 0);
-  --muted: oklch(0.23 0 0);
-  --accent: oklch(0.32 0 0);
-  --border: oklch(0.26 0 0);
-  --radius: 0.375rem;
-  --chart-1: oklch(0.81 0.17 75.35);
-  --chart-2: oklch(0.58 0.21 260.84);
-  --chart-3: oklch(0.56 0 0);
-  --chart-4: oklch(0.44 0 0);
-  --chart-5: oklch(0.92 0 0);
-  --popover: oklch(0.18 0 0);
-  --primary: oklch(1.00 0 0);
-  --sidebar: oklch(0.18 0 0);
-  --spacing: 0.25rem;
-  --font-mono: 'Geist Mono', monospace;
-  --font-sans: 'Geist', sans-serif;
-  --secondary: oklch(0.25 0 0);
-  --background: oklch(0 0 0);
-  --font-serif: Georgia, serif;
-  --foreground: oklch(1.00 0 0);
-  --destructive: oklch(0.69 0.20 23.91);
-  --shadow-blur: 8px;
-  --shadow-color: hsl(0 0% 0%);
-  --sidebar-ring: oklch(0.72 0 0);
-  --shadow-spread: -1px;
-  --letter-spacing: 0em;
-  --shadow-opacity: 0.1;
-  --sidebar-accent: oklch(0.32 0 0);
-  --sidebar-border: oklch(0.32 0 0);
-  --card-foreground: oklch(1.00 0 0);
-  --shadow-offset-x: 0px;
-  --shadow-offset-y: 4px;
-  --sidebar-primary: oklch(1.00 0 0);
-  --muted-foreground: oklch(0.72 0 0);
-  --accent-foreground: oklch(1.00 0 0);
-  --popover-foreground: oklch(1.00 0 0);
-  --primary-foreground: oklch(0 0 0);
-  --sidebar-foreground: oklch(1.00 0 0);
-  --secondary-foreground: oklch(1.00 0 0);
-  --destructive-foreground: oklch(0 0 0);
-  --sidebar-accent-foreground: oklch(1.00 0 0);
-  --sidebar-primary-foreground: oklch(0 0 0);
 
   --sidebar-width: 260px;
 }
@@ -470,10 +421,11 @@
             border-color: var(--primary);
             color: var(--primary-foreground);
             font-weight: 600;
-            box-shadow: 0 var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
         }
         .btn-shadcn.primary:hover {
-            opacity: 0.9;
+            opacity: 0.88;
+            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2);
             color: var(--primary-foreground);
         }
         .btn-shadcn.sync {
@@ -607,7 +559,7 @@
             color: var(--card-foreground);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: 0 var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -617,10 +569,8 @@
         }
         .shadcn-card:hover {
             border-color: var(--ring);
+            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
             transform: translateY(-1px);
-        }
-        .shadcn-card:hover {
-            border-color: var(--border-hover);
         }
 
         .card-header-flex {
@@ -667,7 +617,7 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: var(--card-shadow-rest);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
             padding: 22px;
             display: flex;
             flex-direction: column;
@@ -675,7 +625,7 @@
             transition: all 0.2s ease;
         }
         .studio-card:hover {
-            border-color: var(--border-hover);
+            border-color: var(--ring);
         }
 
         .studio-card-head {
@@ -866,7 +816,7 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: var(--card-shadow-rest);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -930,7 +880,7 @@
         .sheet-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(4px);
             z-index: 50;
             display: none;
@@ -941,6 +891,7 @@
             width: 480px;
             max-width: 90vw;
             background: var(--card);
+            color: var(--card-foreground);
             border-left: 1px solid var(--border);
             height: 100vh;
             padding: 24px;
@@ -948,7 +899,7 @@
             flex-direction: column;
             gap: 20px;
             overflow-y: auto;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
             animation: slideIn 0.2s ease-out;
         }
 
@@ -996,24 +947,24 @@
     </style>
 </head>
 <body>
-    <!-- Background Atmospheric Pattern -->
+    <!-- Background Atmospheric Pattern (Light Theme) -->
     <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background-color: var(--background);">
-        <!-- Subtle Top Glow -->
-        <div style="position: absolute; top: -150px; left: 50%; transform: translateX(-50%); width: 1000px; height: 500px; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.05), transparent 70%);"></div>
-        <!-- Micro Grid -->
-        <div style="position: absolute; inset: 0; opacity: 0.10; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <!-- Subtle Ambient Glow -->
+        <div style="position: absolute; top: -150px; left: 50%; transform: translateX(-50%); width: 1000px; height: 500px; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0, 0, 0, 0.02), transparent 70%);"></div>
+        <!-- Light Micro-Grid -->
+        <div style="position: absolute; inset: 0; opacity: 0.06; background-image: linear-gradient(to right, rgba(0, 0, 0, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px); background-size: 32px 32px;"></div>
     </div>
 
     <!-- Left Admin Sidebar -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand-header">
-            <div class="brand-logo-icon" style="background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius); box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);">
+            <div class="brand-logo-icon" style="background: var(--sidebar-primary); color: var(--sidebar-primary-foreground); border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);">
                 <svg viewBox="0 0 24 24" class="icon" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
             </div>
             <div>
-                <div class="brand-name" style="letter-spacing: var(--letter-spacing); font-family: var(--font-sans);">REVORA</div>
+                <div class="brand-name" style="letter-spacing: var(--letter-spacing); font-family: var(--font-sans); color: var(--foreground);">REVORA</div>
             </div>
-            <span class="brand-tag" style="background: var(--muted); color: var(--muted-foreground); border: 1px solid var(--border);">Vercel</span>
+            <span class="brand-tag" style="background: var(--muted); color: var(--muted-foreground); border: 1px solid var(--border);">Studio</span>
         </div>
 
         <div class="sidebar-scroll-area">
@@ -2008,7 +1959,7 @@
             previewItems.forEach(o => {
                 const tr = document.createElement('tr');
                 const prob = Math.round(o.probability || 0);
-                let probColor = 'var(--foreground)';
+                let probColor = 'var(--chart-2)';
                 if (prob < 50) probColor = 'var(--destructive)';
                 else if (prob < 75) probColor = 'var(--chart-1)';
 
@@ -2115,7 +2066,7 @@
                 const tr = document.createElement('tr');
                 
                 const prob = Math.round(o.probability || 0);
-                let probColor = 'var(--foreground)';
+                let probColor = 'var(--chart-2)';
                 if (prob < 50) probColor = 'var(--destructive)';
                 else if (prob < 75) probColor = 'var(--chart-1)';
 
