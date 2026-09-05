@@ -638,26 +638,45 @@
         }
 
         /* 4 Vectors Column */
+        .sidebar-nav-item button.active {
+            background: rgba(12, 140, 238, 0.15) !important;
+            color: #38bdf8 !important;
+            font-weight: 600 !important;
+            border-left: 2px solid #0c8cee;
+        }
+
+        .vector-row-card {
+            background: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .vector-row-card:hover {
+            border-color: rgba(12, 140, 238, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .vector-row-card.active {
+            border-color: #0c8cee !important;
+            background: rgba(12, 140, 238, 0.09) !important;
+        }
+
         .vector-list-wrap {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .vector-row-card {
-            background: var(--muted);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            transition: all 0.15s ease;
-        }
+        
 
-        .vector-row-card:hover {
-            border-color: var(--border-hover);
-        }
+        
 
         .vector-row-head {
             display: flex;
@@ -922,25 +941,31 @@
                 <div class="sidebar-group-label">Recovery Vectors</div>
                 <ul class="sidebar-nav-list">
                     <li class="sidebar-nav-item">
-                        <button onclick="filterQueue('failed_payment', document.getElementById('tab-failed'))">
+                        <button id="side-vector-ALL" class="active" onclick="filterQueue('ALL')">
+                            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            All Opportunities
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button id="side-vector-failed_payment" onclick="filterQueue('failed_payment')">
                             <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                             Failed Checkouts
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button onclick="filterQueue('partial_payment', document.getElementById('tab-partial'))">
+                        <button id="side-vector-partial_payment" onclick="filterQueue('partial_payment')">
                             <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                             Partial Balances
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button onclick="filterQueue('overdue_payment', document.getElementById('tab-overdue'))">
+                        <button id="side-vector-overdue_payment" onclick="filterQueue('overdue_payment')">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             Overdue Invoices
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button onclick="filterQueue('refund_mismatch', document.getElementById('tab-mismatch'))">
+                        <button id="side-vector-refund_mismatch" onclick="filterQueue('refund_mismatch')">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                             Pre-Auth Mismatches
                         </button>
@@ -1079,7 +1104,7 @@
             <!-- 2-Column Split: Knapsack Lab + Recovery Vectors -->
             <section class="dashboard-split-grid">
                 <!-- Left: Knapsack Dynamic Program Controller -->
-                <div class="lab-card">
+                <div class="lab-card" id="knapsack-lab-section">
                     <div class="lab-card-title">
                         <span>Knapsack Optimization Controller</span>
                         <span style="font-size: 11px; font-weight: 600; color: #38bdf8; background: rgba(12, 140, 238, 0.12); padding: 3px 8px; border-radius: 4px;">Dynamic Program</span>
@@ -1118,7 +1143,7 @@
                 </div>
 
                 <!-- Right: 4 Recovery Vectors Telemetry -->
-                <div class="lab-card">
+                <div class="lab-card" id="vector-telemetry-section">
                     <div class="lab-card-title">
                         <span>Recovery Channels</span>
                         <span style="font-size: 11px; color: var(--muted-foreground);">4 Active Vectors</span>
@@ -1131,7 +1156,7 @@
             </section>
 
             <!-- Main Data Table Card -->
-            <section class="table-card">
+            <section class="table-card" id="opp-table-section">
                 <div class="table-toolbar">
                     <div>
                         <h3 style="font-size: 16px; font-weight: 700; color: #f8fafc;">Prioritized Opportunity Queue</h3>
@@ -1333,6 +1358,7 @@
 
         function showToast(msg) {
             const t = document.getElementById('toast');
+            if (!t) return;
             t.textContent = msg;
             t.style.display = 'block';
             setTimeout(() => { t.style.display = 'none'; }, 3500);
@@ -1344,26 +1370,75 @@
             loadDashboard(false);
         }
 
+        function switchDashboardTab(tab, btn) {
+            document.querySelectorAll('.page-header-row .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            if (tab === 'overview') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (tab === 'knapsack') {
+                const el = document.getElementById('knapsack-lab-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (tab === 'vectors') {
+                const el = document.getElementById('vector-telemetry-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
         function filterQueue(category, btn) {
             activeFilter = category;
-            document.querySelectorAll('.shadcn-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
+
+            // 1. Sync table filter tab buttons
+            document.querySelectorAll('.table-filter-group .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
+            const tabMap = {
+                'ALL': 'tab-all',
+                'failed_payment': 'tab-failed',
+                'partial_payment': 'tab-partial',
+                'overdue_payment': 'tab-overdue',
+                'refund_mismatch': 'tab-mismatch'
+            };
+            const activeTabId = tabMap[category];
+            if (activeTabId) {
+                const targetTab = document.getElementById(activeTabId);
+                if (targetTab) targetTab.classList.add('active');
+            } else if (btn) {
+                btn.classList.add('active');
+            }
+
+            // 2. Sync sidebar navigation items
+            document.querySelectorAll('.sidebar-nav-item button').forEach(b => b.classList.remove('active'));
+            const sideBtn = document.getElementById('side-vector-' + category);
+            if (sideBtn) sideBtn.classList.add('active');
+
+            // 3. Sync vector cards in the 2-column split
+            document.querySelectorAll('.vector-row-card').forEach(c => {
+                if (c.dataset.category === category) {
+                    c.classList.add('active');
+                } else {
+                    c.classList.remove('active');
+                }
+            });
+
+            // 4. Render opportunities with active filter
             renderOpportunities(globalOpportunities);
+
+            // 5. If triggered from sidebar or vector card, scroll to opportunities table
+            if (category !== 'ALL' || (btn && !btn.closest('.table-filter-group'))) {
+                const tableSection = document.getElementById('opp-table-section');
+                if (tableSection) {
+                    tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
         }
 
         function searchQueue(q) {
-            searchQuery = q.toLowerCase();
+            searchQuery = (q || '').toLowerCase().trim();
             renderOpportunities(globalOpportunities);
-        }
-
-        function switchDashboardTab(tab, btn) {
-            document.querySelectorAll('.page-header-row .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
         }
 
         async function loadDashboard(showNotification = false) {
             try {
-                // 1. Stats
+                // 1. Fetch Headline & Segmented Stats
                 const statsRes = await fetch('/stats');
                 const stats = await statsRes.json();
                 
@@ -1384,7 +1459,7 @@
                     renderSegmentedBreakdown(stats.segmented_by_type);
                 }
 
-                // 2. Knapsack Optimization
+                // 2. Fetch Knapsack Optimization Matrix
                 const optRes = await fetch(`/optimize?capacity=${currentCapacity}`);
                 const opt = await optRes.json();
 
@@ -1405,10 +1480,42 @@
                 document.getElementById('fifo-ev-display').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('fifo-count-display').textContent = (fifo.item_count || 0) + ' Actions';
 
-                // 3. Opportunities Queue
+                // 3. Fetch Opportunities Queue & Normalize Data
                 const oppRes = await fetch('/opportunities');
                 const oppData = await oppRes.json();
-                globalOpportunities = oppData.opportunities || [];
+                const rawOpps = oppData.opportunities || [];
+                
+                // Normalization layer so all vector filters, amounts, probabilities and weights are unified
+                globalOpportunities = rawOpps.map(o => {
+                    const normalizedType = o.opportunity_type || o.type || 'failed_payment';
+                    const normalizedAmount = (o.recoverable_amount !== undefined && o.recoverable_amount !== null) ? o.recoverable_amount : ((o.total_amount !== undefined) ? o.total_amount : (o.amount || 0));
+                    const normalizedProb = (o.recovery_probability !== undefined && o.recovery_probability !== null) ? o.recovery_probability : (o.probability || 0);
+                    const normalizedOptimal = (o.is_in_knapsack_set !== undefined) ? o.is_in_knapsack_set : (o.is_knapsack_optimal || false);
+                    const normalizedWeight = o.effort_weight || o.knapsack_weight || 1;
+                    
+                    let rationaleText = '';
+                    if (typeof o.ai_explanation === 'object' && o.ai_explanation !== null) {
+                        rationaleText = o.ai_explanation.why_recommended || o.ai_explanation.why_flagged || o.description || '';
+                    } else {
+                        rationaleText = o.ai_explanation || o.description || '';
+                    }
+
+                    return {
+                        ...o,
+                        type: normalizedType,
+                        opportunity_type: normalizedType,
+                        amount: normalizedAmount,
+                        recoverable_amount: normalizedAmount,
+                        probability: normalizedProb,
+                        recovery_probability: normalizedProb,
+                        is_knapsack_optimal: normalizedOptimal,
+                        is_in_knapsack_set: normalizedOptimal,
+                        knapsack_weight: normalizedWeight,
+                        effort_weight: normalizedWeight,
+                        ai_rationale: rationaleText
+                    };
+                });
+
                 renderOpportunities(globalOpportunities);
 
                 if (showNotification) {
@@ -1422,6 +1529,7 @@
 
         function renderSegmentedBreakdown(segmented) {
             const container = document.getElementById('vector-breakdown-container');
+            if (!container) return;
             container.innerHTML = '';
 
             const titles = {
@@ -1438,9 +1546,13 @@
                 else if (key === 'refund_mismatch') badgeClass = 'mismatch';
 
                 const progressWidth = Math.min(100, Math.max(0, val.recovery_rate || 0));
+                const isActive = activeFilter === key;
 
                 const card = document.createElement('div');
-                card.className = 'vector-row-card';
+                card.className = 'vector-row-card' + (isActive ? ' active' : '');
+                card.dataset.category = key;
+                card.title = 'Click to filter opportunity queue by ' + (titles[key] || key);
+                card.onclick = () => filterQueue(key);
                 card.innerHTML = `
                     <div class="vector-row-head">
                         <span class="v-pill ${badgeClass}">${titles[key] || key}</span>
@@ -1460,30 +1572,50 @@
 
         function renderOpportunities(opps) {
             const tbody = document.getElementById('opp-tbody');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
-            let filtered = activeFilter === 'ALL' ? opps : opps.filter(o => o.type === activeFilter);
+            // Filter by Vector Category
+            let filtered = activeFilter === 'ALL' ? opps : opps.filter(o => 
+                (o.opportunity_type === activeFilter || o.type === activeFilter)
+            );
+
+            // Filter by Search Query
             if (searchQuery) {
                 filtered = filtered.filter(o => 
-                    o.id.toLowerCase().includes(searchQuery) ||
+                    (o.id && o.id.toLowerCase().includes(searchQuery)) ||
                     (o.customer_name && o.customer_name.toLowerCase().includes(searchQuery)) ||
+                    (o.source_reference_id && o.source_reference_id.toLowerCase().includes(searchQuery)) ||
                     (o.title && o.title.toLowerCase().includes(searchQuery))
                 );
+            }
+
+            if (filtered.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = `
+                    <td colspan="8" style="text-align: center; padding: 48px 20px; color: var(--muted-foreground);">
+                        <div style="font-size: 14px; font-weight: 600; color: #f8fafc; margin-bottom: 6px;">No opportunities found</div>
+                        <div style="font-size: 12px;">No items match the active filter or search query. <button onclick="filterQueue('ALL')" style="color: #38bdf8; background: none; border: none; text-decoration: underline; cursor: pointer; font-family: inherit;">Show all opportunities</button></div>
+                    </td>
+                `;
+                tbody.appendChild(emptyRow);
+                return;
             }
 
             filtered.forEach(o => {
                 const tr = document.createElement('tr');
                 
+                const prob = Math.round(o.probability || 0);
                 let probColor = '#10b981';
-                if (o.probability < 50) probColor = '#ef4444';
-                else if (o.probability < 75) probColor = '#f59e0b';
+                if (prob < 50) probColor = '#ef4444';
+                else if (prob < 75) probColor = '#f59e0b';
 
                 let statusBadge = '';
                 if (o.status === 'RECOVERED') {
                     statusBadge = '<span class="pill-status recovered">Recovered</span>';
                 } else if (o.is_knapsack_optimal) {
                     statusBadge = '<span class="pill-status optimal">Optimal Set</span>';
-                } else if (o.status === 'MANUAL_REVIEW') {
+                } else if (o.guardrail_status === 'FLAGGED' || o.status === 'MANUAL_REVIEW') {
                     statusBadge = '<span class="pill-status review">Manual Review</span>';
                 } else {
                     statusBadge = '<span class="pill-status excluded">Excluded</span>';
@@ -1491,37 +1623,48 @@
 
                 const amountFormatted = 'INR ' + Math.round(o.amount || 0).toLocaleString('en-IN');
                 const evFormatted = 'INR ' + Math.round(o.expected_value || 0).toLocaleString('en-IN');
+                const channelType = o.opportunity_type || o.type;
+
+                // Action buttons HTML
+                let actionHtml = '';
+                if (o.status === 'RECOVERED') {
+                    actionHtml = `
+                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>
+                        ${o.razorpay_link_url ? `<a href="${o.razorpay_link_url}" target="_blank" class="btn-shadcn" style="height: 28px; padding: 0 10px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; color: #38bdf8;">View Link</a>` : ''}
+                    `;
+                } else {
+                    actionHtml = `
+                        <button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>
+                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                    `;
+                }
 
                 tr.innerHTML = `
                     <td>
                         <div style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</div>
-                        <div style="font-size: 11px; color: var(--muted-foreground);">${o.source_reference_id}</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">${o.source_reference_id || ''}</div>
                     </td>
                     <td>
-                        <span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span>
+                        <span class="v-pill ${getBadgeClass(channelType)}">${formatType(channelType)}</span>
                     </td>
                     <td>
                         <div style="font-weight: 600;">${o.customer_name || 'Customer'}</div>
-                        <div style="font-size: 11px; color: var(--muted-foreground);">${o.payment_method?.toUpperCase()}</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground);">${(o.payment_method || 'CARD').toUpperCase()}</div>
                     </td>
                     <td style="font-family: var(--font-mono); font-weight: 700;">${amountFormatted}</td>
                     <td>
                         <div style="display: flex; align-items: center; gap: 8px; width: 110px;">
                             <div style="flex: 1; height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
-                                <div style="height: 100%; width: ${o.probability}%; background: ${probColor};"></div>
+                                <div style="height: 100%; width: ${Math.min(100, prob)}%; background: ${probColor};"></div>
                             </div>
-                            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${probColor};">${o.probability}%</span>
+                            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${probColor};">${prob}%</span>
                         </div>
                     </td>
                     <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">${evFormatted}</td>
                     <td>${statusBadge}</td>
                     <td style="text-align: right;">
-                        <div style="display: inline-flex; gap: 6px;">
-                            ${o.status === 'RECOVERED' ? 
-                                `<button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>` :
-                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>
-                                 <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>`
-                            }
+                        <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                            ${actionHtml}
                         </div>
                     </td>
                 `;
@@ -1541,7 +1684,7 @@
             if (type === 'partial_payment') return 'Partial';
             if (type === 'overdue_payment') return 'B2B Invoice';
             if (type === 'refund_mismatch') return 'Pre-Auth';
-            return type;
+            return type || 'Checkout';
         }
 
         function openDrawerForOpp(id) {
@@ -1550,11 +1693,28 @@
             currentActiveOpp = opp;
 
             document.getElementById('drawer-opp-id').textContent = opp.id;
-            document.getElementById('drawer-opp-type').textContent = opp.type + ' | ' + opp.source_reference_id;
+            document.getElementById('drawer-opp-type').textContent = formatType(opp.type) + ' | ' + (opp.source_reference_id || '');
             document.getElementById('drawer-amount').textContent = 'INR ' + Math.round(opp.amount).toLocaleString('en-IN');
-            document.getElementById('drawer-ev').textContent = 'INR ' + Math.round(opp.expected_value).toLocaleString('en-IN');
+            document.getElementById('drawer-ev').textContent = 'INR ' + Math.round(opp.expected_value || 0).toLocaleString('en-IN');
             document.getElementById('drawer-weight').textContent = (opp.knapsack_weight || 1) + ' Unit';
-            document.getElementById('drawer-rationale').textContent = opp.ai_rationale || opp.description;
+            
+            // AI Rationale & Explanation
+            let rationaleHtml = '';
+            if (typeof opp.ai_explanation === 'object' && opp.ai_explanation !== null) {
+                const whyRec = opp.ai_explanation.why_recommended || opp.recommended_action || '1-Click payment recovery dispatched.';
+                const whyFlag = opp.ai_explanation.why_flagged || opp.description || 'Delinquency detected by scoring engine.';
+                const confScore = opp.ai_explanation.confidence_score || Math.round(opp.probability || 80);
+                const confTier = opp.ai_explanation.confidence_tier || 'HIGH';
+                
+                rationaleHtml = `
+                    <div style="margin-bottom: 8px;"><strong style="color: #38bdf8;">Strategic Action:</strong> ${whyRec}</div>
+                    <div style="margin-bottom: 8px;"><strong style="color: #cbd5e1;">Root Cause:</strong> ${whyFlag}</div>
+                    <div style="font-size: 11px; color: var(--muted-foreground);"><strong style="color: #34d399;">Model Confidence:</strong> ${confScore}% [${confTier}]</div>
+                `;
+            } else {
+                rationaleHtml = opp.ai_rationale || opp.description || 'Verified via automated underwriting model.';
+            }
+            document.getElementById('drawer-rationale').innerHTML = rationaleHtml;
 
             const linkContainer = document.getElementById('drawer-link-container');
             const linkUrl = document.getElementById('drawer-link-url');
@@ -1568,7 +1728,7 @@
 
             const actionBtn = document.getElementById('drawer-action-btn');
             if (opp.status === 'RECOVERED') {
-                actionBtn.textContent = 'Already Recovered & Settled';
+                actionBtn.textContent = 'Already Recovered and Settled';
                 actionBtn.disabled = true;
                 actionBtn.className = 'btn-shadcn';
             } else {
@@ -1626,7 +1786,9 @@
                     })
                 });
                 const data = await res.json();
-                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+                }
                 showToast(data.message || 'Payment successfully captured via webhook!');
                 closeDrawer();
                 loadDashboard(true);
@@ -1638,7 +1800,9 @@
         async function executeOptimalBatch() {
             try {
                 showToast('Executing optimal Knapsack action batch via Razorpay...');
-                const optimalIds = globalOpportunities.filter(o => o.is_knapsack_optimal && o.status !== 'RECOVERED').map(o => o.id);
+                const optimalIds = globalOpportunities
+                    .filter(o => o.is_knapsack_optimal && o.status !== 'RECOVERED')
+                    .map(o => o.id);
                 
                 if (optimalIds.length === 0) {
                     showToast('No pending optimal opportunities in current capacity window.');
@@ -1652,7 +1816,9 @@
                     });
                 }
 
-                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+                }
                 showToast(`Batch executed: ${optimalIds.length} recovery actions dispatched.`);
                 loadDashboard(true);
             } catch (err) {
