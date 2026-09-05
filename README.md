@@ -200,8 +200,7 @@ py -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 
 ### 7. Access Live Dashboard
 Open your browser to:
-- **Dashboard UI**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-- **Swagger API Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
 
 ---
 
