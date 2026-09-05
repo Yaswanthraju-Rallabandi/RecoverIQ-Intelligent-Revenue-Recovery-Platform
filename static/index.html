@@ -1276,7 +1276,7 @@
                 <div class="table-toolbar">
                     <div>
                         <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Optimal Recovery Set (Selected by DP)</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Candidates maximizing total expected recovery within effort capacity</p>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Actionable candidates maximizing expected yield within remaining capacity</p>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
@@ -1294,6 +1294,34 @@
                             </tr>
                         </thead>
                         <tbody id="engine-optimal-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settled & Recovered Opportunities Table -->
+            <div class="table-card" id="engine-settled-card" style="display: none;">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Recovered & Settled Opportunities</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Live recoveries successfully executed and reconciled via Razorpay</p>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Opportunity ID</th>
+                                <th>Vector</th>
+                                <th>Customer</th>
+                                <th>Recovered Amount</th>
+                                <th>Payment Rail</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="engine-settled-tbody">
                             <!-- Populated dynamically -->
                         </tbody>
                     </table>
@@ -1968,37 +1996,77 @@
         function renderEngineOpportunities(opps) {
             const optimalTbody = document.getElementById('engine-optimal-tbody');
             const excludedTbody = document.getElementById('engine-excluded-tbody');
+            const settledTbody = document.getElementById('engine-settled-tbody');
+            const settledCard = document.getElementById('engine-settled-card');
             if (!optimalTbody || !excludedTbody) return;
 
             optimalTbody.innerHTML = '';
             excludedTbody.innerHTML = '';
+            if (settledTbody) settledTbody.innerHTML = '';
 
-            const optimal = opps.filter(o => o.is_knapsack_optimal);
-            const excluded = opps.filter(o => !o.is_knapsack_optimal);
+            const optimalPending = opps.filter(o => o.is_knapsack_optimal && o.status !== 'RECOVERED');
+            const settled = opps.filter(o => o.status === 'RECOVERED');
+            const excluded = opps.filter(o => !o.is_knapsack_optimal && o.status !== 'RECOVERED');
 
-            optimal.forEach(o => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
-                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
-                    <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
-                    <td style="font-family: var(--font-mono); color: var(--chart-2); font-weight: 700;">${o.knapsack_weight} Unit</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${Math.round(o.probability)}%</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
-                    <td style="text-align: right;">
-                        <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
-                            ${o.status === 'RECOVERED' ? 
-                                '<span class="pill-status recovered">Settled</span>' :
-                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
-                            }
-                            <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
-                        </div>
+            if (optimalPending.length === 0) {
+                const emptyTr = document.createElement('tr');
+                emptyTr.innerHTML = `
+                    <td colspan="8" style="text-align: center; padding: 32px 16px; color: var(--muted-foreground);">
+                        <div style="font-size: 13px; font-weight: 700; color: var(--foreground); margin-bottom: 4px;">All Optimal Opportunities in Current Window Settled</div>
+                        <div style="font-size: 12px;">Adjust the capacity slider above to evaluate additional candidates or reset the demo queue.</div>
                     </td>
                 `;
-                optimalTbody.appendChild(tr);
-            });
+                optimalTbody.appendChild(emptyTr);
+            } else {
+                optimalPending.forEach(o => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
+                        <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
+                        <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
+                        <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
+                        <td style="font-family: var(--font-mono); color: var(--chart-2); font-weight: 700;">${o.knapsack_weight} Unit</td>
+                        <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${Math.round(o.probability)}%</td>
+                        <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
+                        <td style="text-align: right;">
+                            <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                                <button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>
+                                <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                            </div>
+                        </td>
+                    `;
+                    optimalTbody.appendChild(tr);
+                });
+            }
 
+            // Render Settled Table
+            if (settledCard && settledTbody) {
+                if (settled.length > 0) {
+                    settledCard.style.display = 'block';
+                    settled.forEach(o => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
+                            <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
+                            <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
+                            <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.recovered_amount || o.amount).toLocaleString('en-IN')}</td>
+                            <td><span style="font-size: 11px; font-family: var(--font-mono);">${(o.payment_method || 'UPI').toUpperCase()}</span></td>
+                            <td><span class="pill-status recovered">Settled</span></td>
+                            <td style="text-align: right;">
+                                <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
+                                    ${o.razorpay_link_url ? `<a href="${o.razorpay_link_url}" target="_blank" class="btn-shadcn" style="height: 28px; padding: 0 10px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; color: var(--foreground);">View Link</a>` : ''}
+                                    <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>
+                                </div>
+                            </td>
+                        `;
+                        settledTbody.appendChild(tr);
+                    });
+                } else {
+                    settledCard.style.display = 'none';
+                }
+            }
+
+            // Excluded: Only unrecovered open opportunities
             excluded.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -2007,7 +2075,7 @@
                     <td style="font-family: var(--font-mono);">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
                     <td style="font-family: var(--font-mono);">${o.knapsack_weight} Unit</td>
                     <td style="font-family: var(--font-mono);">${Math.round(o.probability)}%</td>
-                    <td style="font-size: 12px; color: var(--muted-foreground);">Effort weight exceeds remaining capacity window</td>
+                    <td style="font-size: 12px; color: var(--muted-foreground);">Lower yield relative to capacity constraint</td>
                     <td style="text-align: right;">
                         <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
                     </td>
