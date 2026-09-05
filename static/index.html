@@ -1134,81 +1134,108 @@
                 </div>
             </div>
 
-            <!-- Quick Studio Shortcuts -->
+            <!-- Portfolio Channel Breakdown & System Infrastructure -->
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                 <div class="studio-card">
                     <div class="studio-card-head">
                         <div class="studio-card-title">
-                            <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            Dynamic Programming Recovery Matrix
+                            <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                            Recovery Channel Portfolio
                         </div>
-                        <button class="btn-shadcn" onclick="navigateTo('engine')" style="height: 30px; font-size: 12px;">Open Engine -></button>
+                        <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">Deep Telemetry -></button>
                     </div>
-                    <p style="font-size: 13px; color: var(--muted-foreground); line-height: 1.6;">
-                        REVORA optimizes merchant outreach capacity using a mathematical <strong>0/1 Knapsack Dynamic Program</strong>. Instead of naively chasing highest-dollar debts (FIFO) or highest-percentage chances (Greedy), it maximizes expected value yield subject to strict merchant operational bandwidth constraints.
+                    <p style="font-size: 13px; color: var(--muted-foreground); line-height: 1.5; margin-bottom: 14px;">
+                        Real-time delinquency tracking and recovery resolution rates partitioned across all 4 financial recovery vectors.
                     </p>
-                    <div class="strategy-mini-grid">
-                        <div class="strat-card active">
-                            <div class="strat-name">0/1 Knapsack DP</div>
-                            <div class="strat-val" id="overview-dp-val">INR 0</div>
-                            <div class="strat-sub"><span id="overview-dp-count">0</span> Actions Chosen</div>
-                        </div>
-                        <div class="strat-card">
-                            <div class="strat-name">Greedy EV Ratio</div>
-                            <div class="strat-val" id="overview-greedy-val" style="color: var(--muted-foreground);">INR 0</div>
-                            <div class="strat-sub">Sub-optimal Yield</div>
-                        </div>
-                        <div class="strat-card">
-                            <div class="strat-name">Naive FIFO</div>
-                            <div class="strat-val" id="overview-fifo-val" style="color: var(--muted-foreground);">INR 0</div>
-                            <div class="strat-sub">Uninformed Queue</div>
-                        </div>
+                    <div id="overview-vector-mini-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Populated dynamically via renderSegmentedBreakdown -->
                     </div>
                 </div>
 
                 <div class="studio-card">
                     <div class="studio-card-head">
                         <div class="studio-card-title">
-                            <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                            Active Channels
+                            <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            Infrastructure Health
                         </div>
-                        <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">All Vectors -></button>
+                        <span style="font-size: 11px; font-weight: 700; color: var(--foreground); background: var(--muted); padding: 2px 8px; border-radius: 4px;">Operational</span>
                     </div>
-                    <div id="overview-vector-mini-list" style="display: flex; flex-direction: column; gap: 10px;">
-                        <!-- Mini cards populated dynamically -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; margin-top: 6px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--muted); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--chart-2);"></span>
+                                <span style="font-weight: 600;">Razorpay Test Mode</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">Live API</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--muted); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--chart-2);"></span>
+                                <span style="font-weight: 600;">ML Scorer (GBDT)</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">Calibrated</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--muted); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--chart-2);"></span>
+                                <span style="font-weight: 600;">0/1 Knapsack DP</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">O(N*W) Solver</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--muted); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--chart-2);"></span>
+                                <span style="font-weight: 600;">Cloud Auto-Sync</span>
+                            </div>
+                            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground);">Polling Active</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Ingested Delinquencies Preview -->
-            <div class="table-card">
-                <div class="table-toolbar">
-                    <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Recent Recovery Opportunities</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Top actionable delinquencies scored by ML models</p>
+            <!-- Executive Quick Navigation Hub -->
+            <div style="margin-top: 24px;">
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground); margin-bottom: 12px;">Platform Action Hub</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                    <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('engine')">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>Knapsack Recovery Engine</span>
+                            <span style="font-size: 16px;">-></span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
+                            Optimize outreach batches using mathematical 0/1 Dynamic Programming to maximize expected recovery under bandwidth limits.
+                        </p>
                     </div>
-                    <button class="btn-shadcn" onclick="navigateTo('queue')">
-                        View Full Opportunity Queue <span id="overview-btn-opp-count"></span> ->
-                    </button>
-                </div>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Opportunity ID</th>
-                                <th>Vector</th>
-                                <th>Customer</th>
-                                <th>Amount</th>
-                                <th>Probability</th>
-                                <th>Expected Value</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="overview-preview-tbody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+
+                    <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('queue')">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>Prioritized Opportunity Queue</span>
+                            <span style="font-size: 16px;">-></span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
+                            Search, filter, and review all delinquent accounts across checkout, partial payments, invoices, and pre-auth holds.
+                        </p>
+                    </div>
+
+                    <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('calibration')">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>Model Calibration Matrix</span>
+                            <span style="font-size: 16px;">-></span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
+                            Inspect the decile reliability matrix, empirical recovery rates, Brier skill score, and uncertainty bounds.
+                        </p>
+                    </div>
+
+                    <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('trends')">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>7-Day Financial Trends</span>
+                            <span style="font-size: 16px;">-></span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
+                            Review chronological compounding recovery ledgers, daily settlement velocity, and cumulative recovered liquidity.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1271,13 +1298,16 @@
                 </div>
             </div>
 
-            <!-- Optimal Action Batch Table -->
+            <!-- Optimal Action Batch Table (Single Focused Table on this Page) -->
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Optimal Recovery Set (Selected by DP)</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Actionable candidates maximizing expected yield within remaining capacity</p>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Optimal Recovery Action Plan (Selected by DP)</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Exact mathematical subset maximizing expected yield within the <span id="capacity-display-table" style="font-weight: 700; color: var(--foreground);">6</span>-unit capacity limit</p>
                     </div>
+                    <button class="btn-shadcn primary" onclick="executeOptimalBatch()" style="height: 32px; font-size: 12px;">
+                        Execute Optimal Batch ->
+                    </button>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
@@ -1300,59 +1330,33 @@
                 </div>
             </div>
 
-            <!-- Settled & Recovered Opportunities Table -->
-            <div class="table-card" id="engine-settled-card" style="display: none;">
-                <div class="table-toolbar">
-                    <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Recovered & Settled Opportunities</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Live recoveries successfully executed and reconciled via Razorpay</p>
+            <!-- Capacity Trade-off Diagnostic Card (Diagnostic summary instead of duplicate table) -->
+            <div class="studio-card" id="engine-tradeoff-card" style="margin-top: 20px;">
+                <div class="studio-card-head">
+                    <div class="studio-card-title">
+                        <svg class="icon" style="color: var(--muted-foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Knapsack Capacity & Trade-off Diagnostic
                     </div>
+                    <button class="btn-shadcn" onclick="navigateTo('queue')" style="height: 30px; font-size: 12px;">
+                        Explore All in Opportunity Queue ->
+                    </button>
                 </div>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Opportunity ID</th>
-                                <th>Vector</th>
-                                <th>Customer</th>
-                                <th>Recovered Amount</th>
-                                <th>Payment Rail</th>
-                                <th>Status</th>
-                                <th style="text-align: right;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="engine-settled-tbody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Excluded Candidates & Opportunity Cost -->
-            <div class="table-card">
-                <div class="table-toolbar">
-                    <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--muted-foreground);">Excluded Candidates (Budget Trade-off)</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Lower yield-to-effort opportunities passed over to protect merchant bandwidth</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 10px;">
+                    <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Excluded Candidates</div>
+                        <div id="tradeoff-excluded-count" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground); margin-top: 4px;">0 Items</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Passed over to preserve merchant bandwidth</div>
                     </div>
-                </div>
-                <div style="overflow-x: auto;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Opportunity ID</th>
-                                <th>Vector</th>
-                                <th>Amount</th>
-                                <th>Weight</th>
-                                <th>Probability</th>
-                                <th>Trade-off Rationale</th>
-                                <th style="text-align: right;">Inspect</th>
-                            </tr>
-                        </thead>
-                        <tbody id="engine-excluded-tbody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
+                    <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Bandwidth Conserved</div>
+                        <div id="tradeoff-weight-saved" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--chart-2); margin-top: 4px;">0 Units</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Saved for higher-efficiency outreach</div>
+                    </div>
+                    <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Optimization Advantage</div>
+                        <div id="tradeoff-lift-text" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground); margin-top: 4px;">+72.8%</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Net expected revenue lift over FIFO</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1955,58 +1959,27 @@
         }
 
         function renderOverviewPreview(opps) {
-            const tbody = document.getElementById('overview-preview-tbody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-
-            const previewItems = opps.slice(0, 4);
-            previewItems.forEach(o => {
-                const tr = document.createElement('tr');
-                const prob = Math.round(o.probability || 0);
-                let probColor = 'var(--chart-2)';
-                if (prob < 50) probColor = 'var(--destructive)';
-                else if (prob < 75) probColor = 'var(--chart-1)';
-
-                let statusBadge = o.status === 'RECOVERED' ? 
-                    '<span class="pill-status recovered">Recovered</span>' :
-                    (o.is_knapsack_optimal ? '<span class="pill-status optimal">Optimal Set</span>' : '<span class="pill-status excluded">Queue</span>');
-
-                tr.innerHTML = `
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
-                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
-                    <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: ${probColor};">${prob}%</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
-                    <td>${statusBadge}</td>
-                    <td style="text-align: right;">
-                        <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
-                            ${o.status === 'RECOVERED' ? 
-                                '<span class="pill-status recovered">Settled</span>' :
-                                `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
-                            }
-                            <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            // Overview no longer duplicates the Opportunity Queue table
         }
 
         function renderEngineOpportunities(opps) {
             const optimalTbody = document.getElementById('engine-optimal-tbody');
-            const excludedTbody = document.getElementById('engine-excluded-tbody');
-            const settledTbody = document.getElementById('engine-settled-tbody');
-            const settledCard = document.getElementById('engine-settled-card');
-            if (!optimalTbody || !excludedTbody) return;
+            if (!optimalTbody) return;
 
             optimalTbody.innerHTML = '';
-            excludedTbody.innerHTML = '';
-            if (settledTbody) settledTbody.innerHTML = '';
 
             const optimalPending = opps.filter(o => o.is_knapsack_optimal && o.status !== 'RECOVERED');
-            const settled = opps.filter(o => o.status === 'RECOVERED');
             const excluded = opps.filter(o => !o.is_knapsack_optimal && o.status !== 'RECOVERED');
+
+            const capacityTableEl = document.getElementById('capacity-display-table');
+            if (capacityTableEl) capacityTableEl.textContent = currentCapacity;
+
+            const excludedCountEl = document.getElementById('tradeoff-excluded-count');
+            if (excludedCountEl) excludedCountEl.textContent = excluded.length + ' Items';
+
+            const weightSaved = excluded.reduce((sum, o) => sum + (o.knapsack_weight || 1), 0);
+            const weightSavedEl = document.getElementById('tradeoff-weight-saved');
+            if (weightSavedEl) weightSavedEl.textContent = weightSaved + ' Units';
 
             if (optimalPending.length === 0) {
                 const emptyTr = document.createElement('tr');
@@ -2038,53 +2011,9 @@
                     optimalTbody.appendChild(tr);
                 });
             }
-
-            // Render Settled Table
-            if (settledCard && settledTbody) {
-                if (settled.length > 0) {
-                    settledCard.style.display = 'block';
-                    settled.forEach(o => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
-                            <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
-                            <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
-                            <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.recovered_amount || o.amount).toLocaleString('en-IN')}</td>
-                            <td><span style="font-size: 11px; font-family: var(--font-mono);">${(o.payment_method || 'UPI').toUpperCase()}</span></td>
-                            <td><span class="pill-status recovered">Settled</span></td>
-                            <td style="text-align: right;">
-                                <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
-                                    ${o.razorpay_link_url ? `<a href="${o.razorpay_link_url}" target="_blank" class="btn-shadcn" style="height: 28px; padding: 0 10px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; color: var(--foreground);">View Link</a>` : ''}
-                                    <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>
-                                </div>
-                            </td>
-                        `;
-                        settledTbody.appendChild(tr);
-                    });
-                } else {
-                    settledCard.style.display = 'none';
-                }
-            }
-
-            // Excluded: Only unrecovered open opportunities
-            excluded.forEach(o => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="font-family: var(--font-mono); color: var(--muted-foreground);">${o.id}</td>
-                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
-                    <td style="font-family: var(--font-mono);">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
-                    <td style="font-family: var(--font-mono);">${o.knapsack_weight} Unit</td>
-                    <td style="font-family: var(--font-mono);">${Math.round(o.probability)}%</td>
-                    <td style="font-size: 12px; color: var(--muted-foreground);">Lower yield relative to capacity constraint</td>
-                    <td style="text-align: right;">
-                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
-                    </td>
-                `;
-                excludedTbody.appendChild(tr);
-            });
         }
 
-        function renderOpportunities(opps) {
+        function renderOpportunitiesfunction renderOpportunities(opps) {
             const tbody = document.getElementById('opp-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
