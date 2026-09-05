@@ -10,7 +10,7 @@ from detectors.manager import OpportunityDetectorManager
 def now_utc():
     return datetime.now(timezone.utc)
 
-def seed_revora_database():
+def seed_recoveriq_database():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
@@ -22,7 +22,7 @@ def seed_revora_database():
         email="finance@acmetech.in",
         daily_action_capacity=20, # Budget capacity N = 20
         spend_cap_limit=25000.0,
-        razorpay_account_id="acc_rzp_test_revora"
+        razorpay_account_id="acc_rzp_test_recoveriq"
     )
     db.add(merchant)
 
@@ -101,7 +101,7 @@ def seed_revora_database():
     # Record active ML Model Version
     db.add(ModelVersion(
         id="mv_v1",
-        version_tag="revora-rf-calibrated-v1",
+        version_tag="recoveriq-rf-calibrated-v1",
         algorithm="RandomForestClassifier(n_estimators=100, max_depth=7) + Platt Scaling",
         roc_auc=0.835,
         accuracy=0.765,
@@ -113,7 +113,7 @@ def seed_revora_database():
     db.commit()
     db.close()
 
-    print(f"[SUCCESS] Revora database seeded! Detected {len(opps)} unified opportunities across all 4 detectors.")
+    print(f"[SUCCESS] RecoverIQ database seeded! Detected {len(opps)} unified opportunities across all 4 detectors.")
 
 if __name__ == "__main__":
-    seed_revora_database()
+    seed_recoveriq_database()

@@ -6,7 +6,7 @@ import joblib
 import pandas as pd
 from typing import Tuple, Dict, Any
 
-MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models", "revora_recovery_model_v1.joblib")
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models", "recoveriq_recovery_model_v1.joblib")
 _model = None
 
 def get_model():
@@ -17,10 +17,10 @@ def get_model():
         else:
             print("[WARN] ML Model artifact not found. Training model...")
             try:
-                from train import train_revora_model
+                from train import train_recoveriq_model
             except ImportError:
-                from .train import train_revora_model
-            train_revora_model()
+                from .train import train_recoveriq_model
+            train_recoveriq_model()
             _model = joblib.load(MODEL_PATH)
     return _model
 

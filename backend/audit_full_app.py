@@ -17,7 +17,7 @@ from payments.webhook_handler import process_razorpay_webhook
 
 def audit_full_application():
     print("=" * 75)
-    print(">>> REVORA COMPREHENSIVE END-TO-END APPLICATION AUDIT")
+    print(">>> RecoverIQ COMPREHENSIVE END-TO-END APPLICATION AUDIT")
     print("=" * 75)
 
     errors = []

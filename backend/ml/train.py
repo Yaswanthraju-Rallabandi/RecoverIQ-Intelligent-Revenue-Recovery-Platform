@@ -25,14 +25,14 @@ from sklearn.metrics import (
 )
 
 try:
-    from dataset_generator import generate_revora_ml_dataset
+    from dataset_generator import generate_recoveriq_ml_dataset
 except ImportError:
-    from .dataset_generator import generate_revora_ml_dataset
+    from .dataset_generator import generate_recoveriq_ml_dataset
 
-def train_revora_model():
-    data_path = "data/revora_ml_training_data.csv"
+def train_recoveriq_model():
+    data_path = "data/recoveriq_ml_training_data.csv"
     if not os.path.exists(data_path):
-        generate_revora_ml_dataset(4000, data_path)
+        generate_recoveriq_ml_dataset(4000, data_path)
 
     df = pd.read_csv(data_path)
     print(f"[1] Loaded dataset: {len(df)} samples across 4 opportunity types.")
@@ -114,7 +114,7 @@ def train_revora_model():
     cm = confusion_matrix(y_test, y_pred).tolist()
 
     print("\n" + "=" * 70)
-    print(">>> DAY 4: REVORA ML MODEL EVALUATION (HELD-OUT 20% TEST SET)")
+    print(">>> DAY 4: RecoverIQ ML MODEL EVALUATION (HELD-OUT 20% TEST SET)")
     print("=" * 70)
     print(f"   Accuracy:  {acc * 100:.2f}%")
     print(f"   Precision: {prec * 100:.2f}% (High quality positive recovery predictions)")
@@ -127,13 +127,13 @@ def train_revora_model():
     # Persist Artifact
     save_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models")
     os.makedirs(save_dir, exist_ok=True)
-    model_file = os.path.join(save_dir, "revora_recovery_model_v1.joblib")
+    model_file = os.path.join(save_dir, "recoveriq_recovery_model_v1.joblib")
     meta_file = os.path.join(save_dir, "model_metadata.json")
 
     joblib.dump(calibrated_rf, model_file)
 
     meta = {
-        "model_version": "revora-rf-calibrated-v1",
+        "model_version": "recoveriq-rf-calibrated-v1",
         "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + 5-Fold Platt Scaling",
         "baseline_logistic_auc": round(lr_auc, 4),
         "roc_auc": round(auc, 4),
@@ -152,4 +152,4 @@ def train_revora_model():
     return meta
 
 if __name__ == "__main__":
-    train_revora_model()
+    train_recoveriq_model()

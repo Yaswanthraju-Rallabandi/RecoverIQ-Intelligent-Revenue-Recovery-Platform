@@ -68,7 +68,7 @@ def prepare_items_from_opportunities(opps: List[Any]) -> List[OptimizationItem]:
 def solve_01_knapsack_dp(items: List[OptimizationItem], capacity: int) -> StrategyResult:
     """
     Solves 0/1 Knapsack DP and generates explicit trade-off rationales for passed-over / rejected candidates.
-    Proves to technical judges that REVORA is solving combinatorial trade-offs, not just sorting!
+    Proves to technical judges that RecoverIQ is solving combinatorial trade-offs, not just sorting!
     """
     n = len(items)
     if n == 0 or capacity <= 0:

@@ -33,7 +33,7 @@ from payments.webhook_handler import process_razorpay_webhook
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="REVORA — AI Revenue Recovery & Optimization Engine",
+    title="RecoverIQ — AI Revenue Recovery & Optimization Engine",
     description="Multi-Source Opportunity Detection, Knapsack Optimization, AI Explanation & Razorpay Test Mode",
     version="10.0.0"
 )
@@ -141,14 +141,14 @@ def serve_dashboard():
                 "Expires": "0"
             }
         )
-    return {"message": "REVORA Engine is running live. Visit /opportunities, /optimize, /backtest-simulation or /stats"}
+    return {"message": "RecoverIQ Engine is running live. Visit /opportunities, /optimize, /backtest-simulation or /stats"}
 
 @app.get("/health")
 def health_check():
     return {
         "status": "healthy",
-        "service": "REVORA AI Engine",
-        "database": "SQLite (revora.db)",
+        "service": "RecoverIQ AI Engine",
+        "database": "SQLite (recoveriq.db)",
         "optimization_engine": "0/1 Knapsack Dynamic Programming & Counterfactual Simulator",
         "ai_explanation_layer": "Confidence-Gated Financial Explainer",
         "payment_gateway": "Razorpay Test Mode (Keys & Webhook Verification)",
@@ -577,7 +577,7 @@ def predict_recovery_api(req: PredictRequest):
     ev = max(0.0, round((prob / 100.0) * req.amount - cost, 2))
 
     return {
-        "model_version": "revora-rf-calibrated-v1",
+        "model_version": "recoveriq-rf-calibrated-v1",
         "inputs": req.dict(),
         "recovery_probability": prob,
         "confidence_level": conf,
@@ -634,7 +634,7 @@ class FeedbackOutcomeRequest(BaseModel):
 def get_model_calibration():
     """
     Returns Brier score and reliability calibration decile bins.
-    Answers technical judges' question: 'When REVORA predicts 80%, does it recover ~80% of the time?'
+    Answers technical judges' question: 'When RecoverIQ predicts 80%, does it recover ~80% of the time?'
     """
     calibration = compute_calibration_curve([], [])
     return calibration

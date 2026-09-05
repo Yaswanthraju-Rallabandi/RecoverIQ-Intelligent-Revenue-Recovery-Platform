@@ -38,7 +38,7 @@ class RazorpayTestClient:
         if razorpay and self.key_id and self.key_secret:
             try:
                 self.rzp_sdk = razorpay.Client(auth=(self.key_id, self.key_secret))
-                self.rzp_sdk.set_app_details({"title": "REVORA Revenue Recovery", "version": "10.0.0"})
+                self.rzp_sdk.set_app_details({"title": "RecoverIQ Revenue Recovery", "version": "10.0.0"})
             except Exception as e:
                 print(f"[Razorpay Init] SDK initialization warning: {e}")
 
@@ -47,7 +47,7 @@ class RazorpayTestClient:
         amount: float,
         currency: str = "INR",
         reference_id: str = "ref_101",
-        description: str = "REVORA Recovery Link",
+        description: str = "RecoverIQ Recovery Link",
         customer_name: str = "Customer",
         customer_email: str = "customer@example.com",
         customer_phone: str = "+91 98765 43210"
@@ -75,7 +75,7 @@ class RazorpayTestClient:
                     "currency": currency,
                     "accept_partial": False,
                     "reference_id": unique_reference_id,
-                    "description": (description or "REVORA Revenue Recovery")[:200],
+                    "description": (description or "RecoverIQ Revenue Recovery")[:200],
                     "customer": {
                         "name": customer_name or "Customer",
                         "email": clean_email,

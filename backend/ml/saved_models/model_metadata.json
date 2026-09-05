@@ -1,20 +1,20 @@
 {
-  "model_version": "revora-rf-calibrated-v1",
+  "model_version": "recoveriq-rf-calibrated-v1",
   "algorithm": "RandomForestClassifier(n_estimators=100, max_depth=7) + 5-Fold Platt Scaling",
-  "baseline_logistic_auc": 0.7224,
-  "roc_auc": 0.7206,
-  "accuracy": 0.6771,
-  "precision": 0.6964,
-  "recall": 0.8923,
-  "f1_score": 0.7823,
+  "baseline_logistic_auc": 0.7436,
+  "roc_auc": 0.7454,
+  "accuracy": 0.7163,
+  "precision": 0.7258,
+  "recall": 0.9252,
+  "f1_score": 0.8135,
   "confusion_matrix": [
     [
-      68,
-      177
+      78,
+      187
     ],
     [
-      49,
-      406
+      40,
+      495
     ]
   ],
   "features": [
@@ -27,5 +27,5 @@
     "past_late_payments",
     "retry_count"
   ],
-  "trained_at": "2026-08-30T18:53:11.448795+00:00"
+  "trained_at": "2026-09-05T15:12:23.130803+00:00"
 }

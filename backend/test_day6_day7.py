@@ -10,7 +10,7 @@ from payments.webhook_handler import process_razorpay_webhook
 
 def run_day6_day7_tests():
     print("=" * 70)
-    print(">>> REVORA -- DAYS 6 & 7 VERIFICATION SUITE")
+    print(">>> RecoverIQ -- DAYS 6 & 7 VERIFICATION SUITE")
     print("=" * 70)
 
     db = SessionLocal()

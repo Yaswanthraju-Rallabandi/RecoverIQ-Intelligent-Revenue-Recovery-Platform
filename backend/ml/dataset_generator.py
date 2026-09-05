@@ -2,7 +2,7 @@ import random
 import csv
 import os
 
-def generate_revora_ml_dataset(n_samples=4000, output_path="data/revora_ml_training_data.csv"):
+def generate_recoveriq_ml_dataset(n_samples=4000, output_path="data/recoveriq_ml_training_data.csv"):
     """
     Generates realistic historical ground-truth recovery outcomes across all 4 opportunity types.
     Each opportunity_type has distinct empirical domain recovery mechanics:
@@ -100,4 +100,4 @@ def generate_revora_ml_dataset(n_samples=4000, output_path="data/revora_ml_train
     print(f"[SUCCESS] Generated {len(records)} realistic training samples across 4 opportunity types in {output_path}")
 
 if __name__ == "__main__":
-    generate_revora_ml_dataset()
+    generate_recoveriq_ml_dataset()

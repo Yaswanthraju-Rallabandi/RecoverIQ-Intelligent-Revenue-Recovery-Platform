@@ -34,7 +34,7 @@ class Merchant(Base):
     email = Column(String(100), unique=True, nullable=False)
     daily_action_capacity = Column(Integer, default=20) # Constrained Capacity Budget N
     spend_cap_limit = Column(Float, default=25000.0)    # Maximum auto-action spend cap
-    razorpay_account_id = Column(String(100), default="acc_rzp_test_revora")
+    razorpay_account_id = Column(String(100), default="acc_rzp_test_recoveriq")
     created_at = Column(DateTime, default=now_utc)
 
     users = relationship("User", back_populates="merchant")
@@ -175,7 +175,7 @@ class RecoveryPrediction(Base):
     probability = Column(Float, nullable=False) # 0.0 to 100.0%
     confidence_level = Column(String(20), default="HIGH")
     expected_value = Column(Float, nullable=False)
-    model_version = Column(String(50), default="revora-rf-calibrated-v1")
+    model_version = Column(String(50), default="recoveriq-rf-calibrated-v1")
     features_json = Column(Text, nullable=True)
     predicted_at = Column(DateTime, default=now_utc)
 
@@ -239,7 +239,7 @@ class ModelVersion(Base):
     __tablename__ = "model_versions"
 
     id = Column(String(50), primary_key=True, index=True)
-    version_tag = Column(String(50), unique=True, nullable=False) # 'revora-rf-calibrated-v1'
+    version_tag = Column(String(50), unique=True, nullable=False) # 'recoveriq-rf-calibrated-v1'
     algorithm = Column(String(100), nullable=False)
     roc_auc = Column(Float, nullable=False)
     accuracy = Column(Float, nullable=False)

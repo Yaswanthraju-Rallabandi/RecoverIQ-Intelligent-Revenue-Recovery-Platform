@@ -16,7 +16,7 @@ def compute_brier_score(y_true: List[int], y_prob: List[float]) -> float:
 def compute_calibration_curve(y_true: List[int], y_prob: List[float], n_bins: int = 5) -> Dict[str, Any]:
     """
     Calculates calibration reliability bins:
-    Answers: 'When REVORA predicts 80%, does it actually recover ~80% of the time?'
+    Answers: 'When RecoverIQ predicts 80%, does it actually recover ~80% of the time?'
     """
     if not y_true or not y_prob:
         # Default representative calibrated bins from the 4,000-sample trained model

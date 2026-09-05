@@ -1,17 +1,17 @@
-#  REVORA — System Architecture & Technical Specification
+#  RecoverIQ — System Architecture & Technical Specification
 ### *Razorpay AI Hackathon (Track 3: AI Revenue Recovery)*
 
 ---
 
 ## 1. System Overview & Core Philosophy
 
-**REVORA** is an autonomous revenue recovery and resource-constrained optimization platform designed for modern online merchants and enterprises.
+**RecoverIQ** is an autonomous revenue recovery and resource-constrained optimization platform designed for modern online merchants and enterprises.
 
 ### The Two Non-Negotiable Architectural Principles:
 1. **Mathematical Optimization Over Raw Sorting**:
    - Merchants operate under finite operational capacity and customer contact budgets ($N$).
    - Sorting by expected value or chronologically leads to sub-optimal revenue outcomes by greedily selecting bulky low-efficiency tasks.
-   - REVORA formulates recovery as an exact **0/1 Knapsack Dynamic Program** that maximizes total expected recovered revenue within budget constraints.
+   - RecoverIQ formulates recovery as an exact **0/1 Knapsack Dynamic Program** that maximizes total expected recovered revenue within budget constraints.
 2. **AI Explains But Does Not Decide Boundary**:
    - Machine learning algorithms and Large Language Models generate calibrated probabilities and explain decisions in simple merchant-friendly terms.
    - **Financial actions, state transitions, capacity budgets, and safety guardrails are executed strictly by deterministic, auditable code.**
@@ -113,10 +113,10 @@ $$dp[i][w] = \begin{cases} dp[i-1][w] & \text{if } w_i > w \\ \max(dp[i-1][w], \
 
 ## 5. Statistical Maturity & Transparent Judgment Layers
 
-REVORA moves beyond point-estimate outputs to surface explicit statistical uncertainty, combinatorial trade-offs, and continuous learning:
+RecoverIQ moves beyond point-estimate outputs to surface explicit statistical uncertainty, combinatorial trade-offs, and continuous learning:
 
 ### 1. Confidence Ranges & Prediction Intervals (Binomial Variance Propagation)
-Rather than a false-precision point promise (e.g. "Rs 60,673 recoverable"), REVORA calculates a calibrated **90% Prediction Interval**:
+Rather than a false-precision point promise (e.g. "Rs 60,673 recoverable"), RecoverIQ calculates a calibrated **90% Prediction Interval**:
 $$\\text{Var}(\\text{Recovery}) = \\sum_{i=1}^M \\text{Amount}_i^2 \\cdot P_i(1 - P_i), \\quad \\text{StdErr} = \\sqrt{\\text{Var}}$$
 $$\\text{CI}_{90\\%} = [\\text{EV} - 1.645 \\cdot \\text{StdErr}, \\ \\text{EV} + 1.645 \\cdot \\text{StdErr}]$$
 Exposed via \`GET /stats\` as \`predicted_recoverable_ci\`.
@@ -128,7 +128,7 @@ The 0/1 Knapsack optimizer does not just return the winning subset; it explicitl
 Exposed via \`GET /optimize\` under \`rejected_candidates_tradeoff_analysis\`.
 
 ### 3. Model Calibration & Brier Score Verification (\`GET /model-calibration\`)
-Evaluates empirical reliability to answer the senior fintech question: *"When REVORA predicts 85% probability, does it actually recover ~85% of the time?"*
+Evaluates empirical reliability to answer the senior fintech question: *"When RecoverIQ predicts 85% probability, does it actually recover ~85% of the time?"*
 - **Brier Score**: \`0.1142\` (vs \`0.250\` random baseline).
 - **Brier Skill Score**: \`+54.3\\%\` calibration improvement.
 - **Mean Absolute Calibration Error**: \`2.6\\%\` across all probability deciles.

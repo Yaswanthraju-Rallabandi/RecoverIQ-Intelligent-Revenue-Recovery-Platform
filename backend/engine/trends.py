@@ -4,7 +4,7 @@ from datetime import datetime, timezone, timedelta
 def generate_historical_recovery_trends() -> Dict[str, Any]:
     """
     Generates 7-day historical performance trending data.
-    Demonstrates that REVORA compounds recovery rate over time through constrained optimization.
+    Demonstrates that RecoverIQ compounds recovery rate over time through constrained optimization.
     """
     now = datetime.now(timezone.utc)
     

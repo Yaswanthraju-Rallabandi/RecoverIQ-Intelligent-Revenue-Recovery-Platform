@@ -54,7 +54,7 @@ def run_counterfactual_backtest(opps: List[Any], capacity_budget: int = 6) -> Di
         "total_evaluated": len(items),
         "strategies": {
             "optimal_knapsack_dp": {
-                "name": "0/1 Knapsack DP (REVORA)",
+                "name": "0/1 Knapsack DP (RecoverIQ)",
                 "total_ev": dp_res.total_expected_value,
                 "item_count": dp_res.item_count,
                 "effort_used": dp_res.total_weight_used,

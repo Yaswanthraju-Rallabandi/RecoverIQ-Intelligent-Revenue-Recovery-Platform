@@ -9,7 +9,7 @@ from ml.predictor import predict_single_probability
 
 def run_verification_suite():
     print("=" * 70)
-    print(">>> REVORA -- DAYS 1 TO 4 VERIFICATION SUITE")
+    print(">>> RecoverIQ -- DAYS 1 TO 4 VERIFICATION SUITE")
     print("=" * 70)
 
     db = SessionLocal()
@@ -19,7 +19,7 @@ def run_verification_suite():
     print(f"\n[1] Verifying 13 Database Tables:")
     print(f"    Tables found ({len(tables)}): {', '.join(tables)}")
     assert len(tables) >= 12, "Expected 12+ relational tables!"
-    print("    [PASSED] Database schema conforms to REVORA specification.")
+    print("    [PASSED] Database schema conforms to RecoverIQ specification.")
 
     # 2. Day 3: Opportunity Detectors Verification
     print(f"\n[2] Verifying 4 Opportunity Detectors:")

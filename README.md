@@ -1,4 +1,4 @@
-# REVORA | AI Revenue Recovery and Optimization Engine
+# RecoverIQ | AI Revenue Recovery and Optimization Engine
 ### Razorpay AI Hackathon | Track 3: AI Revenue Recovery
 
 [![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
@@ -7,9 +7,9 @@
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Calibrated%20Ensemble-f89939.svg)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-REVORA is an autonomous financial intelligence platform that discovers, prioritizes, and recovers delinquent revenue across failed checkout payments, abandoned partial balances, overdue B2B invoices, and gateway authorization mismatches.
+RecoverIQ is an autonomous financial intelligence platform that discovers, prioritizes, and recovers delinquent revenue across failed checkout payments, abandoned partial balances, overdue B2B invoices, and gateway authorization mismatches.
 
-Rather than relying on naive chronological retries or greedy expected-value sorting, REVORA formulates recovery as an exact resource-constrained 0/1 Knapsack Dynamic Program, selecting the optimal combination of recovery actions that maximizes expected yield within merchant operational budgets.
+Rather than relying on naive chronological retries or greedy expected-value sorting, RecoverIQ formulates recovery as an exact resource-constrained 0/1 Knapsack Dynamic Program, selecting the optimal combination of recovery actions that maximizes expected yield within merchant operational budgets.
 
 ---
 
@@ -18,7 +18,7 @@ Rather than relying on naive chronological retries or greedy expected-value sort
 ### 1. Resource-Constrained 0/1 Knapsack Optimization
 Most recovery tools execute retries greedily or by arrival time. In production, merchants have finite daily action quotas and notification fatigue budgets (W).
 - Greedy sorting by raw expected value frequently selects heavy, resource-intensive opportunities that crowd out bundles of higher-efficiency recoveries.
-- REVORA implements an exact 0/1 Knapsack Dynamic Programming Optimizer alongside a Counterfactual Backtest Simulator, mathematically proving lift over greedy and first-in-first-out (FIFO) heuristics.
+- RecoverIQ implements an exact 0/1 Knapsack Dynamic Programming Optimizer alongside a Counterfactual Backtest Simulator, mathematically proving lift over greedy and first-in-first-out (FIFO) heuristics.
 
 $$\max \sum_{i=1}^{M} x_i \cdot \text{EV}_i \quad \text{subject to} \quad \sum_{i=1}^{M} x_i \cdot w_i \le W, \quad x_i \in \{0, 1\}$$
 
@@ -157,8 +157,8 @@ Financial Dashboard and Continuous Learning Feedback
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Yaswanthraju-Rallabandi/ReviveX-Intelligent-Revenue-Recovery-Platform.git
-cd ReviveX-Intelligent-Revenue-Recovery-Platform
+git clone https://github.com/Yaswanthraju-Rallabandi/RecoverIQ-Intelligent-Revenue-Recovery-Platform.git
+cd RecoverIQ-Intelligent-Revenue-Recovery-Platform
 ```
 
 ### 2. Environment Configuration
