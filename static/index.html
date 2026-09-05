@@ -3,43 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVORA | Intelligent Revenue Recovery Platform - Studio Admin</title>
+    <title>REVORA | Intelligent Revenue Recovery Platform - Vercel Remix Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --background: #080c14;
-            --foreground: #f8fafc;
-            --card: #0d1322;
-            --card-foreground: #f8fafc;
-            --popover: #0d1322;
-            --popover-foreground: #f8fafc;
-            --primary: #0c8cee;
-            --primary-foreground: #ffffff;
-            --secondary: #162035;
-            --secondary-foreground: #cbd5e1;
-            --muted: #131b2e;
-            --muted-foreground: #8194ad;
-            --accent: #19243d;
-            --accent-foreground: #f8fafc;
-            --destructive: #ef4444;
+            --background: #000000;
+            --foreground: #ededed;
+            --card: #0a0a0a;
+            --card-foreground: #ededed;
+            --popover: #0a0a0a;
+            --popover-foreground: #ededed;
+            --primary: #ffffff;
+            --primary-foreground: #000000;
+            --secondary: #111111;
+            --secondary-foreground: #a1a1a1;
+            --muted: #111111;
+            --muted-foreground: #888888;
+            --accent: #171717;
+            --accent-foreground: #ededed;
+            --destructive: #ff3333;
             --destructive-foreground: #ffffff;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.16);
-            --input: rgba(255, 255, 255, 0.08);
-            --ring: #0c8cee;
-            --radius: 0.65rem;
+            --border: #222222;
+            --border-hover: #383838;
+            --input: #141414;
+            --ring: #0070f3;
+            --radius: 0.5rem;
 
             --sidebar-width: 260px;
-            --sidebar-bg: #090e18;
-            --sidebar-border: rgba(255, 255, 255, 0.07);
-            --sidebar-foreground: #94a3b8;
-            --sidebar-active: #0c8cee;
+            --sidebar-bg: #000000;
+            --sidebar-border: #1a1a1a;
+            --sidebar-foreground: #888888;
+            --sidebar-active: #ffffff;
 
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'Geist Mono', monospace;
+
+            /* Vercel Remix Accents */
+            --vercel-blue: #0070f3;
+            --vercel-cyan: #00e5ff;
+            --vercel-green: #00e599;
+            --vercel-amber: #f5a623;
+            --vercel-red: #ff3333;
+            --vercel-purple: #7928ca;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -198,10 +206,10 @@
         }
 
         .sidebar-nav-item button.active {
-            background: rgba(12, 140, 238, 0.14) !important;
-            color: #38bdf8 !important;
+            background: #141414 !important;
+            color: #ffffff !important;
             font-weight: 600 !important;
-            border-left: 2px solid #0c8cee;
+            border-left: 2px solid #ffffff;
         }
 
         .sidebar-nav-badge {
@@ -398,10 +406,16 @@
             border-color: var(--border-hover);
         }
         .btn-shadcn.primary {
-            background: #0c8cee;
-            border-color: #0c8cee;
-            color: #ffffff;
-            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.3);
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #000000;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+        }
+        .btn-shadcn.primary:hover {
+            background: #eaeaea;
+            border-color: #eaeaea;
+            color: #000000;
         }
         .btn-shadcn.primary:hover {
             background: #0284c7;
@@ -802,7 +816,10 @@
             border-radius: 12px;
             display: inline-block;
         }
-        .pill-status.optimal { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+        .pill-status.optimal { background: rgba(0, 229, 153, 0.1); color: #00e599; border: 1px solid rgba(0, 229, 153, 0.25); }
+        .pill-status.recovered { background: rgba(0, 112, 243, 0.1); color: #38bdf8; border: 1px solid rgba(0, 112, 243, 0.25); }
+        .pill-status.review { background: rgba(245, 166, 35, 0.1); color: #f5a623; border: 1px solid rgba(245, 166, 35, 0.25); }
+        .pill-status.excluded { background: rgba(255, 255, 255, 0.05); color: #888888; border: 1px solid rgba(255, 255, 255, 0.1); }
         .pill-status.recovered { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
         .pill-status.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
         .pill-status.excluded { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
@@ -877,21 +894,25 @@
 </head>
 <body>
     <!-- Background Atmospheric Pattern -->
-    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;">
-        <div style="position: absolute; inset: 0; opacity: 0.15; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%);">
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-        </div>
-        <div style="position: absolute; inset: 0; opacity: 0.20; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0); background-size: 20px 20px;"></div>
+    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background-color: #000000;">
+        <!-- Vercel Spotlight Cone -->
+        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 1000px; height: 500px; background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 112, 243, 0.14), transparent 70%);"></div>
+        <!-- Remix Subtle Violet Glow -->
+        <div style="position: absolute; top: -100px; right: 5%; width: 600px; height: 400px; background: radial-gradient(circle, rgba(121, 40, 202, 0.08), transparent 60%);"></div>
+        <!-- Vercel Micro Grid -->
+        <div style="position: absolute; inset: 0; opacity: 0.15; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px); background-size: 32px 32px;"></div>
     </div>
 
     <!-- Left Admin Sidebar -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand-header">
-            <div class="brand-logo-icon">R</div>
-            <div>
-                <div class="brand-name">REVORA Studio</div>
+            <div class="brand-logo-icon" style="background: #ffffff; color: #000000; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);">
+                <svg viewBox="0 0 24 24" class="icon" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
             </div>
-            <span class="brand-tag">v10</span>
+            <div>
+                <div class="brand-name">REVORA</div>
+            </div>
+            <span class="brand-tag" style="background: rgba(255, 255, 255, 0.06); color: #ededed; border: 1px solid #333333;">Vercel Remix</span>
         </div>
 
         <div class="sidebar-scroll-area">
