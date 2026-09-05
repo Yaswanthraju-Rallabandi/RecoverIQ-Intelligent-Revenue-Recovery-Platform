@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVORA | Studio Admin - Next.js & shadcn/ui Revenue Recovery</title>
+    <title>REVORA | Intelligent Revenue Recovery Platform - Studio Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -103,16 +103,16 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 16px;
-            color: white;
-            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.4);
+            color: #ffffff;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.35);
         }
 
         .brand-name {
             font-size: 15px;
             font-weight: 700;
-            color: #ffffff;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
+            color: #f8fafc;
         }
 
         .brand-tag {
@@ -123,7 +123,7 @@
             padding: 2px 6px;
             border-radius: 4px;
             border: 1px solid rgba(12, 140, 238, 0.25);
-            text-transform: uppercase;
+            margin-left: auto;
         }
 
         .sidebar-scroll-area {
@@ -136,35 +136,34 @@
         }
 
         .sidebar-action-btn {
+            width: 100%;
+            height: 36px;
+            background: rgba(12, 140, 238, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(12, 140, 238, 0.25);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            width: 100%;
-            padding: 9px 14px;
-            background: var(--primary);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
             transition: all 0.15s ease;
-            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.35);
         }
-
         .sidebar-action-btn:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            background: rgba(12, 140, 238, 0.18);
+            border-color: #0c8cee;
         }
 
         .sidebar-group-label {
             font-size: 11px;
             font-weight: 700;
-            color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 0 8px 6px;
+            letter-spacing: 0.06em;
+            color: var(--muted-foreground);
+            padding: 0 8px;
+            margin-bottom: 6px;
         }
 
         .sidebar-nav-list {
@@ -174,37 +173,35 @@
             gap: 2px;
         }
 
-        .sidebar-nav-item a, .sidebar-nav-item button {
+        .sidebar-nav-item button {
+            width: 100%;
+            height: 36px;
+            padding: 0 10px;
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
-            padding: 8px 10px;
             border-radius: 6px;
-            color: var(--sidebar-foreground);
-            text-decoration: none;
             font-size: 13px;
-            font-weight: 500;
+            color: var(--sidebar-foreground);
             background: transparent;
             border: none;
             cursor: pointer;
+            text-align: left;
             transition: all 0.15s ease;
+            text-decoration: none;
+            font-family: inherit;
         }
 
-        .sidebar-nav-item a:hover, .sidebar-nav-item button:hover {
-            color: #ffffff;
+        .sidebar-nav-item button:hover {
             background: rgba(255, 255, 255, 0.04);
+            color: #f8fafc;
         }
 
-        .sidebar-nav-item.active a, .sidebar-nav-item.active button {
-            color: #ffffff;
-            background: rgba(12, 140, 238, 0.12);
-            border: 1px solid rgba(12, 140, 238, 0.25);
-            font-weight: 600;
-        }
-
-        .sidebar-nav-item.active svg {
-            color: #38bdf8;
+        .sidebar-nav-item button.active {
+            background: rgba(12, 140, 238, 0.14) !important;
+            color: #38bdf8 !important;
+            font-weight: 600 !important;
+            border-left: 2px solid #0c8cee;
         }
 
         .sidebar-nav-badge {
@@ -212,37 +209,39 @@
             font-size: 11px;
             font-family: var(--font-mono);
             font-weight: 600;
-            color: #38bdf8;
-            background: rgba(12, 140, 238, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
             padding: 1px 6px;
             border-radius: 10px;
         }
 
         .sidebar-footer {
-            padding: 16px;
+            height: 60px;
+            padding: 0 16px;
             border-top: 1px solid var(--sidebar-border);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: #19243d;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1e293b;
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
             font-weight: 700;
-            font-size: 13px;
             color: #38bdf8;
         }
 
         .user-info {
-            flex: 1;
-            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .user-name {
@@ -250,44 +249,40 @@
             font-weight: 600;
             color: #f8fafc;
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .user-sub {
             font-size: 11px;
-            color: #64748b;
+            color: var(--muted-foreground);
         }
 
-        /* Main App Canvas */
+        /* Main Canvas */
         .app-canvas {
             margin-left: var(--sidebar-width);
             flex: 1;
-            min-width: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            background: var(--background);
+            position: relative;
         }
 
-        /* Top Navbar */
+        /* Top Sticky Navbar */
         .top-navbar {
             height: 64px;
-            padding: 0 32px;
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            background: rgba(8, 12, 20, 0.8);
-            backdrop-filter: blur(12px);
+            padding: 0 28px;
             position: sticky;
             top: 0;
             z-index: 30;
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
         }
 
         .breadcrumb-trail {
@@ -329,45 +324,49 @@
 
         .navbar-search {
             position: relative;
-            width: 280px;
+            width: 300px;
         }
 
         .navbar-search input {
             width: 100%;
             height: 36px;
-            padding: 0 36px 0 36px;
-            background: var(--muted);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
+            padding: 0 65px 0 34px;
             font-size: 13px;
             color: #f8fafc;
             outline: none;
-            transition: all 0.15s ease;
+            font-family: inherit;
+            transition: border-color 0.15s ease;
         }
-
         .navbar-search input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(12, 140, 238, 0.2);
+            border-color: #0c8cee;
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .search-icon-left {
             position: absolute;
-            left: 11px;
-            top: 10px;
-            color: #64748b;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted-foreground);
+            pointer-events: none;
         }
 
         .search-kbd-right {
             position: absolute;
             right: 8px;
-            top: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 1px 5px;
-            font-size: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
             font-family: var(--font-mono);
-            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 1px 5px;
+            border-radius: 4px;
+            color: var(--muted-foreground);
+            pointer-events: none;
         }
 
         .navbar-right {
@@ -376,69 +375,75 @@
             gap: 10px;
         }
 
+        /* Buttons */
         .btn-shadcn {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
             height: 36px;
             padding: 0 14px;
+            border-radius: 6px;
             font-size: 13px;
-            font-weight: 500;
-            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            font-family: inherit;
+            border: 1px solid var(--border);
             background: var(--muted);
             color: #f8fafc;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            white-space: nowrap;
+            text-decoration: none;
         }
-
         .btn-shadcn:hover {
-            background: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
             border-color: var(--border-hover);
         }
-
         .btn-shadcn.primary {
-            background: var(--primary);
-            border-color: #0284c7;
+            background: #0c8cee;
+            border-color: #0c8cee;
             color: #ffffff;
+            box-shadow: 0 2px 10px rgba(12, 140, 238, 0.3);
         }
-
         .btn-shadcn.primary:hover {
             background: #0284c7;
+            border-color: #0284c7;
         }
-
         .btn-shadcn.sync {
-            background: rgba(12, 140, 238, 0.12);
-            border-color: rgba(12, 140, 238, 0.35);
+            background: rgba(12, 140, 238, 0.1);
+            border-color: rgba(12, 140, 238, 0.25);
             color: #38bdf8;
-            font-weight: 600;
         }
-
         .btn-shadcn.sync:hover {
             background: rgba(12, 140, 238, 0.2);
+            border-color: #0c8cee;
         }
 
-        /* Main Content Container */
-        .content-wrap {
-            padding: 28px 32px 60px;
-            display: flex;
+        /* Views / Pages Architecture */
+        .page-view {
+            display: none;
+            padding: 28px;
             flex-direction: column;
-            gap: 28px;
-            flex: 1;
+            gap: 24px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .page-view.active {
+            display: flex;
         }
 
-        /* Page Title & Tab Header */
+        /* Page Header */
         .page-header-row {
             display: flex;
+            align-items: flex-start;
             justify-content: space-between;
-            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .page-title h1 {
             font-size: 24px;
             font-weight: 800;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
             color: #f8fafc;
         }
 
@@ -448,63 +453,71 @@
             margin-top: 4px;
         }
 
+        /* Tab switchers */
         .shadcn-tabs {
-            display: flex;
-            gap: 4px;
             background: var(--muted);
-            padding: 4px;
-            border-radius: 8px;
             border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3px;
+            display: inline-flex;
+            gap: 2px;
         }
 
         .shadcn-tab-btn {
+            background: transparent;
+            border: none;
+            border-radius: 6px;
             padding: 6px 14px;
             font-size: 13px;
             font-weight: 500;
             color: var(--muted-foreground);
-            background: transparent;
-            border: none;
-            border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
+            font-family: inherit;
         }
-
+        .shadcn-tab-btn:hover {
+            color: #f8fafc;
+        }
         .shadcn-tab-btn.active {
             background: var(--card);
             color: #f8fafc;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
             font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* 4 Stat Cards */
+        /* Stat KPI Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
+            gap: 16px;
+        }
+        @media (max-width: 1100px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
         }
 
         .shadcn-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 20px 22px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 8px;
             position: relative;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease;
         }
-
         .shadcn-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-1px);
         }
 
         .card-header-flex {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            justify-content: space-between;
         }
 
         .card-title-text {
@@ -514,13 +527,11 @@
         }
 
         .card-value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
+            letter-spacing: -0.02em;
             font-family: var(--font-mono);
-            letter-spacing: -0.03em;
             color: #f8fafc;
-            line-height: 1.15;
-            margin-bottom: 8px;
         }
 
         .card-footer-text {
@@ -532,95 +543,83 @@
         }
 
         .badge-trend-green {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 7px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 4px;
             color: #34d399;
-            font-weight: 700;
-            font-size: 11px;
+            font-weight: 600;
             font-family: var(--font-mono);
         }
-
         .badge-trend-blue {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 7px;
-            background: rgba(12, 140, 238, 0.12);
-            border: 1px solid rgba(12, 140, 238, 0.3);
-            border-radius: 4px;
             color: #38bdf8;
             font-weight: 600;
-            font-size: 11px;
             font-family: var(--font-mono);
         }
 
-        /* 2-Column Split Section (Knapsack Optimizer + Vectors) */
-        .dashboard-split-grid {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 20px;
-        }
-
-        .lab-card {
+        /* 2-Column Split & Studio Cards */
+        .studio-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
         }
 
-        .lab-card-title {
+        .studio-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+        }
+
+        .studio-card-title {
             font-size: 16px;
             font-weight: 700;
             color: #f8fafc;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
         }
 
+        /* Sliders */
         .budget-control-box {
             background: var(--muted);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 14px 18px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
         }
 
         .custom-slider {
-            -webkit-appearance: none;
             width: 100%;
             height: 6px;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
             outline: none;
+            -webkit-appearance: none;
             cursor: pointer;
         }
-
         .custom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            appearance: none;
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: var(--primary);
-            border: 2px solid white;
-            box-shadow: 0 0 10px #0c8cee;
+            background: #0c8cee;
+            border: 2px solid #ffffff;
             cursor: pointer;
+            box-shadow: 0 0 10px rgba(12, 140, 238, 0.6);
         }
 
+        /* Strategy Mini Grid */
         .strategy-mini-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
+        }
+        @media (max-width: 900px) {
+            .strategy-mini-grid { grid-template-columns: 1fr; }
         }
 
         .strat-card {
@@ -630,43 +629,61 @@
             padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
-
         .strat-card.active {
+            border-color: #0c8cee;
             background: rgba(12, 140, 238, 0.08);
-            border-color: var(--primary);
         }
 
         .strat-name {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--muted-foreground);
+            color: #cbd5e1;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-
-        .strat-card.active .strat-name {
-            color: #38bdf8;
-        }
-
         .strat-val {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
             font-family: var(--font-mono);
-            color: #f8fafc;
+            color: #38bdf8;
         }
-
         .strat-sub {
             font-size: 11px;
             color: var(--muted-foreground);
         }
 
-        /* 4 Vectors Column */
-        .sidebar-nav-item button.active {
-            background: rgba(12, 140, 238, 0.15) !important;
-            color: #38bdf8 !important;
-            font-weight: 600 !important;
-            border-left: 2px solid #0c8cee;
+        /* 4 Vectors Grid */
+        .vector-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 800px) {
+            .vector-grid-4 { grid-template-columns: 1fr; }
+        }
+
+        .vector-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .vector-box:hover {
+            border-color: rgba(12, 140, 238, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        .vector-box.active {
+            border-color: #0c8cee;
+            background: rgba(12, 140, 238, 0.08);
         }
 
         .vector-row-card {
@@ -680,240 +697,189 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-
         .vector-row-card:hover {
             border-color: rgba(12, 140, 238, 0.4);
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
-
         .vector-row-card.active {
             border-color: #0c8cee !important;
             background: rgba(12, 140, 238, 0.09) !important;
         }
 
-        .vector-list-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        
-
-        
-
         .vector-row-head {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
         .v-pill {
             font-size: 11px;
             font-weight: 700;
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 4px;
-            text-transform: uppercase;
+            display: inline-block;
         }
-
-        .v-pill.failed { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .v-pill.partial { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-        .v-pill.invoice { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-        .v-pill.mismatch { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .v-pill.failed { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .v-pill.partial { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .v-pill.invoice { background: rgba(12, 140, 238, 0.15); color: #38bdf8; border: 1px solid rgba(12, 140, 238, 0.3); }
+        .v-pill.mismatch { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
         .v-progress-bar {
-            width: 100%;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.08);
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 3px;
             overflow: hidden;
         }
-
         .v-progress-fill {
             height: 100%;
-            background: #10b981;
+            background: linear-gradient(90deg, #0c8cee, #34d399);
             border-radius: 3px;
+            transition: width 0.4s ease;
         }
 
         .v-meta-row {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--muted-foreground);
         }
 
-        /* shadcn Data Table Card */
+        /* Data Tables */
         .table-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 24px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 18px;
         }
 
         .table-toolbar {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-        }
-
-        .table-filter-group {
-            display: flex;
-            gap: 8px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
+            text-align: left;
         }
 
         .data-table th {
-            text-align: left;
-            padding: 12px 14px;
+            padding: 12px 18px;
             font-size: 11px;
             font-weight: 700;
-            color: var(--muted-foreground);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
+            color: var(--muted-foreground);
+            background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid var(--border);
         }
 
         .data-table td {
-            padding: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: #f8fafc;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            color: #cbd5e1;
+            vertical-align: middle;
         }
 
-        .data-table tbody tr:hover {
+        .data-table tr:hover td {
             background: rgba(255, 255, 255, 0.02);
         }
 
         .pill-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 8px;
-            border-radius: 4px;
             font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
         }
+        .pill-status.optimal { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+        .pill-status.recovered { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .pill-status.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .pill-status.excluded { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
 
-        .pill-status.optimal { background: rgba(12, 140, 238, 0.15); color: #38bdf8; border: 1px solid #0c8cee; }
-        .pill-status.recovered { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #10b981; }
-        .pill-status.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #f59e0b; }
-        .pill-status.excluded { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid #64748b; }
-
-        /* Slide-over Diagnostic Sheet */
+        /* Slide-in Sheet Drawer */
         .sheet-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(5, 8, 15, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 100;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 50;
             display: none;
             justify-content: flex-end;
         }
 
         .sheet-panel {
-            width: 520px;
-            height: 100%;
+            width: 480px;
+            max-width: 90vw;
             background: var(--card);
             border-left: 1px solid var(--border);
-            padding: 28px;
-            overflow-y: auto;
+            height: 100vh;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-            animation: slideLeft 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.2s ease-out;
         }
 
-        @keyframes slideLeft {
+        @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
         }
 
         .sheet-close-btn {
-            background: var(--muted);
-            border: 1px solid var(--border);
+            background: none;
+            border: none;
             color: var(--muted-foreground);
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 4px;
+            border-radius: 4px;
         }
-
         .sheet-close-btn:hover {
             color: #f8fafc;
-            background: var(--accent);
-        }
-
-        /* Modal Dialog */
-        .dialog-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(5, 8, 15, 0.75);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dialog-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            width: 680px;
-            max-width: 90vw;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 28px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         /* Toast */
-        #toast {
+        .toast-notification {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: #111a2e;
-            color: #f8fafc;
-            padding: 12px 20px;
-            border-radius: 8px;
+            background: #0d1322;
             border: 1px solid #0c8cee;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            color: #f8fafc;
+            padding: 12px 18px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             display: none;
-            z-index: 200;
+            z-index: 60;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-
-    <!-- Atmospheric Dark Gradient Background Backdrop -->
-    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; background: #000000;">
-        <div style="position: absolute; inset: 0; opacity: 1; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%); -webkit-mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%); mask: radial-gradient(125% 100% at 0% 0%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.224) 88.2883%, rgba(0, 0, 0) 100%);">
-            <!-- 5 Skewed Cyan Light Streaks -->
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 36%, rgb(0, 0, 0) 55%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 11%, rgb(0, 0, 0) 25%, rgba(0, 0, 0, 0.55) 41%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 78%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 9%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0.55) 26%, rgb(0, 0, 0) 35%, rgba(0, 0, 0, 0.47) 47%, rgba(0, 0, 0, 0.13) 69%, rgb(0, 0, 0) 79%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
-            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 27%, rgb(0, 0, 0) 42%, rgba(0, 0, 0, 0.48) 48%, rgba(0, 0, 0, 0.13) 67%, rgb(0, 0, 0) 74%, rgb(0, 0, 0) 82%, rgba(0, 0, 0, 0.47) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
+    <!-- Background Atmospheric Pattern -->
+    <div style="position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;">
+        <div style="position: absolute; inset: 0; opacity: 0.15; background: radial-gradient(100% 100% at 0% 0%, rgb(46, 46, 46) 0%, rgb(0, 0, 0) 100%);">
+            <div style="position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(rgb(0, 207, 255) 0%, rgba(0, 207, 255, 0) 100%); -webkit-mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); mask: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0.55) 28%, rgba(0, 0, 0, 0.424) 40%, rgb(0, 0, 0) 48%, rgba(0, 0, 0, 0.267) 54%, rgba(0, 0, 0, 0.13) 78%, rgb(0, 0, 0) 88%, rgba(0, 0, 0, 0) 97%); transform: skewX(45deg);"></div>
         </div>
         <div style="position: absolute; inset: 0; opacity: 0.20; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.45) 1px, transparent 0); background-size: 20px 20px;"></div>
     </div>
@@ -939,71 +905,47 @@
                 <div class="sidebar-group-label">Dashboards</div>
                 <ul class="sidebar-nav-list">
                     <li class="sidebar-nav-item">
-                        <button id="side-nav-overview" class="active" onclick="switchDashboardTab('overview')">
+                        <button id="side-nav-overview" class="active" onclick="navigateTo('overview')">
                             <svg class="icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                             Default Overview
                             <span class="sidebar-nav-badge" id="side-opp-count">0</span>
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button id="side-nav-engine" onclick="switchDashboardTab('knapsack')">
+                        <button id="side-nav-engine" onclick="navigateTo('engine')">
                             <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                             Recovery Engine
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button id="side-nav-vectors" onclick="switchDashboardTab('vectors')">
+                        <button id="side-nav-queue" onclick="navigateTo('queue')">
+                            <svg class="icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            Opportunity Queue
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button id="side-nav-vectors" onclick="navigateTo('vectors')">
                             <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                             Vector Telemetry
-                        </button>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <button onclick="openCalibrationModal()">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
-                            Model Calibration
-                        </button>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <button onclick="openTrendsModal()">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                            7-Day Trends
                         </button>
                     </li>
                 </ul>
             </div>
 
-            <!-- Navigation Group: Recovery Vectors -->
+            <!-- Navigation Group: Analytics & Models -->
             <div>
-                <div class="sidebar-group-label">Recovery Vectors</div>
+                <div class="sidebar-group-label">Analytics & Models</div>
                 <ul class="sidebar-nav-list">
                     <li class="sidebar-nav-item">
-                        <button id="side-vector-ALL" class="active" onclick="filterQueue('ALL')">
-                            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                            All Opportunities
+                        <button id="side-nav-calibration" onclick="navigateTo('calibration')">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                            Model Calibration
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
-                        <button id="side-vector-failed_payment" onclick="filterQueue('failed_payment')">
-                            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            Failed Checkouts
-                        </button>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <button id="side-vector-partial_payment" onclick="filterQueue('partial_payment')">
-                            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                            Partial Balances
-                        </button>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <button id="side-vector-overdue_payment" onclick="filterQueue('overdue_payment')">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                            Overdue Invoices
-                        </button>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <button id="side-vector-refund_mismatch" onclick="filterQueue('refund_mismatch')">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                            Pre-Auth Mismatches
+                        <button id="side-nav-trends" onclick="navigateTo('trends')">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            7-Day Trends
                         </button>
                     </li>
                 </ul>
@@ -1044,9 +986,9 @@
         <header class="top-navbar">
             <div class="navbar-left">
                 <div class="breadcrumb-trail">
-                    <button class="breadcrumb-btn" onclick="switchDashboardTab('overview')">Dashboards</button>
+                    <button class="breadcrumb-btn" onclick="navigateTo('overview')">Dashboards</button>
                     <span class="breadcrumb-sep">/</span>
-                    <button class="breadcrumb-btn" onclick="switchDashboardTab('knapsack')">Recovery Engine</button>
+                    <button class="breadcrumb-btn" id="breadcrumb-middle-btn" onclick="navigateTo('engine')">Recovery Engine</button>
                     <span class="breadcrumb-sep">/</span>
                     <span class="breadcrumb-item active" id="breadcrumb-current-view">Overview</span>
                 </div>
@@ -1054,7 +996,7 @@
 
             <div class="navbar-search">
                 <svg class="icon search-icon-left" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" placeholder="Search opportunities, IDs..." oninput="searchQueue(this.value)">
+                <input type="text" id="global-search-input" placeholder="Search opportunities, IDs..." oninput="handleSearch(this.value)">
                 <span class="search-kbd-right">Ctrl K</span>
             </div>
 
@@ -1065,32 +1007,34 @@
                 </button>
                 <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
                     <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    Execute Optimal Batch
+                    Execute Batch
                 </button>
-                <button class="btn-shadcn" onclick="loadDashboard(true)">
+                <button class="btn-shadcn" onclick="loadDashboard(true)" title="Refresh Telemetry">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
                 </button>
             </div>
         </header>
 
-        <!-- Main Dashboard View Container -->
-        <div class="content-wrap">
-            <!-- Page Title Row -->
+        <!-- ============================================== -->
+        <!-- PAGE 1: OVERVIEW DASHBOARD                     -->
+        <!-- ============================================== -->
+        <section id="page-overview" class="page-view active">
             <div class="page-header-row">
                 <div class="page-title">
                     <h1>Revenue Recovery Overview</h1>
-                    <p>Real-time autonomous delinquency prioritization via 0/1 Knapsack Dynamic Program</p>
+                    <p>Real-time delinquency intelligence and autonomous recovery orchestration</p>
                 </div>
 
                 <div class="shadcn-tabs">
-                    <button id="tab-btn-overview" class="shadcn-tab-btn active" onclick="switchDashboardTab('overview', this)">Overview</button>
-                    <button id="tab-btn-knapsack" class="shadcn-tab-btn" onclick="switchDashboardTab('knapsack', this)">Recovery Engine (Knapsack)</button>
-                    <button id="tab-btn-vectors" class="shadcn-tab-btn" onclick="switchDashboardTab('vectors', this)">Vector Telemetry</button>
+                    <button class="shadcn-tab-btn active" onclick="navigateTo('overview')">Overview</button>
+                    <button class="shadcn-tab-btn" onclick="navigateTo('engine')">Recovery Engine</button>
+                    <button class="shadcn-tab-btn" onclick="navigateTo('queue')">Opportunity Queue</button>
+                    <button class="shadcn-tab-btn" onclick="navigateTo('vectors')">Vector Telemetry</button>
                 </div>
             </div>
 
             <!-- 4 Core Metric Cards -->
-            <section class="stats-grid">
+            <div class="stats-grid">
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Revenue at Risk</span>
@@ -1135,78 +1079,249 @@
                         <span>vs greedy expected value sorting</span>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- 2-Column Split: Knapsack Lab + Recovery Vectors -->
-            <section class="dashboard-split-grid">
-                <!-- Left: Knapsack Dynamic Program Controller -->
-                <div class="lab-card" id="knapsack-lab-section">
-                    <div class="lab-card-title">
-                        <span>Knapsack Optimization Controller</span>
-                        <span style="font-size: 11px; font-weight: 600; color: #38bdf8; background: rgba(12, 140, 238, 0.12); padding: 3px 8px; border-radius: 4px;">Dynamic Program</span>
-                    </div>
-
-                    <div class="budget-control-box">
-                        <div style="min-width: 140px;">
-                            <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Effort Budget (W)</div>
-                            <div style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;"><span id="capacity-display">6</span> Units</div>
+            <!-- Quick Studio Shortcuts -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div class="studio-card">
+                    <div class="studio-card-head">
+                        <div class="studio-card-title">
+                            <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Dynamic Programming Recovery Matrix
                         </div>
-                        <div style="flex: 1;">
-                            <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
-                        </div>
+                        <button class="btn-shadcn" onclick="navigateTo('engine')" style="height: 30px; font-size: 12px;">Open Studio -></button>
                     </div>
-
-                    <!-- 3 Strategy Cards -->
+                    <p style="font-size: 13px; color: var(--muted-foreground); line-height: 1.6;">
+                        REVORA optimizes merchant outreach capacity using a mathematical <strong>0/1 Knapsack Dynamic Program</strong>. Instead of naively chasing highest-dollar debts (FIFO) or highest-percentage chances (Greedy), it maximizes expected value yield subject to strict merchant operational bandwidth constraints.
+                    </p>
                     <div class="strategy-mini-grid">
                         <div class="strat-card active">
-                            <div class="strat-name">1. 0/1 Knapsack DP</div>
-                            <div class="strat-val" id="dp-ev-display">INR 0</div>
-                            <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: #34d399; font-weight: 700;">+72.8% Lift</span></div>
+                            <div class="strat-name">0/1 Knapsack DP</div>
+                            <div class="strat-val" id="overview-dp-val">INR 0</div>
+                            <div class="strat-sub"><span id="overview-dp-count">0</span> Actions Chosen</div>
                         </div>
-
                         <div class="strat-card">
-                            <div class="strat-name">2. Greedy Ratio</div>
-                            <div class="strat-val" id="greedy-ev-display" style="color: #94a3b8;">INR 0</div>
-                            <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Sub-optimal</div>
+                            <div class="strat-name">Greedy EV Ratio</div>
+                            <div class="strat-val" id="overview-greedy-val" style="color: #94a3b8;">INR 0</div>
+                            <div class="strat-sub">Sub-optimal Yield</div>
                         </div>
-
                         <div class="strat-card">
-                            <div class="strat-name">3. Naive FIFO</div>
-                            <div class="strat-val" id="fifo-ev-display" style="color: #64748b;">INR 0</div>
-                            <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Uninformed</div>
+                            <div class="strat-name">Naive FIFO</div>
+                            <div class="strat-val" id="overview-fifo-val" style="color: #64748b;">INR 0</div>
+                            <div class="strat-sub">Uninformed Queue</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right: 4 Recovery Vectors Telemetry -->
-                <div class="lab-card" id="vector-telemetry-section">
-                    <div class="lab-card-title">
-                        <span>Recovery Channels</span>
-                        <span style="font-size: 11px; color: var(--muted-foreground);">4 Active Vectors</span>
+                <div class="studio-card">
+                    <div class="studio-card-head">
+                        <div class="studio-card-title">
+                            <svg class="icon" style="color: #34d399;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                            Active Channels
+                        </div>
+                        <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">All Vectors -></button>
                     </div>
-
-                    <div class="vector-list-wrap" id="vector-breakdown-container">
-                        <!-- Populated dynamically via renderSegmentedBreakdown -->
+                    <div id="overview-vector-mini-list" style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Mini cards populated dynamically -->
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Main Data Table Card -->
-            <section class="table-card" id="opp-table-section">
+            <!-- Recent Ingested Delinquencies Preview -->
+            <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 16px; font-weight: 700; color: #f8fafc;">Prioritized Opportunity Queue</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">ML Recovery Probability & Deterministic Guardrail Status</p>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Recent Recovery Opportunities</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Top actionable delinquencies scored by ML models</p>
+                    </div>
+                    <button class="btn-shadcn" onclick="navigateTo('queue')">
+                        View Full Opportunity Queue (${totalOpportunitiesCount} Items) ->
+                    </button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Opportunity ID</th>
+                                <th>Vector</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Probability</th>
+                                <th>Expected Value</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overview-preview-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- PAGE 2: RECOVERY ENGINE (KNAPSACK)             -->
+        <!-- ============================================== -->
+        <section id="page-engine" class="page-view">
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>Knapsack Recovery Engine</h1>
+                    <p>0/1 Dynamic Programming solver maximizing expected recovery under capacity constraints</p>
+                </div>
+
+                <div class="navbar-right">
+                    <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
+                        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Execute Optimal Batch
+                    </button>
+                </div>
+            </div>
+
+            <!-- Knapsack Dynamic Program Controller Card -->
+            <div class="studio-card">
+                <div class="studio-card-head">
+                    <div class="studio-card-title">
+                        <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        Effort Capacity Constraint Slider
+                    </div>
+                    <span style="font-size: 11px; font-weight: 700; color: #38bdf8; background: rgba(12, 140, 238, 0.12); padding: 4px 10px; border-radius: 4px;">Dynamic Program Exact Solver</span>
+                </div>
+
+                <div class="budget-control-box">
+                    <div style="min-width: 170px;">
+                        <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Effort Budget (W)</div>
+                        <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;"><span id="capacity-display">6</span> Units</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--muted-foreground); margin-top: 6px; font-family: var(--font-mono);">
+                            <span>Min: 2 Units</span>
+                            <span>Standard: 6 Units</span>
+                            <span>Max: 15 Units</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3-Strategy Arena -->
+                <div class="strategy-mini-grid">
+                    <div class="strat-card active">
+                        <div class="strat-name">1. 0/1 Knapsack DP (Optimal)</div>
+                        <div class="strat-val" id="dp-ev-display">INR 0</div>
+                        <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: #34d399; font-weight: 700;">+72.8% Lift</span></div>
                     </div>
 
-                    <div class="table-filter-group">
-                        <div class="shadcn-tabs">
-                            <button id="tab-all" class="shadcn-tab-btn active" onclick="filterQueue('ALL', this)">All</button>
-                            <button id="tab-failed" class="shadcn-tab-btn" onclick="filterQueue('failed_payment', this)">Checkout</button>
-                            <button id="tab-partial" class="shadcn-tab-btn" onclick="filterQueue('partial_payment', this)">Partial</button>
-                            <button id="tab-overdue" class="shadcn-tab-btn" onclick="filterQueue('overdue_payment', this)">Overdue B2B</button>
-                            <button id="tab-mismatch" class="shadcn-tab-btn" onclick="filterQueue('refund_mismatch', this)">Pre-Auth</button>
-                        </div>
+                    <div class="strat-card">
+                        <div class="strat-name">2. Greedy EV Yield Ratio</div>
+                        <div class="strat-val" id="greedy-ev-display" style="color: #94a3b8;">INR 0</div>
+                        <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Sub-optimal allocation</div>
+                    </div>
+
+                    <div class="strat-card">
+                        <div class="strat-name">3. Naive FIFO Chronological</div>
+                        <div class="strat-val" id="fifo-ev-display" style="color: #64748b;">INR 0</div>
+                        <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Zero intelligence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optimal Action Batch Table -->
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Optimal Recovery Set (Selected by DP)</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Candidates maximizing total expected recovery within effort capacity</p>
+                    </div>
+                    <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
+                        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Execute Optimal Batch
+                    </button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Opportunity ID</th>
+                                <th>Vector</th>
+                                <th>Customer</th>
+                                <th>Recoverable Amount</th>
+                                <th>Effort Weight</th>
+                                <th>Probability</th>
+                                <th>Expected Value</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="engine-optimal-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Excluded Candidates & Opportunity Cost -->
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #94a3b8;">Excluded Candidates (Budget Trade-off)</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Lower yield-to-effort opportunities passed over to protect merchant bandwidth</p>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Opportunity ID</th>
+                                <th>Vector</th>
+                                <th>Amount</th>
+                                <th>Weight</th>
+                                <th>Probability</th>
+                                <th>Trade-off Rationale</th>
+                                <th style="text-align: right;">Inspect</th>
+                            </tr>
+                        </thead>
+                        <tbody id="engine-excluded-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- PAGE 3: OPPORTUNITY QUEUE                      -->
+        <!-- ============================================== -->
+        <section id="page-queue" class="page-view">
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>Prioritized Opportunity Queue</h1>
+                    <p>Machine learning recovery scoring, risk tiers, and deterministic guardrail checks</p>
+                </div>
+
+                <div class="navbar-right">
+                    <button class="btn-shadcn sync" onclick="syncLiveRazorpayData()">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                        Sync Live API
+                    </button>
+                    <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
+                        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Execute Optimal Batch
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Data Table Card -->
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div class="shadcn-tabs">
+                        <button id="tab-all" class="shadcn-tab-btn active" onclick="filterQueue('ALL', this)">All</button>
+                        <button id="tab-failed" class="shadcn-tab-btn" onclick="filterQueue('failed_payment', this)">Checkout</button>
+                        <button id="tab-partial" class="shadcn-tab-btn" onclick="filterQueue('partial_payment', this)">Partial</button>
+                        <button id="tab-overdue" class="shadcn-tab-btn" onclick="filterQueue('overdue_payment', this)">Overdue B2B</button>
+                        <button id="tab-mismatch" class="shadcn-tab-btn" onclick="filterQueue('refund_mismatch', this)">Pre-Auth</button>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="text" id="queue-search-input" placeholder="Filter by customer, ID, bank..." oninput="searchQueue(this.value)" style="height: 32px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-size: 12px; color: #f8fafc; outline: none; font-family: inherit;">
                     </div>
                 </div>
 
@@ -1218,7 +1333,7 @@
                                 <th>Channel Vector</th>
                                 <th>Customer</th>
                                 <th>At Risk Amount</th>
-                                <th>ML Recovery Probability</th>
+                                <th>ML Probability</th>
                                 <th>Expected Value</th>
                                 <th>Optimization Status</th>
                                 <th style="text-align: right;">Action</th>
@@ -1229,8 +1344,154 @@
                         </tbody>
                     </table>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- PAGE 4: VECTOR TELEMETRY                       -->
+        <!-- ============================================== -->
+        <section id="page-vectors" class="page-view">
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>Recovery Vectors & Channels</h1>
+                    <p>Performance telemetry and conversion analytics across all 4 recovery channels</p>
+                </div>
+
+                <button class="btn-shadcn" onclick="navigateTo('queue')">
+                    View Filtered Queue ->
+                </button>
+            </div>
+
+            <!-- 4 Vectors Grid -->
+            <div class="vector-grid-4" id="vector-full-grid">
+                <!-- Populated dynamically -->
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- PAGE 5: MODEL CALIBRATION                      -->
+        <!-- ============================================== -->
+        <section id="page-calibration" class="page-view">
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>Model Calibration & Brier Skill Studio</h1>
+                    <p>Evaluating probabilistic fidelity, Brier score, and empirical decile reliability</p>
+                </div>
+
+                <button class="btn-shadcn" onclick="loadCalibrationStudio()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    Recompute Calibration
+                </button>
+            </div>
+
+            <!-- 3 Calibration KPI Cards -->
+            <div class="stats-grid">
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Brier Score</span>
+                        <svg class="icon" style="color: #38bdf8;" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                    </div>
+                    <div class="card-value" id="cal-brier" style="color: #38bdf8;">0.1142</div>
+                    <div class="card-footer-text">Lower is better (0.00 = perfect calibration)</div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Brier Skill Score (BSS)</span>
+                        <svg class="icon" style="color: #34d399;" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </div>
+                    <div class="card-value" id="cal-bss" style="color: #34d399;">+54.3%</div>
+                    <div class="card-footer-text">Lift over climatological baseline</div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Mean Calibration Gap</span>
+                        <svg class="icon" style="color: #f59e0b;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    </div>
+                    <div class="card-value" id="cal-gap" style="color: #f59e0b;">3.1%</div>
+                    <div class="card-footer-text">Average deviation across decile bins</div>
+                </div>
+
+                <div class="shadcn-card">
+                    <div class="card-header-flex">
+                        <span class="card-title-text">Gated Confidence Status</span>
+                        <svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="card-value" style="color: #10b981; font-size: 20px;">ACTIVE</div>
+                    <div class="card-footer-text">Deterministic guardrails enforced</div>
+                </div>
+            </div>
+
+            <!-- Decile Calibration Table -->
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Decile Reliability Matrix</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Comparing predicted probability bins against empirical recovery rates</p>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Probability Decile</th>
+                                <th>Predicted Mean</th>
+                                <th>Observed Recovery Rate</th>
+                                <th>Reliability Gap</th>
+                                <th>Sample Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cal-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- PAGE 6: 7-DAY TRENDS                           -->
+        <!-- ============================================== -->
+        <section id="page-trends" class="page-view">
+            <div class="page-header-row">
+                <div class="page-title">
+                    <h1>7-Day Compounding Performance Trends</h1>
+                    <p>Day-by-day compounding recovery liquidity and rolling conversion metrics</p>
+                </div>
+
+                <button class="btn-shadcn" onclick="loadTrendsStudio()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    Refresh Trends
+                </button>
+            </div>
+
+            <!-- Trends Table -->
+            <div class="table-card">
+                <div class="table-toolbar">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Compounding Recovery Timeline</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Continuous performance ledger over the past rolling week</p>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Date</th>
+                                <th>Recovered Amount</th>
+                                <th>Recovery Rate</th>
+                                <th>Opportunities Resolved</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trend-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Slide-in Sheet / Diagnostic Drawer -->
@@ -1275,7 +1536,7 @@
                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
                     <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>Spend Limit Policy: Within INR 25,000 threshold</span>
+                        <span>Spend Limit Policy: Within threshold</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1283,7 +1544,7 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>Notification Cooldown: 15m backoff verified</span>
+                        <span>Notification Cooldown: Backoff verified</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1307,90 +1568,26 @@
         </div>
     </div>
 
-    <!-- Calibration Dialog Modal -->
-    <div class="dialog-overlay" id="calibration-modal" onclick="closeCalibrationModal(event)">
-        <div class="dialog-box" onclick="event.stopPropagation()">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
-                <div>
-                    <h3 style="font-size: 18px; font-weight: 800; color: #f8fafc;">Model Calibration & Brier Score</h3>
-                    <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">5-Fold Platt Scaled Random Forest Reliability Deciles</p>
-                </div>
-                <button class="sheet-close-btn" onclick="closeCalibrationModal()">
-                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
+    <!-- Global Toast -->
+    <div id="toast" class="toast-notification">Notification message</div>
 
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;">
-                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
-                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Brier Score</div>
-                    <div id="cal-brier" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #34d399; margin-top: 4px;">0.1142</div>
-                </div>
-                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
-                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Brier Skill Score</div>
-                    <div id="cal-bss" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8; margin-top: 4px;">+54.3%</div>
-                </div>
-                <div style="background: var(--muted); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
-                    <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Calibration Gap</div>
-                    <div id="cal-gap" style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #c084fc; margin-top: 4px;">2.6%</div>
-                </div>
-            </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Probability Tier</th>
-                        <th>Predicted Mean</th>
-                        <th>Observed Rate</th>
-                        <th>Calibration Gap</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody id="cal-tbody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- 7-Day Trends Dialog Modal -->
-    <div class="dialog-overlay" id="trends-modal" onclick="closeTrendsModal(event)">
-        <div class="dialog-box" onclick="event.stopPropagation()">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
-                <div>
-                    <h3 style="font-size: 18px; font-weight: 800; color: #f8fafc;">7-Day Compounding Trends</h3>
-                    <p style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">Daily rolling recovery metrics and resolution progress</p>
-                </div>
-                <button class="sheet-close-btn" onclick="closeTrendsModal()">
-                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Recovered Liquidity</th>
-                        <th>Recovery Rate</th>
-                        <th>Resolved Invoices</th>
-                    </tr>
-                </thead>
-                <tbody id="trend-tbody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast">Dashboard Synced</div>
-
+    <!-- JavaScript Core Application -->
     <script>
         let currentCapacity = 6;
         let globalOpportunities = [];
         let currentActiveOpp = null;
         let activeFilter = 'ALL';
         let searchQuery = '';
+        let currentPage = 'overview';
+
+        const pageTitles = {
+            'overview': 'Overview',
+            'engine': 'Recovery Engine',
+            'queue': 'Opportunity Queue',
+            'vectors': 'Vector Telemetry',
+            'calibration': 'Model Calibration',
+            'trends': '7-Day Trends'
+        };
 
         function showToast(msg) {
             const t = document.getElementById('toast');
@@ -1400,75 +1597,79 @@
             setTimeout(() => { t.style.display = 'none'; }, 3500);
         }
 
+        // ==========================================
+        // ROUTING / VIEW NAVIGATION
+        // ==========================================
+        function navigateTo(page) {
+            currentPage = page;
+            window.location.hash = page;
+
+            // 1. Toggle page sections
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+            const targetPage = document.getElementById('page-' + page);
+            if (targetPage) targetPage.classList.add('active');
+
+            // 2. Sync sidebar active links
+            document.querySelectorAll('.sidebar-nav-item button').forEach(b => b.classList.remove('active'));
+            const sideBtn = document.getElementById('side-nav-' + page);
+            if (sideBtn) sideBtn.classList.add('active');
+
+            // 3. Update breadcrumbs
+            const currentBreadcrumb = document.getElementById('breadcrumb-current-view');
+            if (currentBreadcrumb) {
+                currentBreadcrumb.textContent = pageTitles[page] || 'Overview';
+            }
+
+            const middleBtn = document.getElementById('breadcrumb-middle-btn');
+            if (middleBtn) {
+                if (page === 'engine') middleBtn.textContent = 'Recovery Engine';
+                else if (page === 'queue') middleBtn.textContent = 'Opportunity Queue';
+                else if (page === 'vectors') middleBtn.textContent = 'Vector Telemetry';
+                else if (page === 'calibration' || page === 'trends') middleBtn.textContent = 'Analytics';
+                else middleBtn.textContent = 'Recovery Engine';
+            }
+
+            // 4. Scroll to top of content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 5. Load page-specific data if needed
+            if (page === 'calibration') loadCalibrationStudio();
+            if (page === 'trends') loadTrendsStudio();
+        }
+
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.replace('#', '');
+            if (h && pageTitles[h]) {
+                navigateTo(h);
+            }
+        });
+
+        function handleSearch(val) {
+            searchQuery = (val || '').toLowerCase().trim();
+            if (currentPage !== 'queue') {
+                navigateTo('queue');
+            }
+            const queueSearch = document.getElementById('queue-search-input');
+            if (queueSearch) queueSearch.value = val;
+            renderOpportunities(globalOpportunities);
+        }
+
+        function searchQueue(val) {
+            searchQuery = (val || '').toLowerCase().trim();
+            renderOpportunities(globalOpportunities);
+        }
+
         function onCapacityChange(val) {
             currentCapacity = parseInt(val);
             document.getElementById('capacity-display').textContent = val;
             loadDashboard(false);
         }
 
-        function switchDashboardTab(tab, btn) {
-            // 1. Sync header tabs
-            document.querySelectorAll('.page-header-row .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
-            const tabHeaderMap = {
-                'overview': 'tab-btn-overview',
-                'knapsack': 'tab-btn-knapsack',
-                'vectors': 'tab-btn-vectors'
-            };
-            const activeHeaderBtn = document.getElementById(tabHeaderMap[tab]);
-            if (activeHeaderBtn) activeHeaderBtn.classList.add('active');
-            else if (btn) btn.classList.add('active');
-
-            // 2. Sync sidebar navigation items
-            const sideMap = {
-                'overview': 'side-nav-overview',
-                'knapsack': 'side-nav-engine',
-                'vectors': 'side-nav-vectors'
-            };
-            ['side-nav-overview', 'side-nav-engine', 'side-nav-vectors'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.remove('active');
-            });
-            const activeSideBtn = document.getElementById(sideMap[tab]);
-            if (activeSideBtn) activeSideBtn.classList.add('active');
-
-            // 3. Update dynamic breadcrumb trailing label
-            const labelMap = {
-                'overview': 'Overview',
-                'knapsack': 'Knapsack Engine',
-                'vectors': 'Vector Telemetry'
-            };
-            const breadcrumbEl = document.getElementById('breadcrumb-current-view');
-            if (breadcrumbEl) breadcrumbEl.textContent = labelMap[tab] || 'Overview';
-
-            // 4. Smooth scroll to targeted studio section
-            if (tab === 'overview') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (tab === 'knapsack') {
-                const el = document.getElementById('knapsack-lab-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (tab === 'vectors') {
-                const el = document.getElementById('vector-telemetry-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
         function filterQueue(category, btn) {
-            // Update breadcrumb trail to reflect active vector
-            const categoryLabels = {
-                'ALL': 'All Opportunities',
-                'failed_payment': 'Failed Checkouts',
-                'partial_payment': 'Partial Balances',
-                'overdue_payment': 'Overdue Invoices',
-                'refund_mismatch': 'Pre-Auth Mismatches'
-            };
-            const breadcrumbEl = document.getElementById('breadcrumb-current-view');
-            if (breadcrumbEl && categoryLabels[category]) {
-                breadcrumbEl.textContent = categoryLabels[category];
-            }
             activeFilter = category;
 
             // 1. Sync table filter tab buttons
-            document.querySelectorAll('.table-filter-group .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.shadcn-tabs .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
             const tabMap = {
                 'ALL': 'tab-all',
                 'failed_payment': 'tab-failed',
@@ -1484,40 +1685,21 @@
                 btn.classList.add('active');
             }
 
-            // 2. Sync sidebar navigation items
-            document.querySelectorAll('.sidebar-nav-item button').forEach(b => b.classList.remove('active'));
-            const sideBtn = document.getElementById('side-vector-' + category);
-            if (sideBtn) sideBtn.classList.add('active');
-
-            // 3. Sync vector cards in the 2-column split
-            document.querySelectorAll('.vector-row-card').forEach(c => {
-                if (c.dataset.category === category) {
-                    c.classList.add('active');
-                } else {
-                    c.classList.remove('active');
-                }
-            });
-
-            // 4. Render opportunities with active filter
+            // 2. Render opportunities
             renderOpportunities(globalOpportunities);
 
-            // 5. If triggered from sidebar or vector card, scroll to opportunities table
-            if (category !== 'ALL' || (btn && !btn.closest('.table-filter-group'))) {
-                const tableSection = document.getElementById('opp-table-section');
-                if (tableSection) {
-                    tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+            // 3. Switch to queue view if called from other pages
+            if (currentPage !== 'queue') {
+                navigateTo('queue');
             }
         }
 
-        function searchQueue(q) {
-            searchQuery = (q || '').toLowerCase().trim();
-            renderOpportunities(globalOpportunities);
-        }
-
+        // ==========================================
+        // DATA LOAD & API ORCHESTRATION
+        // ==========================================
         async function loadDashboard(showNotification = false) {
             try {
-                // 1. Fetch Headline & Segmented Stats
+                // 1. Stats
                 const statsRes = await fetch('/stats');
                 const stats = await statsRes.json();
                 
@@ -1538,7 +1720,7 @@
                     renderSegmentedBreakdown(stats.segmented_by_type);
                 }
 
-                // 2. Fetch Knapsack Optimization Matrix
+                // 2. Knapsack Optimization Matrix
                 const optRes = await fetch(`/optimize?capacity=${currentCapacity}`);
                 const opt = await optRes.json();
 
@@ -1546,25 +1728,30 @@
                 const greedy = opt.greedy_by_ratio || {};
                 const fifo = opt.naive_fifo || {};
 
+                // Update Engine & Overview displays
                 document.getElementById('dp-ev-display').textContent = 'INR ' + Math.round(dp.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('dp-count-display').textContent = (dp.item_count || 0) + ' Actions';
-                
+                document.getElementById('overview-dp-val').textContent = 'INR ' + Math.round(dp.total_expected_value || 0).toLocaleString('en-IN');
+                document.getElementById('overview-dp-count').textContent = dp.item_count || 0;
+
                 const lift = opt.comparison?.lift_over_greedy_percent || 72.8;
                 document.getElementById('dp-lift-pill').textContent = '+' + lift.toFixed(1) + '% Lift';
                 document.getElementById('stat-lift').textContent = '+' + lift.toFixed(1) + '%';
 
                 document.getElementById('greedy-ev-display').textContent = 'INR ' + Math.round(greedy.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('greedy-count-display').textContent = (greedy.item_count || 0) + ' Actions';
+                document.getElementById('overview-greedy-val').textContent = 'INR ' + Math.round(greedy.total_expected_value || 0).toLocaleString('en-IN');
 
                 document.getElementById('fifo-ev-display').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
                 document.getElementById('fifo-count-display').textContent = (fifo.item_count || 0) + ' Actions';
+                document.getElementById('overview-fifo-val').textContent = 'INR ' + Math.round(fifo.total_expected_value || 0).toLocaleString('en-IN');
 
-                // 3. Fetch Opportunities Queue & Normalize Data
+                // 3. Opportunities Queue
                 const oppRes = await fetch('/opportunities');
                 const oppData = await oppRes.json();
                 const rawOpps = oppData.opportunities || [];
                 
-                // Normalization layer so all vector filters, amounts, probabilities and weights are unified
+                // Normalization
                 globalOpportunities = rawOpps.map(o => {
                     const normalizedType = o.opportunity_type || o.type || 'failed_payment';
                     const normalizedAmount = (o.recoverable_amount !== undefined && o.recoverable_amount !== null) ? o.recoverable_amount : ((o.total_amount !== undefined) ? o.total_amount : (o.amount || 0));
@@ -1596,6 +1783,8 @@
                 });
 
                 renderOpportunities(globalOpportunities);
+                renderEngineOpportunities(globalOpportunities);
+                renderOverviewPreview(globalOpportunities);
 
                 if (showNotification) {
                     showToast('Dashboard Synced with Live Razorpay Engine');
@@ -1607,15 +1796,23 @@
         }
 
         function renderSegmentedBreakdown(segmented) {
-            const container = document.getElementById('vector-breakdown-container');
-            if (!container) return;
-            container.innerHTML = '';
+            const miniList = document.getElementById('overview-vector-mini-list');
+            const fullGrid = document.getElementById('vector-full-grid');
+            if (miniList) miniList.innerHTML = '';
+            if (fullGrid) fullGrid.innerHTML = '';
 
             const titles = {
                 'failed_payment': 'Failed Checkouts',
                 'partial_payment': 'Partial Balances',
                 'overdue_payment': 'Overdue Invoices',
                 'refund_mismatch': 'Pre-Auth Mismatches'
+            };
+
+            const descriptions = {
+                'failed_payment': 'Network & issuer card declines with automated 15m cooldown retry',
+                'partial_payment': 'Disputed installments with WhatsApp & SMS schedule dispatch',
+                'overdue_payment': 'B2B receivable net terms with 1-Click UPI deep-links',
+                'refund_mismatch': 'Gateway pre-auth captures guarded with INR 7,500 safety ceiling'
             };
 
             for (const [key, val] of Object.entries(segmented)) {
@@ -1625,28 +1822,140 @@
                 else if (key === 'refund_mismatch') badgeClass = 'mismatch';
 
                 const progressWidth = Math.min(100, Math.max(0, val.recovery_rate || 0));
-                const isActive = activeFilter === key;
 
-                const card = document.createElement('div');
-                card.className = 'vector-row-card' + (isActive ? ' active' : '');
-                card.dataset.category = key;
-                card.title = 'Click to filter opportunity queue by ' + (titles[key] || key);
-                card.onclick = () => filterQueue(key);
-                card.innerHTML = `
-                    <div class="vector-row-head">
-                        <span class="v-pill ${badgeClass}">${titles[key] || key}</span>
-                        <span style="font-size: 12px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
-                    </div>
-                    <div class="v-progress-bar">
-                        <div class="v-progress-fill" style="width: ${progressWidth}%;"></div>
-                    </div>
-                    <div class="v-meta-row">
-                        <span>Risk: <strong style="color: #f8fafc; font-family: var(--font-mono);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
-                        <span>Recovered: <strong style="color: #34d399; font-family: var(--font-mono);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
-                    </div>
-                `;
-                container.appendChild(card);
+                // Mini row for Overview page
+                if (miniList) {
+                    const row = document.createElement('div');
+                    row.className = 'vector-row-card';
+                    row.onclick = () => filterQueue(key);
+                    row.title = 'Filter queue by ' + (titles[key] || key);
+                    row.innerHTML = `
+                        <div class="vector-row-head">
+                            <span class="v-pill ${badgeClass}">${titles[key] || key}</span>
+                            <span style="font-size: 12px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
+                        </div>
+                        <div class="v-progress-bar">
+                            <div class="v-progress-fill" style="width: ${progressWidth}%;"></div>
+                        </div>
+                        <div class="v-meta-row">
+                            <span>Risk: <strong style="color: #f8fafc; font-family: var(--font-mono);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
+                            <span>Recovered: <strong style="color: #34d399; font-family: var(--font-mono);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
+                        </div>
+                    `;
+                    miniList.appendChild(row);
+                }
+
+                // Full box for Vectors page
+                if (fullGrid) {
+                    const box = document.createElement('div');
+                    box.className = 'vector-box';
+                    box.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <span class="v-pill ${badgeClass}" style="font-size: 13px; padding: 4px 10px;">${titles[key] || key}</span>
+                            <span style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
+                        </div>
+                        <p style="font-size: 13px; color: var(--muted-foreground);">${descriptions[key] || ''}</p>
+                        <div class="v-progress-bar" style="height: 8px;">
+                            <div class="v-progress-fill" style="width: ${progressWidth}%;"></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--muted); padding: 12px; border-radius: 6px;">
+                            <div>
+                                <div style="font-size: 11px; color: var(--muted-foreground);">Total At Risk</div>
+                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: #f8fafc;">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: var(--muted-foreground);">Recovered</div>
+                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</div>
+                            </div>
+                        </div>
+                        <button class="btn-shadcn" onclick="filterQueue('${key}')" style="justify-content: center; height: 36px; margin-top: auto;">
+                            Filter Opportunities for ${titles[key] || key} ->
+                        </button>
+                    `;
+                    fullGrid.appendChild(box);
+                }
             }
+        }
+
+        function renderOverviewPreview(opps) {
+            const tbody = document.getElementById('overview-preview-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const previewItems = opps.slice(0, 4);
+            previewItems.forEach(o => {
+                const tr = document.createElement('tr');
+                const prob = Math.round(o.probability || 0);
+                let probColor = '#10b981';
+                if (prob < 50) probColor = '#ef4444';
+                else if (prob < 75) probColor = '#f59e0b';
+
+                let statusBadge = o.status === 'RECOVERED' ? 
+                    '<span class="pill-status recovered">Recovered</span>' :
+                    (o.is_knapsack_optimal ? '<span class="pill-status optimal">Optimal Set</span>' : '<span class="pill-status excluded">Queue</span>');
+
+                tr.innerHTML = `
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</td>
+                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
+                    <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: ${probColor};">${prob}%</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
+                    <td>${statusBadge}</td>
+                    <td style="text-align: right;">
+                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderEngineOpportunities(opps) {
+            const optimalTbody = document.getElementById('engine-optimal-tbody');
+            const excludedTbody = document.getElementById('engine-excluded-tbody');
+            if (!optimalTbody || !excludedTbody) return;
+
+            optimalTbody.innerHTML = '';
+            excludedTbody.innerHTML = '';
+
+            const optimal = opps.filter(o => o.is_knapsack_optimal);
+            const excluded = opps.filter(o => !o.is_knapsack_optimal);
+
+            optimal.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</td>
+                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
+                    <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
+                    <td style="font-family: var(--font-mono); color: #c084fc; font-weight: 700;">${o.knapsack_weight} Unit</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">${Math.round(o.probability)}%</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
+                    <td style="text-align: right;">
+                        ${o.status === 'RECOVERED' ? 
+                            '<span class="pill-status recovered">Settled</span>' :
+                            `<button class="btn-shadcn primary" onclick="recoverSingle('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Recover</button>`
+                        }
+                    </td>
+                `;
+                optimalTbody.appendChild(tr);
+            });
+
+            excluded.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family: var(--font-mono); color: var(--muted-foreground);">${o.id}</td>
+                    <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
+                    <td style="font-family: var(--font-mono);">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
+                    <td style="font-family: var(--font-mono);">${o.knapsack_weight} Unit</td>
+                    <td style="font-family: var(--font-mono);">${Math.round(o.probability)}%</td>
+                    <td style="font-size: 12px; color: var(--muted-foreground);">Effort weight exceeds remaining capacity window</td>
+                    <td style="text-align: right;">
+                        <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
+                    </td>
+                `;
+                excludedTbody.appendChild(tr);
+            });
         }
 
         function renderOpportunities(opps) {
@@ -1654,17 +1963,16 @@
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            // Filter by Vector Category
             let filtered = activeFilter === 'ALL' ? opps : opps.filter(o => 
                 (o.opportunity_type === activeFilter || o.type === activeFilter)
             );
 
-            // Filter by Search Query
             if (searchQuery) {
                 filtered = filtered.filter(o => 
                     (o.id && o.id.toLowerCase().includes(searchQuery)) ||
                     (o.customer_name && o.customer_name.toLowerCase().includes(searchQuery)) ||
                     (o.source_reference_id && o.source_reference_id.toLowerCase().includes(searchQuery)) ||
+                    (o.payment_method && o.payment_method.toLowerCase().includes(searchQuery)) ||
                     (o.title && o.title.toLowerCase().includes(searchQuery))
                 );
             }
@@ -1704,7 +2012,6 @@
                 const evFormatted = 'INR ' + Math.round(o.expected_value || 0).toLocaleString('en-IN');
                 const channelType = o.opportunity_type || o.type;
 
-                // Action buttons HTML
                 let actionHtml = '';
                 if (o.status === 'RECOVERED') {
                     actionHtml = `
@@ -1766,6 +2073,9 @@
             return type || 'Checkout';
         }
 
+        // ==========================================
+        // DRAWER & SINGLE RECOVERY
+        // ==========================================
         function openDrawerForOpp(id) {
             const opp = globalOpportunities.find(o => o.id === id);
             if (!opp) return;
@@ -1777,7 +2087,6 @@
             document.getElementById('drawer-ev').textContent = 'INR ' + Math.round(opp.expected_value || 0).toLocaleString('en-IN');
             document.getElementById('drawer-weight').textContent = (opp.knapsack_weight || 1) + ' Unit';
             
-            // AI Rationale & Explanation
             let rationaleHtml = '';
             if (typeof opp.ai_explanation === 'object' && opp.ai_explanation !== null) {
                 const whyRec = opp.ai_explanation.why_recommended || opp.recommended_action || '1-Click payment recovery dispatched.';
@@ -1876,9 +2185,12 @@
             }
         }
 
+        // ==========================================
+        // BATCH EXECUTION & CONTROLS
+        // ==========================================
         async function executeOptimalBatch() {
             try {
-                showToast('Executing optimal Knapsack action batch via Razorpay...');
+                showToast('Executing optimal Knapsack action batch via Razorpay API...');
                 const optimalIds = globalOpportunities
                     .filter(o => o.is_knapsack_optimal && o.status !== 'RECOVERED')
                     .map(o => o.id);
@@ -1888,17 +2200,17 @@
                     return;
                 }
 
-                for (const id of optimalIds) {
-                    await fetch(`/opportunities/${id}/recover`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                }
+                const res = await fetch('/optimize/execute-batch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ opportunity_ids: optimalIds })
+                });
+                const data = await res.json();
 
                 if (typeof confetti === 'function') {
                     confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
                 }
-                showToast(`Batch executed: ${optimalIds.length} recovery actions dispatched.`);
+                showToast(data.message || `Batch executed: ${optimalIds.length} actions dispatched.`);
                 loadDashboard(true);
             } catch (err) {
                 showToast('Batch execution error: ' + err.message);
@@ -1948,7 +2260,10 @@
             }
         }
 
-        function openCalibrationModal() {
+        // ==========================================
+        // CALIBRATION & TRENDS STUDIOS
+        // ==========================================
+        function loadCalibrationStudio() {
             fetch('/model-calibration')
                 .then(r => r.json())
                 .then(data => {
@@ -1962,23 +2277,18 @@
                         const tr = document.createElement('tr');
                         const gap = Math.abs(b.predicted_mean - b.observed_recovery_rate) * 100;
                         tr.innerHTML = `
-                            <td style="padding:10px; font-weight:700; color:#f8fafc;">${b.bin}</td>
-                            <td style="padding:10px; color:#38bdf8; font-family:var(--font-mono);">${(b.predicted_mean * 100).toFixed(1)}%</td>
-                            <td style="padding:10px; color:#34d399; font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
-                            <td style="padding:10px; color:#f59e0b; font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
-                            <td style="padding:10px; color:var(--muted-foreground); font-family:var(--font-mono);">${b.count}</td>
+                            <td style="padding:12px; font-weight:700; color:#f8fafc;">${b.bin}</td>
+                            <td style="padding:12px; color:#38bdf8; font-family:var(--font-mono);">${(b.predicted_mean * 100).toFixed(1)}%</td>
+                            <td style="padding:12px; color:#34d399; font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
+                            <td style="padding:12px; color:#f59e0b; font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
+                            <td style="padding:12px; color:var(--muted-foreground); font-family:var(--font-mono);">${b.count}</td>
                         `;
                         tbody.appendChild(tr);
                     });
-                    document.getElementById('calibration-modal').style.display = 'flex';
                 });
         }
 
-        function closeCalibrationModal(e) {
-            document.getElementById('calibration-modal').style.display = 'none';
-        }
-
-        function openTrendsModal() {
+        function loadTrendsStudio() {
             fetch('/analytics/trends')
                 .then(r => r.json())
                 .then(data => {
@@ -1987,23 +2297,25 @@
                     data.trend_points.forEach(tp => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td style="padding:10px; font-weight:700; color:#f8fafc;">${tp.day}</td>
-                            <td style="padding:10px; color:var(--muted-foreground);">${tp.date}</td>
-                            <td style="padding:10px; color:#34d399; font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
-                            <td style="padding:10px; color:#38bdf8; font-weight:800; font-family:var(--font-mono);">${tp.recovery_rate}%</td>
-                            <td style="padding:10px; color:var(--muted-foreground); font-family:var(--font-mono);">${tp.opportunities_resolved}</td>
+                            <td style="padding:12px; font-weight:700; color:#f8fafc;">${tp.day}</td>
+                            <td style="padding:12px; color:var(--muted-foreground);">${tp.date}</td>
+                            <td style="padding:12px; color:#34d399; font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
+                            <td style="padding:12px; color:#38bdf8; font-weight:800; font-family:var(--font-mono);">${tp.recovery_rate}%</td>
+                            <td style="padding:12px; color:var(--muted-foreground); font-family:var(--font-mono);">${tp.opportunities_resolved}</td>
                         `;
                         tbody.appendChild(tr);
                     });
-                    document.getElementById('trends-modal').style.display = 'flex';
                 });
         }
 
-        function closeTrendsModal(e) {
-            document.getElementById('trends-modal').style.display = 'none';
+        // Initialize application based on hash or default to overview
+        const initialHash = window.location.hash.replace('#', '');
+        if (initialHash && pageTitles[initialHash]) {
+            navigateTo(initialHash);
+        } else {
+            navigateTo('overview');
         }
 
-        // Initial Load
         loadDashboard();
     </script>
 </body>
