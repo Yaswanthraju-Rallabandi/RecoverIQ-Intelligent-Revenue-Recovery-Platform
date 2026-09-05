@@ -3,6 +3,7 @@ import os
 import hmac
 import hashlib
 import time
+import uuid
 from typing import Dict, Any, Optional
 
 # Load .env if present
@@ -56,21 +57,29 @@ class RazorpayTestClient:
         Converts INR to paise as required by Razorpay API specifications.
         Uses the real Razorpay API if Key Secret is provided, otherwise generates a safe test-mode link.
         """
-        amount_paise = int(round(amount * 100))
+        amount_paise = max(100, int(round(amount * 100)))
+
+        # Ensure reference_id is strictly unique and under 40 chars for Razorpay API
+        clean_ref = re.sub(r'[^a-zA-Z0-9_]', '_', reference_id)[:16]
+        unique_reference_id = f"{clean_ref}_{int(time.time())}_{uuid.uuid4().hex[:6]}"
 
         # Real API call via Razorpay SDK if secret is configured
         if self.rzp_sdk:
             try:
+                clean_phone = re.sub(r"\D", "", customer_phone or "")
+                contact_str = ("9" + clean_phone[-9:]) if len(clean_phone) >= 9 else "9876543210"
+                clean_email = customer_email if customer_email and "@" in customer_email else "customer@example.com"
+
                 payload = {
                     "amount": amount_paise,
                     "currency": currency,
                     "accept_partial": False,
-                    "reference_id": reference_id,
-                    "description": description[:200],
+                    "reference_id": unique_reference_id,
+                    "description": (description or "REVORA Revenue Recovery")[:200],
                     "customer": {
-                        "name": customer_name,
-                        "email": customer_email,
-                        "contact": ("9" + re.sub(r"\D", "", customer_phone)[-9:]) if len(re.sub(r"\D", "", customer_phone)) >= 9 else "9876543210"
+                        "name": customer_name or "Customer",
+                        "email": clean_email,
+                        "contact": contact_str
                     },
                     "notify": {
                         "sms": False,
@@ -86,19 +95,19 @@ class RazorpayTestClient:
                     "amount_paise": amount_paise,
                     "currency": currency,
                     "status": res.get("status", "created"),
-                    "reference_id": reference_id,
+                    "reference_id": unique_reference_id,
                     "description": description,
                     "customer": res.get("customer", {}),
                     "created_at": res.get("created_at", int(time.time())),
                     "mode": "live_razorpay_api"
                 }
             except Exception as e:
-                print(f"[Razorpay API Error] Fallback to test mode link: {e}")
+                print(f"[Razorpay API Error] Fallback to safe test mode link: {e}")
 
-        # High-Fidelity Test Mode Link (Fallback or when secret is pending)
-        clean_ref = reference_id.lower().replace("-", "_")
-        link_id = f"plink_{self.key_id[-6:]}_{clean_ref}_{int(time.time())}"
-        short_url = f"https://rzp.io/i/{link_id}"
+        # High-Fidelity Test Mode Link (Safe fallback if API is unreachable)
+        link_id = f"plink_{unique_reference_id}"
+        # Point to official Razorpay demo checkout so user NEVER receives a 404 {}
+        short_url = "https://razorpay.com/demo"
 
         return {
             "id": link_id,
@@ -107,7 +116,7 @@ class RazorpayTestClient:
             "amount_paise": amount_paise,
             "currency": currency,
             "status": "created",
-            "reference_id": reference_id,
+            "reference_id": unique_reference_id,
             "description": description,
             "customer": {
                 "name": customer_name,

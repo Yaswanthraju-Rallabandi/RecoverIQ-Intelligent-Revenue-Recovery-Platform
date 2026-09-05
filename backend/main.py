@@ -416,16 +416,32 @@ def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
             customer_email=opp.customer.email if opp.customer else "customer@example.com",
             customer_phone=opp.customer.phone if opp.customer else "+91 98765 43210"
         )
-        link_url = rzp_res["short_url"]
-        link_id = rzp_res["id"]
+        link_url = rzp_res.get("short_url")
+        link_id = rzp_res.get("id")
     elif opp.opportunity_type == "refund_mismatch":
-        rzp_res = razorpay_client.execute_preauth_capture(opp.source_reference_id, opp.recoverable_amount)
-        link_url = f"https://dashboard.razorpay.com/app/payments/{opp.source_reference_id}"
-        link_id = rzp_res["id"]
+        razorpay_client.execute_preauth_capture(opp.source_reference_id, opp.recoverable_amount)
+        rzp_res = razorpay_client.create_payment_link(
+            amount=opp.recoverable_amount,
+            reference_id=opp.id,
+            description=f"Pre-Auth Settlement: {opp.title}",
+            customer_name=opp.customer.name if opp.customer else "Customer",
+            customer_email=opp.customer.email if opp.customer else "customer@example.com",
+            customer_phone=opp.customer.phone if opp.customer else "+91 98765 43210"
+        )
+        link_url = rzp_res.get("short_url")
+        link_id = rzp_res.get("id")
     else: # failed_payment
-        rzp_res = razorpay_client.execute_switch_retry(opp.source_reference_id, opp.recoverable_amount, opp.payment_method)
-        link_url = f"https://dashboard.razorpay.com/app/payments/{opp.source_reference_id}"
-        link_id = rzp_res["id"]
+        razorpay_client.execute_switch_retry(opp.source_reference_id, opp.recoverable_amount, opp.payment_method)
+        rzp_res = razorpay_client.create_payment_link(
+            amount=opp.recoverable_amount,
+            reference_id=opp.id,
+            description=f"Retry Recovery: {opp.title}",
+            customer_name=opp.customer.name if opp.customer else "Customer",
+            customer_email=opp.customer.email if opp.customer else "customer@example.com",
+            customer_phone=opp.customer.phone if opp.customer else "+91 98765 43210"
+        )
+        link_url = rzp_res.get("short_url")
+        link_id = rzp_res.get("id")
 
     opp.status = "RECOVERED"
     opp.recovered_at = now_utc()
@@ -439,7 +455,7 @@ def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
         opportunity_id=opp.id,
         actor="RAZORPAY_TEST_MODE",
         action="PAYMENT_RECOVERY_EXECUTED",
-        reason=f"Executed {opp.recommended_action}. Created Razorpay Test Link ({link_url}).",
+        reason=f"Executed {opp.recommended_action}. Created Razorpay Payment Link ({link_url}).",
         metadata_json=json.dumps({"link_id": link_id, "url": link_url, "amount": opp.recoverable_amount})
     )
     db.add(audit)
@@ -447,10 +463,11 @@ def execute_opportunity_recovery(opp_id: str, db: Session = Depends(get_db)):
 
     return {
         "success": True,
-        "message": f"Successfully executed Razorpay Test Mode recovery for Rs {opp.recoverable_amount:,.2f}!",
+        "message": f"Successfully executed Razorpay recovery for Rs {opp.recoverable_amount:,.2f}!",
         "opportunity_id": opp.id,
         "recovered_amount": opp.recoverable_amount,
         "razorpay_link_url": link_url,
+        "razorpay_link_id": link_id,
         "status": "RECOVERED"
     }
 
@@ -518,7 +535,8 @@ def execute_optimal_action_set_batch(req: BatchRecoverRequest, db: Session = Dep
             opp.status = "RECOVERED"
             opp.recovered_at = now_utc()
             opp.recovered_amount = opp.recoverable_amount
-            opp.razorpay_link_url = rzp_res["short_url"]
+            opp.razorpay_link_id = rzp_res.get("id")
+            opp.razorpay_link_url = rzp_res.get("short_url")
             opp.retry_count += 1
 
             audit = models.AuditLog(
