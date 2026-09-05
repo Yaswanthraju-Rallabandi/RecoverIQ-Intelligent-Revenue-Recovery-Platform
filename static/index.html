@@ -164,7 +164,7 @@
         .brand-logo-icon {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, #0c8cee 0%, #0284c7 100%);
+            background: var(--primary);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -179,14 +179,14 @@
             font-size: 15px;
             font-weight: 700;
             letter-spacing: -0.01em;
-            color: #f8fafc;
+            color: var(--foreground);
         }
 
         .brand-tag {
             font-size: 10px;
             font-weight: 600;
-            color: #38bdf8;
-            background: rgba(12, 140, 238, 0.12);
+            color: var(--foreground);
+            background: var(--muted);
             padding: 2px 6px;
             border-radius: 4px;
             border: 1px solid rgba(12, 140, 238, 0.25);
@@ -205,8 +205,8 @@
         .sidebar-action-btn {
             width: 100%;
             height: 36px;
-            background: rgba(12, 140, 238, 0.1);
-            color: #38bdf8;
+            background: var(--muted);
+            color: var(--foreground);
             border: 1px solid rgba(12, 140, 238, 0.25);
             border-radius: 6px;
             font-size: 13px;
@@ -220,7 +220,7 @@
         }
         .sidebar-action-btn:hover {
             background: rgba(12, 140, 238, 0.18);
-            border-color: #0c8cee;
+            border-color: var(--ring);
         }
 
         .sidebar-group-label {
@@ -261,7 +261,7 @@
 
         .sidebar-nav-item button:hover {
             background: rgba(255, 255, 255, 0.04);
-            color: #f8fafc;
+            color: var(--foreground);
         }
 
         .sidebar-nav-item button.active {
@@ -277,7 +277,7 @@
             font-family: var(--font-mono);
             font-weight: 600;
             background: rgba(255, 255, 255, 0.08);
-            color: #94a3b8;
+            color: var(--muted-foreground);
             padding: 1px 6px;
             border-radius: 10px;
         }
@@ -295,14 +295,14 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #1e293b;
+            background: var(--secondary);
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
             font-weight: 700;
-            color: #38bdf8;
+            color: var(--foreground);
         }
 
         .user-info {
@@ -314,7 +314,7 @@
         .user-name {
             font-size: 13px;
             font-weight: 600;
-            color: #f8fafc;
+            color: var(--foreground);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -357,14 +357,14 @@
             align-items: center;
             gap: 8px;
             font-size: 13px;
-            color: #64748b;
+            color: var(--muted-foreground);
         }
 
         .breadcrumb-btn {
             background: none;
             border: none;
             padding: 0;
-            color: #64748b;
+            color: var(--muted-foreground);
             font-family: inherit;
             font-size: 13px;
             cursor: pointer;
@@ -374,7 +374,7 @@
         }
 
         .breadcrumb-btn:hover {
-            color: #38bdf8;
+            color: var(--foreground);
             text-decoration: underline;
         }
 
@@ -385,7 +385,7 @@
         }
 
         .breadcrumb-item.active {
-            color: #f8fafc;
+            color: var(--foreground);
             font-weight: 600;
         }
 
@@ -402,13 +402,13 @@
             border-radius: 6px;
             padding: 0 65px 0 34px;
             font-size: 13px;
-            color: #f8fafc;
+            color: var(--foreground);
             outline: none;
             font-family: inherit;
             transition: border-color 0.15s ease;
         }
         .navbar-search input:focus {
-            border-color: #0c8cee;
+            border-color: var(--ring);
             background: rgba(255, 255, 255, 0.06);
         }
 
@@ -429,7 +429,7 @@
             font-size: 11px;
             font-family: var(--font-mono);
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--border);
             padding: 1px 5px;
             border-radius: 4px;
             color: var(--muted-foreground);
@@ -446,9 +446,9 @@
         .btn-shadcn {
             height: 36px;
             padding: 0 14px;
-            border-radius: 6px;
+            border-radius: var(--radius);
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -456,9 +456,34 @@
             transition: all 0.15s ease;
             font-family: inherit;
             border: 1px solid var(--border);
-            background: var(--muted);
-            color: #f8fafc;
+            background: var(--secondary);
+            color: var(--secondary-foreground);
             text-decoration: none;
+        }
+        .btn-shadcn:hover {
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border-color: var(--ring);
+        }
+        .btn-shadcn.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--primary-foreground);
+            font-weight: 600;
+            box-shadow: 0 var(--shadow-offset-y) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+        }
+        .btn-shadcn.primary:hover {
+            opacity: 0.9;
+            color: var(--primary-foreground);
+        }
+        .btn-shadcn.sync {
+            background: var(--secondary);
+            border-color: var(--border);
+            color: var(--secondary-foreground);
+        }
+        .btn-shadcn.sync:hover {
+            background: var(--accent);
+            border-color: var(--ring);
         }
         .btn-shadcn:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -477,22 +502,22 @@
             color: var(--primary-foreground);
         }
         .btn-shadcn.primary:hover {
-            background: #eaeaea;
-            border-color: #eaeaea;
+            opacity: 0.9;
+            border-color: var(--primary);
             color: #000000;
         }
         .btn-shadcn.primary:hover {
-            background: #0284c7;
-            border-color: #0284c7;
+            opacity: 0.9;
+            border-color: var(--primary);
         }
         .btn-shadcn.sync {
-            background: rgba(12, 140, 238, 0.1);
+            background: var(--muted);
             border-color: rgba(12, 140, 238, 0.25);
-            color: #38bdf8;
+            color: var(--foreground);
         }
         .btn-shadcn.sync:hover {
             background: rgba(12, 140, 238, 0.2);
-            border-color: #0c8cee;
+            border-color: var(--ring);
         }
 
         /* Views / Pages Architecture */
@@ -522,7 +547,7 @@
             font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.02em;
-            color: #f8fafc;
+            color: var(--foreground);
         }
 
         .page-title p {
@@ -535,7 +560,7 @@
         .shadcn-tabs {
             background: var(--muted);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius);
             padding: 3px;
             display: inline-flex;
             gap: 2px;
@@ -544,7 +569,7 @@
         .shadcn-tab-btn {
             background: transparent;
             border: none;
-            border-radius: 6px;
+            border-radius: calc(var(--radius) - 2px);
             padding: 6px 14px;
             font-size: 13px;
             font-weight: 500;
@@ -554,14 +579,14 @@
             font-family: inherit;
         }
         .shadcn-tab-btn:hover {
-            color: #f8fafc;
+            color: var(--foreground);
         }
         .shadcn-tab-btn.active {
             background: var(--card);
-            color: #f8fafc;
+            color: var(--card-foreground);
             font-weight: 600;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
         }
 
         /* Stat KPI Grid */
@@ -615,7 +640,7 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             font-family: var(--font-mono);
-            color: #f8fafc;
+            color: var(--foreground);
         }
 
         .card-footer-text {
@@ -627,12 +652,12 @@
         }
 
         .badge-trend-green {
-            color: #34d399;
+            color: var(--foreground);
             font-weight: 600;
             font-family: var(--font-mono);
         }
         .badge-trend-blue {
-            color: #38bdf8;
+            color: var(--foreground);
             font-weight: 600;
             font-family: var(--font-mono);
         }
@@ -664,7 +689,7 @@
         .studio-card-title {
             font-size: 16px;
             font-weight: 700;
-            color: #f8fafc;
+            color: var(--foreground);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -684,21 +709,22 @@
         .custom-slider {
             width: 100%;
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--muted);
             border-radius: 3px;
             outline: none;
             -webkit-appearance: none;
             cursor: pointer;
+            border: 1px solid var(--border);
         }
         .custom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: #0c8cee;
-            border: 2px solid #ffffff;
+            background: var(--primary);
+            border: 2px solid var(--background);
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(12, 140, 238, 0.6);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
         }
 
         /* Strategy Mini Grid */
@@ -714,7 +740,7 @@
         .strat-card {
             background: var(--muted);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius);
             padding: 14px;
             display: flex;
             flex-direction: column;
@@ -722,14 +748,14 @@
             transition: all 0.2s ease;
         }
         .strat-card.active {
-            border-color: #0c8cee;
-            background: rgba(12, 140, 238, 0.08);
+            border-color: var(--ring);
+            background: var(--secondary);
         }
 
         .strat-name {
             font-size: 12px;
             font-weight: 700;
-            color: #cbd5e1;
+            color: var(--foreground);
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
@@ -737,7 +763,7 @@
             font-size: 20px;
             font-weight: 800;
             font-family: var(--font-mono);
-            color: #38bdf8;
+            color: var(--foreground);
         }
         .strat-sub {
             font-size: 11px;
@@ -771,7 +797,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
         .vector-box.active {
-            border-color: #0c8cee;
+            border-color: var(--ring);
             background: rgba(12, 140, 238, 0.08);
         }
 
@@ -792,7 +818,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
         .vector-row-card.active {
-            border-color: #0c8cee !important;
+            border-color: var(--ring) !important;
             background: rgba(12, 140, 238, 0.09) !important;
         }
 
@@ -809,10 +835,10 @@
             border-radius: 4px;
             display: inline-block;
         }
-        .v-pill.failed { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .v-pill.partial { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .v-pill.invoice { background: rgba(12, 140, 238, 0.15); color: #38bdf8; border: 1px solid rgba(12, 140, 238, 0.3); }
-        .v-pill.mismatch { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .v-pill.failed { background: var(--muted); color: var(--destructive); border: 1px solid var(--border); }
+        .v-pill.partial { background: var(--muted); color: var(--chart-1); border: 1px solid var(--border); }
+        .v-pill.invoice { background: var(--muted); color: var(--chart-2); border: 1px solid var(--border); }
+        .v-pill.mismatch { background: var(--muted); color: var(--chart-2); border: 1px solid var(--border); }
 
         .v-progress-bar {
             height: 6px;
@@ -822,7 +848,7 @@
         }
         .v-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #0c8cee, #34d399);
+            background: var(--primary);
             border-radius: 3px;
             transition: width 0.4s ease;
         }
@@ -870,19 +896,19 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--muted-foreground);
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--muted);
             border-bottom: 1px solid var(--border);
         }
 
         .data-table td {
             padding: 14px 18px;
             border-bottom: 1px solid var(--border);
-            color: #cbd5e1;
+            color: var(--foreground);
             vertical-align: middle;
         }
 
         .data-table tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--accent);
         }
 
         .pill-status {
@@ -892,13 +918,13 @@
             border-radius: 12px;
             display: inline-block;
         }
-        .pill-status.optimal { background: rgba(0, 229, 153, 0.1); color: #00e599; border: 1px solid rgba(0, 229, 153, 0.25); }
-        .pill-status.recovered { background: rgba(0, 112, 243, 0.1); color: #38bdf8; border: 1px solid rgba(0, 112, 243, 0.25); }
-        .pill-status.review { background: rgba(245, 166, 35, 0.1); color: #f5a623; border: 1px solid rgba(245, 166, 35, 0.25); }
-        .pill-status.excluded { background: rgba(255, 255, 255, 0.05); color: #888888; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .pill-status.recovered { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-        .pill-status.review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .pill-status.excluded { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+        .pill-status.optimal { background: var(--secondary); color: var(--foreground); border: 1px solid var(--ring); }
+        .pill-status.recovered { background: var(--muted); color: var(--chart-2); border: 1px solid var(--border); }
+        .pill-status.review { background: var(--muted); color: var(--chart-1); border: 1px solid var(--border); }
+        .pill-status.excluded { background: var(--muted); color: var(--muted-foreground); border: 1px solid var(--border); }
+        .pill-status.recovered { background: var(--muted); color: var(--chart-2); border: 1px solid var(--border); }
+        .pill-status.review { background: var(--muted); color: var(--chart-1); border: 1px solid var(--border); }
+        .pill-status.excluded { background: var(--muted); color: var(--muted-foreground); border: 1px solid var(--border); }
 
         /* Slide-in Sheet Drawer */
         .sheet-overlay {
@@ -940,7 +966,7 @@
             border-radius: 4px;
         }
         .sheet-close-btn:hover {
-            color: #f8fafc;
+            color: var(--foreground);
             background: rgba(255, 255, 255, 0.08);
         }
 
@@ -949,9 +975,10 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: #0d1322;
-            border: 1px solid #0c8cee;
-            color: #f8fafc;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--card-foreground);
+            color: var(--foreground);
             padding: 12px 18px;
             border-radius: 8px;
             font-size: 13px;
@@ -1133,7 +1160,7 @@
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Revenue at Risk</span>
-                        <svg class="icon" style="color: #ef4444;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <svg class="icon" style="color: var(--destructive);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     </div>
                     <div class="card-value" id="stat-risk">INR 0</div>
                     <div class="card-footer-text">
@@ -1144,9 +1171,9 @@
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Predicted Recoverable (EV)</span>
-                        <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     </div>
-                    <div class="card-value" id="stat-predicted" style="color: #38bdf8;">INR 0</div>
+                    <div class="card-value" id="stat-predicted" style="color: var(--foreground);">INR 0</div>
                     <div class="card-footer-text">
                         <span class="badge-trend-blue" id="stat-ci-range">90% CI: Computing...</span>
                     </div>
@@ -1155,9 +1182,9 @@
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Recovered Liquidity</span>
-                        <svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     </div>
-                    <div class="card-value" id="stat-recovered" style="color: #34d399;">INR 0</div>
+                    <div class="card-value" id="stat-recovered" style="color: var(--foreground);">INR 0</div>
                     <div class="card-footer-text">
                         <span class="badge-trend-green" id="stat-rate">0.0% Rate</span>
                         <span id="stat-recovered-count">0 settled</span>
@@ -1167,9 +1194,9 @@
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Knapsack Math Lift</span>
-                        <svg class="icon" style="color: #c084fc;" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                     </div>
-                    <div class="card-value" id="stat-lift" style="color: #c084fc;">+72.8%</div>
+                    <div class="card-value" id="stat-lift" style="color: var(--chart-2);">+72.8%</div>
                     <div class="card-footer-text">
                         <span>vs greedy expected value sorting</span>
                     </div>
@@ -1181,7 +1208,7 @@
                 <div class="studio-card">
                     <div class="studio-card-head">
                         <div class="studio-card-title">
-                            <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                             Dynamic Programming Recovery Matrix
                         </div>
                         <button class="btn-shadcn" onclick="navigateTo('engine')" style="height: 30px; font-size: 12px;">Open Studio -></button>
@@ -1197,12 +1224,12 @@
                         </div>
                         <div class="strat-card">
                             <div class="strat-name">Greedy EV Ratio</div>
-                            <div class="strat-val" id="overview-greedy-val" style="color: #94a3b8;">INR 0</div>
+                            <div class="strat-val" id="overview-greedy-val" style="color: var(--muted-foreground);">INR 0</div>
                             <div class="strat-sub">Sub-optimal Yield</div>
                         </div>
                         <div class="strat-card">
                             <div class="strat-name">Naive FIFO</div>
-                            <div class="strat-val" id="overview-fifo-val" style="color: #64748b;">INR 0</div>
+                            <div class="strat-val" id="overview-fifo-val" style="color: var(--muted-foreground);">INR 0</div>
                             <div class="strat-sub">Uninformed Queue</div>
                         </div>
                     </div>
@@ -1211,7 +1238,7 @@
                 <div class="studio-card">
                     <div class="studio-card-head">
                         <div class="studio-card-title">
-                            <svg class="icon" style="color: #34d399;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                            <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                             Active Channels
                         </div>
                         <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">All Vectors -></button>
@@ -1226,7 +1253,7 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Recent Recovery Opportunities</h3>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Recent Recovery Opportunities</h3>
                         <p style="font-size: 12px; color: var(--muted-foreground);">Top actionable delinquencies scored by ML models</p>
                     </div>
                     <button class="btn-shadcn" onclick="navigateTo('queue')">
@@ -1277,16 +1304,16 @@
             <div class="studio-card">
                 <div class="studio-card-head">
                     <div class="studio-card-title">
-                        <svg class="icon" style="color: #0c8cee;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         Effort Capacity Constraint Slider
                     </div>
-                    <span style="font-size: 11px; font-weight: 700; color: #38bdf8; background: rgba(12, 140, 238, 0.12); padding: 4px 10px; border-radius: 4px;">Dynamic Program Exact Solver</span>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--foreground); background: var(--muted); padding: 4px 10px; border-radius: 4px;">Dynamic Program Exact Solver</span>
                 </div>
 
                 <div class="budget-control-box">
                     <div style="min-width: 170px;">
                         <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Effort Budget (W)</div>
-                        <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;"><span id="capacity-display">6</span> Units</div>
+                        <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);"><span id="capacity-display">6</span> Units</div>
                     </div>
                     <div style="flex: 1;">
                         <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
@@ -1303,18 +1330,18 @@
                     <div class="strat-card active">
                         <div class="strat-name">1. 0/1 Knapsack DP (Optimal)</div>
                         <div class="strat-val" id="dp-ev-display">INR 0</div>
-                        <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: #34d399; font-weight: 700;">+72.8% Lift</span></div>
+                        <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: var(--foreground); font-weight: 700;">+72.8% Lift</span></div>
                     </div>
 
                     <div class="strat-card">
                         <div class="strat-name">2. Greedy EV Yield Ratio</div>
-                        <div class="strat-val" id="greedy-ev-display" style="color: #94a3b8;">INR 0</div>
+                        <div class="strat-val" id="greedy-ev-display" style="color: var(--muted-foreground);">INR 0</div>
                         <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Sub-optimal allocation</div>
                     </div>
 
                     <div class="strat-card">
                         <div class="strat-name">3. Naive FIFO Chronological</div>
-                        <div class="strat-val" id="fifo-ev-display" style="color: #64748b;">INR 0</div>
+                        <div class="strat-val" id="fifo-ev-display" style="color: var(--muted-foreground);">INR 0</div>
                         <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Zero intelligence</div>
                     </div>
                 </div>
@@ -1324,7 +1351,7 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Optimal Recovery Set (Selected by DP)</h3>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Optimal Recovery Set (Selected by DP)</h3>
                         <p style="font-size: 12px; color: var(--muted-foreground);">Candidates maximizing total expected recovery within effort capacity</p>
                     </div>
                     <button class="btn-shadcn primary" onclick="executeOptimalBatch()">
@@ -1357,7 +1384,7 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: #94a3b8;">Excluded Candidates (Budget Trade-off)</h3>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--muted-foreground);">Excluded Candidates (Budget Trade-off)</h3>
                         <p style="font-size: 12px; color: var(--muted-foreground);">Lower yield-to-effort opportunities passed over to protect merchant bandwidth</p>
                     </div>
                 </div>
@@ -1416,7 +1443,7 @@
                     </div>
 
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <input type="text" id="queue-search-input" placeholder="Filter by customer, ID, bank..." oninput="searchQueue(this.value)" style="height: 32px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-size: 12px; color: #f8fafc; outline: none; font-family: inherit;">
+                        <input type="text" id="queue-search-input" placeholder="Filter by customer, ID, bank..." oninput="searchQueue(this.value)" style="height: 32px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-size: 12px; color: var(--foreground); outline: none; font-family: inherit;">
                     </div>
                 </div>
 
@@ -1484,36 +1511,36 @@
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Brier Score</span>
-                        <svg class="icon" style="color: #38bdf8;" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+                        <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
                     </div>
-                    <div class="card-value" id="cal-brier" style="color: #38bdf8;">0.1142</div>
+                    <div class="card-value" id="cal-brier" style="color: var(--foreground);">0.1142</div>
                     <div class="card-footer-text">Lower is better (0.00 = perfect calibration)</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Brier Skill Score (BSS)</span>
-                        <svg class="icon" style="color: #34d399;" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                        <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                     </div>
-                    <div class="card-value" id="cal-bss" style="color: #34d399;">+54.3%</div>
+                    <div class="card-value" id="cal-bss" style="color: var(--foreground);">+54.3%</div>
                     <div class="card-footer-text">Lift over climatological baseline</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Mean Calibration Gap</span>
-                        <svg class="icon" style="color: #f59e0b;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <svg class="icon" style="color: var(--chart-1);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     </div>
-                    <div class="card-value" id="cal-gap" style="color: #f59e0b;">3.1%</div>
+                    <div class="card-value" id="cal-gap" style="color: var(--chart-1);">3.1%</div>
                     <div class="card-footer-text">Average deviation across decile bins</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
                         <span class="card-title-text">Gated Confidence Status</span>
-                        <svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
-                    <div class="card-value" style="color: #10b981; font-size: 20px;">ACTIVE</div>
+                    <div class="card-value" style="color: var(--chart-2); font-size: 20px;">ACTIVE</div>
                     <div class="card-footer-text">Deterministic guardrails enforced</div>
                 </div>
             </div>
@@ -1522,7 +1549,7 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Decile Reliability Matrix</h3>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Decile Reliability Matrix</h3>
                         <p style="font-size: 12px; color: var(--muted-foreground);">Comparing predicted probability bins against empirical recovery rates</p>
                     </div>
                 </div>
@@ -1565,7 +1592,7 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: #f8fafc;">Compounding Recovery Timeline</h3>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Compounding Recovery Timeline</h3>
                         <p style="font-size: 12px; color: var(--muted-foreground);">Continuous performance ledger over the past rolling week</p>
                     </div>
                 </div>
@@ -1595,7 +1622,7 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
                 <div>
                     <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Diagnostic Telemetry</div>
-                    <h2 id="drawer-opp-id" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #38bdf8;">OPP_101</h2>
+                    <h2 id="drawer-opp-id" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);">OPP_101</h2>
                     <div id="drawer-opp-type" style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">failed_payment</div>
                 </div>
                 <button class="sheet-close-btn" onclick="closeDrawer()">
@@ -1608,40 +1635,40 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-end;">
                     <div>
                         <div style="font-size: 11px; color: var(--muted-foreground);">Recoverable Amount</div>
-                        <div id="drawer-amount" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #f8fafc;">INR 0</div>
+                        <div id="drawer-amount" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);">INR 0</div>
                     </div>
                     <div>
                         <div style="font-size: 11px; color: var(--muted-foreground);">Expected Value (EV)</div>
-                        <div id="drawer-ev" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">INR 0</div>
+                        <div id="drawer-ev" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);">INR 0</div>
                     </div>
                     <div>
                         <div style="font-size: 11px; color: var(--muted-foreground);">Effort Weight</div>
-                        <div id="drawer-weight" style="font-size: 14px; font-weight: 700; font-family: var(--font-mono); color: #c084fc;">1 Unit</div>
+                        <div id="drawer-weight" style="font-size: 14px; font-weight: 700; font-family: var(--font-mono); color: var(--chart-2);">1 Unit</div>
                     </div>
                 </div>
             </div>
 
             <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
                 <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 8px;">AI Root Cause Diagnosis</div>
-                <div id="drawer-rationale" style="font-size: 13px; color: #f8fafc; line-height: 1.6;">Loading diagnosis...</div>
+                <div id="drawer-rationale" style="font-size: 13px; color: var(--foreground); line-height: 1.6;">Loading diagnosis...</div>
             </div>
 
             <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
                 <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 10px;">Deterministic Safety Guardrails</div>
                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
-                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: var(--foreground);">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Spend Limit Policy: Within threshold</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: var(--foreground);">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Issuer Switch Health: Gateway operational</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: var(--foreground);">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Notification Cooldown: Backoff verified</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px; color: #34d399;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: var(--foreground);">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Pre-Auth Capture Safety: Under INR 7,500 ceiling</span>
                     </div>
@@ -1649,9 +1676,9 @@
             </div>
 
             <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
-                <div id="drawer-link-container" style="display: none; padding: 12px; background: rgba(12, 140, 238, 0.1); border: 1px solid #0c8cee; border-radius: 8px;">
-                    <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">Live Razorpay Payment Link:</div>
-                    <a id="drawer-link-url" href="#" target="_blank" style="font-size: 12px; color: #f8fafc; word-break: break-all; font-family: var(--font-mono); margin-top: 4px; display: inline-block;"></a>
+                <div id="drawer-link-container" style="display: none; padding: 12px; background: var(--muted); border: 1px solid var(--border); border-radius: 8px;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--foreground); text-transform: uppercase;">Live Razorpay Payment Link:</div>
+                    <a id="drawer-link-url" href="#" target="_blank" style="font-size: 12px; color: var(--foreground); word-break: break-all; font-family: var(--font-mono); margin-top: 4px; display: inline-block;"></a>
                 </div>
                 <button class="btn-shadcn primary" id="drawer-action-btn" onclick="recoverFromDrawer()" style="justify-content: center; height: 42px;">
                     Approve and Recover via Razorpay
@@ -1927,14 +1954,14 @@
                     row.innerHTML = `
                         <div class="vector-row-head">
                             <span class="v-pill ${badgeClass}">${titles[key] || key}</span>
-                            <span style="font-size: 12px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
+                            <span style="font-size: 12px; font-weight: 700; font-family: var(--font-mono); color: var(--foreground);">${(val.recovery_rate || 0).toFixed(1)}%</span>
                         </div>
                         <div class="v-progress-bar">
                             <div class="v-progress-fill" style="width: ${progressWidth}%;"></div>
                         </div>
                         <div class="v-meta-row">
-                            <span>Risk: <strong style="color: #f8fafc; font-family: var(--font-mono);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
-                            <span>Recovered: <strong style="color: #34d399; font-family: var(--font-mono);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
+                            <span>Risk: <strong style="color: var(--foreground); font-family: var(--font-mono);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</strong></span>
+                            <span>Recovered: <strong style="color: var(--foreground); font-family: var(--font-mono);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</strong></span>
                         </div>
                     `;
                     miniList.appendChild(row);
@@ -1947,7 +1974,7 @@
                     box.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                             <span class="v-pill ${badgeClass}" style="font-size: 13px; padding: 4px 10px;">${titles[key] || key}</span>
-                            <span style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: #34d399;">${(val.recovery_rate || 0).toFixed(1)}%</span>
+                            <span style="font-size: 22px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);">${(val.recovery_rate || 0).toFixed(1)}%</span>
                         </div>
                         <p style="font-size: 13px; color: var(--muted-foreground);">${descriptions[key] || ''}</p>
                         <div class="v-progress-bar" style="height: 8px;">
@@ -1956,11 +1983,11 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--muted); padding: 12px; border-radius: 6px;">
                             <div>
                                 <div style="font-size: 11px; color: var(--muted-foreground);">Total At Risk</div>
-                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: #f8fafc;">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</div>
+                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: var(--foreground);">INR ${Math.round(val.total_at_risk || 0).toLocaleString('en-IN')}</div>
                             </div>
                             <div>
                                 <div style="font-size: 11px; color: var(--muted-foreground);">Recovered</div>
-                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: #34d399;">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</div>
+                                <div style="font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: var(--foreground);">INR ${Math.round(val.recovered_revenue || 0).toLocaleString('en-IN')}</div>
                             </div>
                         </div>
                         <button class="btn-shadcn" onclick="filterQueue('${key}')" style="justify-content: center; height: 36px; margin-top: auto;">
@@ -1981,21 +2008,21 @@
             previewItems.forEach(o => {
                 const tr = document.createElement('tr');
                 const prob = Math.round(o.probability || 0);
-                let probColor = '#10b981';
-                if (prob < 50) probColor = '#ef4444';
-                else if (prob < 75) probColor = '#f59e0b';
+                let probColor = 'var(--foreground)';
+                if (prob < 50) probColor = 'var(--destructive)';
+                else if (prob < 75) probColor = 'var(--chart-1)';
 
                 let statusBadge = o.status === 'RECOVERED' ? 
                     '<span class="pill-status recovered">Recovered</span>' :
                     (o.is_knapsack_optimal ? '<span class="pill-status optimal">Optimal Set</span>' : '<span class="pill-status excluded">Queue</span>');
 
                 tr.innerHTML = `
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
                     <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
                     <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
                     <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
                     <td style="font-family: var(--font-mono); font-weight: 700; color: ${probColor};">${prob}%</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
                     <td>${statusBadge}</td>
                     <td style="text-align: right;">
                         <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Inspect</button>
@@ -2019,13 +2046,13 @@
             optimal.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</td>
                     <td><span class="v-pill ${getBadgeClass(o.type)}">${formatType(o.type)}</span></td>
                     <td style="font-weight: 600;">${o.customer_name || 'Customer'}</td>
                     <td style="font-family: var(--font-mono); font-weight: 700;">INR ${Math.round(o.amount).toLocaleString('en-IN')}</td>
-                    <td style="font-family: var(--font-mono); color: #c084fc; font-weight: 700;">${o.knapsack_weight} Unit</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">${Math.round(o.probability)}%</td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
+                    <td style="font-family: var(--font-mono); color: var(--chart-2); font-weight: 700;">${o.knapsack_weight} Unit</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${Math.round(o.probability)}%</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">INR ${Math.round(o.expected_value).toLocaleString('en-IN')}</td>
                     <td style="text-align: right;">
                         ${o.status === 'RECOVERED' ? 
                             '<span class="pill-status recovered">Settled</span>' :
@@ -2076,8 +2103,8 @@
                 const emptyRow = document.createElement('tr');
                 emptyRow.innerHTML = `
                     <td colspan="8" style="text-align: center; padding: 48px 20px; color: var(--muted-foreground);">
-                        <div style="font-size: 14px; font-weight: 600; color: #f8fafc; margin-bottom: 6px;">No opportunities found</div>
-                        <div style="font-size: 12px;">No items match the active filter or search query. <button onclick="filterQueue('ALL')" style="color: #38bdf8; background: none; border: none; text-decoration: underline; cursor: pointer; font-family: inherit;">Show all opportunities</button></div>
+                        <div style="font-size: 14px; font-weight: 600; color: var(--foreground); margin-bottom: 6px;">No opportunities found</div>
+                        <div style="font-size: 12px;">No items match the active filter or search query. <button onclick="filterQueue('ALL')" style="color: var(--foreground); background: none; border: none; text-decoration: underline; cursor: pointer; font-family: inherit;">Show all opportunities</button></div>
                     </td>
                 `;
                 tbody.appendChild(emptyRow);
@@ -2088,9 +2115,9 @@
                 const tr = document.createElement('tr');
                 
                 const prob = Math.round(o.probability || 0);
-                let probColor = '#10b981';
-                if (prob < 50) probColor = '#ef4444';
-                else if (prob < 75) probColor = '#f59e0b';
+                let probColor = 'var(--foreground)';
+                if (prob < 50) probColor = 'var(--destructive)';
+                else if (prob < 75) probColor = 'var(--chart-1)';
 
                 let statusBadge = '';
                 if (o.status === 'RECOVERED') {
@@ -2111,7 +2138,7 @@
                 if (o.status === 'RECOVERED') {
                     actionHtml = `
                         <button class="btn-shadcn" onclick="openDrawerForOpp('${o.id}')" style="height: 28px; padding: 0 10px; font-size: 11px;">Receipt</button>
-                        ${o.razorpay_link_url ? `<a href="${o.razorpay_link_url}" target="_blank" class="btn-shadcn" style="height: 28px; padding: 0 10px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; color: #38bdf8;">View Link</a>` : ''}
+                        ${o.razorpay_link_url ? `<a href="${o.razorpay_link_url}" target="_blank" class="btn-shadcn" style="height: 28px; padding: 0 10px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; color: var(--foreground);">View Link</a>` : ''}
                     `;
                 } else {
                     actionHtml = `
@@ -2122,7 +2149,7 @@
 
                 tr.innerHTML = `
                     <td>
-                        <div style="font-family: var(--font-mono); font-weight: 700; color: #38bdf8;">${o.id}</div>
+                        <div style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${o.id}</div>
                         <div style="font-size: 11px; color: var(--muted-foreground);">${o.source_reference_id || ''}</div>
                     </td>
                     <td>
@@ -2141,7 +2168,7 @@
                             <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${probColor};">${prob}%</span>
                         </div>
                     </td>
-                    <td style="font-family: var(--font-mono); font-weight: 700; color: #34d399;">${evFormatted}</td>
+                    <td style="font-family: var(--font-mono); font-weight: 700; color: var(--foreground);">${evFormatted}</td>
                     <td>${statusBadge}</td>
                     <td style="text-align: right;">
                         <div style="display: inline-flex; gap: 6px; align-items: center; justify-content: flex-end;">
@@ -2190,9 +2217,9 @@
                 const confTier = opp.ai_explanation.confidence_tier || 'HIGH';
                 
                 rationaleHtml = `
-                    <div style="margin-bottom: 8px;"><strong style="color: #38bdf8;">Strategic Action:</strong> ${whyRec}</div>
-                    <div style="margin-bottom: 8px;"><strong style="color: #cbd5e1;">Root Cause:</strong> ${whyFlag}</div>
-                    <div style="font-size: 11px; color: var(--muted-foreground);"><strong style="color: #34d399;">Model Confidence:</strong> ${confScore}% [${confTier}]</div>
+                    <div style="margin-bottom: 8px;"><strong style="color: var(--foreground);">Strategic Action:</strong> ${whyRec}</div>
+                    <div style="margin-bottom: 8px;"><strong style="color: var(--muted-foreground);">Root Cause:</strong> ${whyFlag}</div>
+                    <div style="font-size: 11px; color: var(--muted-foreground);"><strong style="color: var(--foreground);">Model Confidence:</strong> ${confScore}% [${confTier}]</div>
                 `;
             } else {
                 rationaleHtml = opp.ai_rationale || opp.description || 'Verified via automated underwriting model.';
@@ -2372,10 +2399,10 @@
                         const tr = document.createElement('tr');
                         const gap = Math.abs(b.predicted_mean - b.observed_recovery_rate) * 100;
                         tr.innerHTML = `
-                            <td style="padding:12px; font-weight:700; color:#f8fafc;">${b.bin}</td>
-                            <td style="padding:12px; color:#38bdf8; font-family:var(--font-mono);">${(b.predicted_mean * 100).toFixed(1)}%</td>
-                            <td style="padding:12px; color:#34d399; font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
-                            <td style="padding:12px; color:#f59e0b; font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
+                            <td style="padding:12px; font-weight:700; color:var(--foreground);">${b.bin}</td>
+                            <td style="padding:12px; color:var(--foreground); font-family:var(--font-mono);">${(b.predicted_mean * 100).toFixed(1)}%</td>
+                            <td style="padding:12px; color:var(--foreground); font-weight:700; font-family:var(--font-mono);">${(b.observed_recovery_rate * 100).toFixed(1)}%</td>
+                            <td style="padding:12px; color:var(--chart-1); font-family:var(--font-mono);">+/-${gap.toFixed(1)}%</td>
                             <td style="padding:12px; color:var(--muted-foreground); font-family:var(--font-mono);">${b.count}</td>
                         `;
                         tbody.appendChild(tr);
@@ -2392,10 +2419,10 @@
                     data.trend_points.forEach(tp => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td style="padding:12px; font-weight:700; color:#f8fafc;">${tp.day}</td>
+                            <td style="padding:12px; font-weight:700; color:var(--foreground);">${tp.day}</td>
                             <td style="padding:12px; color:var(--muted-foreground);">${tp.date}</td>
-                            <td style="padding:12px; color:#34d399; font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
-                            <td style="padding:12px; color:#38bdf8; font-weight:800; font-family:var(--font-mono);">${tp.recovery_rate}%</td>
+                            <td style="padding:12px; color:var(--foreground); font-weight:700; font-family:var(--font-mono);">INR ${tp.recovered_amount.toLocaleString('en-IN')}</td>
+                            <td style="padding:12px; color:var(--foreground); font-weight:800; font-family:var(--font-mono);">${tp.recovery_rate}%</td>
                             <td style="padding:12px; color:var(--muted-foreground); font-family:var(--font-mono);">${tp.opportunities_resolved}</td>
                         `;
                         tbody.appendChild(tr);
