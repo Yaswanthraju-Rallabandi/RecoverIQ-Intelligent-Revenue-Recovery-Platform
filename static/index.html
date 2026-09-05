@@ -298,6 +298,30 @@
             color: #64748b;
         }
 
+        .breadcrumb-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #64748b;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: color 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .breadcrumb-btn:hover {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            user-select: none;
+        }
+
         .breadcrumb-item.active {
             color: #f8fafc;
             font-weight: 600;
@@ -914,12 +938,24 @@
             <div>
                 <div class="sidebar-group-label">Dashboards</div>
                 <ul class="sidebar-nav-list">
-                    <li class="sidebar-nav-item active">
-                        <a href="#overview">
+                    <li class="sidebar-nav-item">
+                        <button id="side-nav-overview" class="active" onclick="switchDashboardTab('overview')">
                             <svg class="icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                             Default Overview
-                            <span class="sidebar-nav-badge" id="side-opp-count">15</span>
-                        </a>
+                            <span class="sidebar-nav-badge" id="side-opp-count">0</span>
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button id="side-nav-engine" onclick="switchDashboardTab('knapsack')">
+                            <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Recovery Engine
+                        </button>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <button id="side-nav-vectors" onclick="switchDashboardTab('vectors')">
+                            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                            Vector Telemetry
+                        </button>
                     </li>
                     <li class="sidebar-nav-item">
                         <button onclick="openCalibrationModal()">
@@ -1008,11 +1044,11 @@
         <header class="top-navbar">
             <div class="navbar-left">
                 <div class="breadcrumb-trail">
-                    <span>Dashboards</span>
-                    <span>/</span>
-                    <span>Recovery Engine</span>
-                    <span>/</span>
-                    <span class="breadcrumb-item active">Default</span>
+                    <button class="breadcrumb-btn" onclick="switchDashboardTab('overview')">Dashboards</button>
+                    <span class="breadcrumb-sep">/</span>
+                    <button class="breadcrumb-btn" onclick="switchDashboardTab('knapsack')">Recovery Engine</button>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-item active" id="breadcrumb-current-view">Overview</span>
                 </div>
             </div>
 
@@ -1047,9 +1083,9 @@
                 </div>
 
                 <div class="shadcn-tabs">
-                    <button class="shadcn-tab-btn active" onclick="switchDashboardTab('overview', this)">Overview</button>
-                    <button class="shadcn-tab-btn" onclick="switchDashboardTab('knapsack', this)">Knapsack Lab</button>
-                    <button class="shadcn-tab-btn" onclick="switchDashboardTab('vectors', this)">Vector Telemetry</button>
+                    <button id="tab-btn-overview" class="shadcn-tab-btn active" onclick="switchDashboardTab('overview', this)">Overview</button>
+                    <button id="tab-btn-knapsack" class="shadcn-tab-btn" onclick="switchDashboardTab('knapsack', this)">Recovery Engine (Knapsack)</button>
+                    <button id="tab-btn-vectors" class="shadcn-tab-btn" onclick="switchDashboardTab('vectors', this)">Vector Telemetry</button>
                 </div>
             </div>
 
@@ -1371,9 +1407,40 @@
         }
 
         function switchDashboardTab(tab, btn) {
+            // 1. Sync header tabs
             document.querySelectorAll('.page-header-row .shadcn-tab-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
+            const tabHeaderMap = {
+                'overview': 'tab-btn-overview',
+                'knapsack': 'tab-btn-knapsack',
+                'vectors': 'tab-btn-vectors'
+            };
+            const activeHeaderBtn = document.getElementById(tabHeaderMap[tab]);
+            if (activeHeaderBtn) activeHeaderBtn.classList.add('active');
+            else if (btn) btn.classList.add('active');
 
+            // 2. Sync sidebar navigation items
+            const sideMap = {
+                'overview': 'side-nav-overview',
+                'knapsack': 'side-nav-engine',
+                'vectors': 'side-nav-vectors'
+            };
+            ['side-nav-overview', 'side-nav-engine', 'side-nav-vectors'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('active');
+            });
+            const activeSideBtn = document.getElementById(sideMap[tab]);
+            if (activeSideBtn) activeSideBtn.classList.add('active');
+
+            // 3. Update dynamic breadcrumb trailing label
+            const labelMap = {
+                'overview': 'Overview',
+                'knapsack': 'Knapsack Engine',
+                'vectors': 'Vector Telemetry'
+            };
+            const breadcrumbEl = document.getElementById('breadcrumb-current-view');
+            if (breadcrumbEl) breadcrumbEl.textContent = labelMap[tab] || 'Overview';
+
+            // 4. Smooth scroll to targeted studio section
             if (tab === 'overview') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (tab === 'knapsack') {
@@ -1386,6 +1453,18 @@
         }
 
         function filterQueue(category, btn) {
+            // Update breadcrumb trail to reflect active vector
+            const categoryLabels = {
+                'ALL': 'All Opportunities',
+                'failed_payment': 'Failed Checkouts',
+                'partial_payment': 'Partial Balances',
+                'overdue_payment': 'Overdue Invoices',
+                'refund_mismatch': 'Pre-Auth Mismatches'
+            };
+            const breadcrumbEl = document.getElementById('breadcrumb-current-view');
+            if (breadcrumbEl && categoryLabels[category]) {
+                breadcrumbEl.textContent = categoryLabels[category];
+            }
             activeFilter = category;
 
             // 1. Sync table filter tab buttons
