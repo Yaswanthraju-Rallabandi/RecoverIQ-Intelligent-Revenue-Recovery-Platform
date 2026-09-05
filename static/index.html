@@ -975,26 +975,26 @@
                     <li class="sidebar-nav-item">
                         <button id="side-nav-overview" class="active" onclick="navigateTo('overview')">
                             <svg class="icon" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                            Default Overview
+                            Overview
                             <span class="sidebar-nav-badge" id="side-opp-count">0</span>
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
                         <button id="side-nav-engine" onclick="navigateTo('engine')">
                             <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            Recovery Engine
+                            Smart Recovery Engine
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
                         <button id="side-nav-queue" onclick="navigateTo('queue')">
                             <svg class="icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                            Opportunity Queue
+                            All Opportunities
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
                         <button id="side-nav-vectors" onclick="navigateTo('vectors')">
                             <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                            Vector Telemetry
+                            Payment Channels
                         </button>
                     </li>
                 </ul>
@@ -1002,12 +1002,12 @@
 
             <!-- Navigation Group: Analytics & Models -->
             <div>
-                <div class="sidebar-group-label">Analytics & Models</div>
+                <div class="sidebar-group-label">Analytics & Accuracy</div>
                 <ul class="sidebar-nav-list">
                     <li class="sidebar-nav-item">
                         <button id="side-nav-calibration" onclick="navigateTo('calibration')">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
-                            Model Calibration
+                            AI Accuracy
                         </button>
                     </li>
                     <li class="sidebar-nav-item">
@@ -1021,12 +1021,12 @@
 
             <!-- Navigation Group: Controls -->
             <div>
-                <div class="sidebar-group-label">Controls</div>
+                <div class="sidebar-group-label">Demo Controls</div>
                 <ul class="sidebar-nav-list">
                     <li class="sidebar-nav-item">
                         <button onclick="resetDemoQueue()">
                             <svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                            Reset Demo Queue
+                            Reset Demo Data
                         </button>
                     </li>
                 </ul>
@@ -1081,8 +1081,8 @@
         <section id="page-overview" class="page-view active">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>Revenue Recovery Overview</h1>
-                    <p>Real-time delinquency intelligence and autonomous recovery orchestration</p>
+                    <h1>Overview</h1>
+                    <p>Track at-risk revenue, expected recoveries, and system performance</p>
                 </div>
             </div>
 
@@ -1090,7 +1090,7 @@
             <div class="stats-grid">
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Revenue at Risk</span>
+                        <span class="card-title-text">Total At-Risk Revenue</span>
                         <svg class="icon" style="color: var(--destructive);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     </div>
                     <div class="card-value" id="stat-risk">INR 0</div>
@@ -1101,7 +1101,7 @@
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Predicted Recoverable (EV)</span>
+                        <span class="card-title-text">Expected Recoveries</span>
                         <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     </div>
                     <div class="card-value" id="stat-predicted" style="color: var(--foreground);">INR 0</div>
@@ -1112,7 +1112,7 @@
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Recovered Liquidity</span>
+                        <span class="card-title-text">Total Recovered Funds</span>
                         <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     </div>
                     <div class="card-value" id="stat-recovered" style="color: var(--foreground);">INR 0</div>
@@ -1124,12 +1124,12 @@
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Knapsack Math Lift</span>
+                        <span class="card-title-text">Smart Selection Boost</span>
                         <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                     </div>
                     <div class="card-value" id="stat-lift" style="color: var(--chart-2);">+72.8%</div>
                     <div class="card-footer-text">
-                        <span>vs greedy expected value sorting</span>
+                        <span>extra revenue recovered compared to manual sorting</span>
                     </div>
                 </div>
             </div>
@@ -1140,12 +1140,12 @@
                     <div class="studio-card-head">
                         <div class="studio-card-title">
                             <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                            Recovery Channel Portfolio
+                            Revenue by Payment Channel
                         </div>
-                        <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">Deep Telemetry -></button>
+                        <button class="btn-shadcn" onclick="navigateTo('vectors')" style="height: 30px; font-size: 12px;">View Payment Channels -></button>
                     </div>
                     <p style="font-size: 13px; color: var(--muted-foreground); line-height: 1.5; margin-bottom: 14px;">
-                        Real-time delinquency tracking and recovery resolution rates partitioned across all 4 financial recovery vectors.
+                        Track open balances, recovered funds, and success rates across each payment method.
                     </p>
                     <div id="overview-vector-mini-list" style="display: flex; flex-direction: column; gap: 10px;">
                         <!-- Populated dynamically via renderSegmentedBreakdown -->
@@ -1156,7 +1156,7 @@
                     <div class="studio-card-head">
                         <div class="studio-card-title">
                             <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                            Infrastructure Health
+                            System & Gateway Status
                         </div>
                         <span style="font-size: 11px; font-weight: 700; color: var(--foreground); background: var(--muted); padding: 2px 8px; border-radius: 4px;">Operational</span>
                     </div>
@@ -1195,45 +1195,45 @@
 
             <!-- Executive Quick Navigation Hub -->
             <div style="margin-top: 24px;">
-                <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground); margin-bottom: 12px;">Platform Action Hub</h3>
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground); margin-bottom: 12px;">Quick Actions</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                     <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('engine')">
                         <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
-                            <span>Knapsack Recovery Engine</span>
+                            <span>Smart Recovery Engine</span>
                             <span style="font-size: 16px;">-></span>
                         </div>
                         <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
-                            Optimize outreach batches using mathematical 0/1 Dynamic Programming to maximize expected recovery under bandwidth limits.
+                            Automatically pick and recover the best opportunities within your daily workload limit.
                         </p>
                     </div>
 
                     <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('queue')">
                         <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
-                            <span>Prioritized Opportunity Queue</span>
+                            <span>All Payment Opportunities</span>
                             <span style="font-size: 16px;">-></span>
                         </div>
                         <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
-                            Search, filter, and review all delinquent accounts across checkout, partial payments, invoices, and pre-auth holds.
+                            Search, filter, and inspect all failed checkouts, partial invoices, and overdue accounts.
                         </p>
                     </div>
 
                     <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('calibration')">
                         <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
-                            <span>Model Calibration Matrix</span>
+                            <span>AI Prediction Accuracy</span>
                             <span style="font-size: 16px;">-></span>
                         </div>
                         <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
-                            Inspect the decile reliability matrix, empirical recovery rates, Brier skill score, and uncertainty bounds.
+                            Check how accurately the AI predicts recovery success compared to real payment outcomes.
                         </p>
                     </div>
 
                     <div class="studio-card" style="cursor: pointer;" onclick="navigateTo('trends')">
                         <div style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
-                            <span>7-Day Financial Trends</span>
+                            <span>7-Day Recovery Trends</span>
                             <span style="font-size: 16px;">-></span>
                         </div>
                         <p style="font-size: 12px; color: var(--muted-foreground); line-height: 1.5;">
-                            Review chronological compounding recovery ledgers, daily settlement velocity, and cumulative recovered liquidity.
+                            View day-by-day history of recovered funds, success rates, and resolution velocity.
                         </p>
                     </div>
                 </div>
@@ -1246,8 +1246,8 @@
         <section id="page-engine" class="page-view">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>Knapsack Recovery Engine</h1>
-                    <p>0/1 Dynamic Programming solver maximizing expected recovery under capacity constraints</p>
+                    <h1>Smart Recovery Engine</h1>
+                    <p>Automatically selects the highest-yield payments to recover within your daily effort limit</p>
                 </div>
             </div>
 
@@ -1256,22 +1256,22 @@
                 <div class="studio-card-head">
                     <div class="studio-card-title">
                         <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        Effort Capacity Constraint Slider
+                        Daily Workload Limit
                     </div>
-                    <span style="font-size: 11px; font-weight: 700; color: var(--foreground); background: var(--muted); padding: 4px 10px; border-radius: 4px;">Dynamic Program Exact Solver</span>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--foreground); background: var(--muted); padding: 4px 10px; border-radius: 4px;">AI Optimization Active</span>
                 </div>
 
                 <div class="budget-control-box">
                     <div style="min-width: 170px;">
-                        <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Effort Budget (W)</div>
+                        <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">Daily Action Limit</div>
                         <div style="font-size: 24px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground);"><span id="capacity-display">6</span> Units</div>
                     </div>
                     <div style="flex: 1;">
                         <input type="range" id="capacity-slider" class="custom-slider" min="2" max="15" value="6" oninput="onCapacityChange(this.value)">
                         <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--muted-foreground); margin-top: 6px; font-family: var(--font-mono);">
-                            <span>Min: 2 Units</span>
-                            <span>Standard: 6 Units</span>
-                            <span>Max: 15 Units</span>
+                            <span>Min: 2 Actions</span>
+                            <span>Standard: 6 Actions</span>
+                            <span>Max: 15 Actions</span>
                         </div>
                     </div>
                 </div>
@@ -1279,21 +1279,21 @@
                 <!-- 3-Strategy Arena -->
                 <div class="strategy-mini-grid">
                     <div class="strat-card active">
-                        <div class="strat-name">1. 0/1 Knapsack DP (Optimal)</div>
+                        <div class="strat-name">1. Smart AI Selection (Best)</div>
                         <div class="strat-val" id="dp-ev-display">INR 0</div>
                         <div class="strat-sub"><span id="dp-count-display">0 Actions</span> | <span id="dp-lift-pill" style="color: var(--foreground); font-weight: 700;">+72.8% Lift</span></div>
                     </div>
 
                     <div class="strat-card">
-                        <div class="strat-name">2. Greedy EV Yield Ratio</div>
+                        <div class="strat-name">2. Sort by Probability Only</div>
                         <div class="strat-val" id="greedy-ev-display" style="color: var(--muted-foreground);">INR 0</div>
-                        <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Sub-optimal allocation</div>
+                        <div class="strat-sub"><span id="greedy-count-display">0 Actions</span> | Lower total money recovered</div>
                     </div>
 
                     <div class="strat-card">
-                        <div class="strat-name">3. Naive FIFO Chronological</div>
+                        <div class="strat-name">3. Oldest First (Manual)</div>
                         <div class="strat-val" id="fifo-ev-display" style="color: var(--muted-foreground);">INR 0</div>
-                        <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Zero intelligence</div>
+                        <div class="strat-sub"><span id="fifo-count-display">0 Actions</span> | Ignores payment probability</div>
                     </div>
                 </div>
             </div>
@@ -1302,8 +1302,8 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Optimal Recovery Action Plan (Selected by DP)</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Exact mathematical subset maximizing expected yield within the <span id="capacity-display-table" style="font-weight: 700; color: var(--foreground);">6</span>-unit capacity limit</p>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Recommended Recovery Plan</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Best opportunities picked by AI to maximize recovered funds within your <span id="capacity-display-table" style="font-weight: 700; color: var(--foreground);">6</span>-action limit</p>
                     </div>
                     <button class="btn-shadcn primary" onclick="executeOptimalBatch()" style="height: 32px; font-size: 12px;">
                         Execute Optimal Batch ->
@@ -1314,12 +1314,12 @@
                         <thead>
                             <tr>
                                 <th>Opportunity ID</th>
-                                <th>Vector</th>
+                                <th>Channel</th>
                                 <th>Customer</th>
-                                <th>Recoverable Amount</th>
-                                <th>Effort Weight</th>
-                                <th>Probability</th>
-                                <th>Expected Value</th>
+                                <th>Amount Due</th>
+                                <th>Effort</th>
+                                <th>Success Chance</th>
+                                <th>Expected Return</th>
                                 <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
@@ -1335,27 +1335,27 @@
                 <div class="studio-card-head">
                     <div class="studio-card-title">
                         <svg class="icon" style="color: var(--muted-foreground);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        Knapsack Capacity & Trade-off Diagnostic
+                        Opportunities on Hold & Capacity Summary
                     </div>
                     <button class="btn-shadcn" onclick="navigateTo('queue')" style="height: 30px; font-size: 12px;">
-                        Explore All in Opportunity Queue ->
+                        View All Payment Opportunities ->
                     </button>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 10px;">
                     <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
-                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Excluded Candidates</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Opportunities on Hold</div>
                         <div id="tradeoff-excluded-count" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground); margin-top: 4px;">0 Items</div>
-                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Passed over to preserve merchant bandwidth</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Held for next batch to avoid overloading team</div>
                     </div>
                     <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
-                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Bandwidth Conserved</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Workload Saved</div>
                         <div id="tradeoff-weight-saved" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--chart-2); margin-top: 4px;">0 Units</div>
-                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Saved for higher-efficiency outreach</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Actions saved for higher-probability payments</div>
                     </div>
                     <div style="background: var(--muted); padding: 14px; border-radius: 6px;">
-                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Optimization Advantage</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); text-transform: uppercase;">Extra Revenue Lift</div>
                         <div id="tradeoff-lift-text" style="font-size: 20px; font-weight: 800; font-family: var(--font-mono); color: var(--foreground); margin-top: 4px;">+72.8%</div>
-                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Net expected revenue lift over FIFO</div>
+                        <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 4px;">Expected gain vs recovering oldest accounts first</div>
                     </div>
                 </div>
             </div>
@@ -1367,8 +1367,8 @@
         <section id="page-queue" class="page-view">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>Prioritized Opportunity Queue</h1>
-                    <p>Machine learning recovery scoring, risk tiers, and deterministic guardrail checks</p>
+                    <h1>All Payment Opportunities</h1>
+                    <p>Complete ledger of delinquent checkouts, partial invoices, and payment issues</p>
                 </div>
             </div>
 
@@ -1393,12 +1393,12 @@
                         <thead>
                             <tr>
                                 <th>Opportunity ID</th>
-                                <th>Channel Vector</th>
+                                <th>Channel</th>
                                 <th>Customer</th>
-                                <th>At Risk Amount</th>
-                                <th>ML Probability</th>
-                                <th>Expected Value</th>
-                                <th>Optimization Status</th>
+                                <th>Amount Due</th>
+                                <th>Success Chance</th>
+                                <th>Expected Return</th>
+                                <th>Status</th>
                                 <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
@@ -1416,12 +1416,12 @@
         <section id="page-vectors" class="page-view">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>Recovery Vectors & Channels</h1>
-                    <p>Performance telemetry and conversion analytics across all 4 recovery channels</p>
+                    <h1>Payment Channels</h1>
+                    <p>Detailed breakdown of recovery performance for each payment method</p>
                 </div>
 
                 <button class="btn-shadcn" onclick="navigateTo('queue')">
-                    View Filtered Queue ->
+                    View All Opportunities ->
                 </button>
             </div>
 
@@ -1437,13 +1437,13 @@
         <section id="page-calibration" class="page-view">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>Model Calibration & Brier Skill Matrix</h1>
-                    <p>Evaluating probabilistic fidelity, Brier score, and empirical decile reliability</p>
+                    <h1>AI Prediction Accuracy</h1>
+                    <p>Verify how accurately the AI predicts whether a payment will be recovered</p>
                 </div>
 
                 <button class="btn-shadcn" onclick="loadCalibrationStudio()">
                     <svg class="icon" viewBox="0 0 24 24"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                    Recompute Calibration
+                    Recompute Accuracy
                 </button>
             </div>
 
@@ -1451,38 +1451,38 @@
             <div class="stats-grid">
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Brier Score</span>
+                        <span class="card-title-text">Prediction Accuracy Score</span>
                         <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
                     </div>
                     <div class="card-value" id="cal-brier" style="color: var(--foreground);">0.1142</div>
-                    <div class="card-footer-text">Lower is better (0.00 = perfect calibration)</div>
+                    <div class="card-footer-text">Lower is better (0.00 = perfect accuracy)</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Brier Skill Score (BSS)</span>
+                        <span class="card-title-text">Accuracy vs Guessing</span>
                         <svg class="icon" style="color: var(--foreground);" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
                     </div>
                     <div class="card-value" id="cal-bss" style="color: var(--foreground);">+54.3%</div>
-                    <div class="card-footer-text">Lift over climatological baseline</div>
+                    <div class="card-footer-text">Improvement over simple guessing</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Mean Calibration Gap</span>
+                        <span class="card-title-text">Average Error Margin</span>
                         <svg class="icon" style="color: var(--chart-1);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     </div>
                     <div class="card-value" id="cal-gap" style="color: var(--chart-1);">3.1%</div>
-                    <div class="card-footer-text">Average deviation across decile bins</div>
+                    <div class="card-footer-text">Average deviation between prediction and reality</div>
                 </div>
 
                 <div class="shadcn-card">
                     <div class="card-header-flex">
-                        <span class="card-title-text">Gated Confidence Status</span>
+                        <span class="card-title-text">Safety Guardrail Status</span>
                         <svg class="icon" style="color: var(--chart-2);" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                     <div class="card-value" style="color: var(--chart-2); font-size: 20px;">ACTIVE</div>
-                    <div class="card-footer-text">Deterministic guardrails enforced</div>
+                    <div class="card-footer-text">Automated safety limits active</div>
                 </div>
             </div>
 
@@ -1490,19 +1490,19 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Decile Reliability Matrix</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Comparing predicted probability bins against empirical recovery rates</p>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Prediction Accuracy by Probability Group</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Comparing AI estimated chances against actual recovered payments</p>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Probability Decile</th>
-                                <th>Predicted Mean</th>
-                                <th>Observed Recovery Rate</th>
-                                <th>Reliability Gap</th>
-                                <th>Sample Count</th>
+                                <th>Probability Range</th>
+                                <th>Predicted Chance</th>
+                                <th>Actual Success Rate</th>
+                                <th>Difference</th>
+                                <th>Number of Payments</th>
                             </tr>
                         </thead>
                         <tbody id="cal-tbody">
@@ -1519,8 +1519,8 @@
         <section id="page-trends" class="page-view">
             <div class="page-header-row">
                 <div class="page-title">
-                    <h1>7-Day Compounding Performance Trends</h1>
-                    <p>Day-by-day compounding recovery liquidity and rolling conversion metrics</p>
+                    <h1>7-Day Recovery Trends</h1>
+                    <p>Day-by-day record of recovered revenue and success rates over the past week</p>
                 </div>
 
                 <button class="btn-shadcn" onclick="loadTrendsStudio()">
@@ -1533,8 +1533,8 @@
             <div class="table-card">
                 <div class="table-toolbar">
                     <div>
-                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Compounding Recovery Timeline</h3>
-                        <p style="font-size: 12px; color: var(--muted-foreground);">Continuous performance ledger over the past rolling week</p>
+                        <h3 style="font-size: 15px; font-weight: 700; color: var(--foreground);">Daily Recovery History</h3>
+                        <p style="font-size: 12px; color: var(--muted-foreground);">Detailed record of money recovered and payments resolved each day</p>
                     </div>
                 </div>
                 <div style="overflow-x: auto;">
@@ -1543,9 +1543,9 @@
                             <tr>
                                 <th>Day</th>
                                 <th>Date</th>
-                                <th>Recovered Amount</th>
-                                <th>Recovery Rate</th>
-                                <th>Opportunities Resolved</th>
+                                <th>Money Recovered</th>
+                                <th>Success Rate</th>
+                                <th>Payments Resolved</th>
                             </tr>
                         </thead>
                         <tbody id="trend-tbody">
@@ -1595,7 +1595,7 @@
             </div>
 
             <div style="background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
-                <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 10px;">Deterministic Safety Guardrails</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase; margin-bottom: 10px;">Automated Safety Guardrails</div>
                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
                     <div style="display: flex; align-items: center; gap: 8px; color: var(--foreground);">
                         <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1645,10 +1645,10 @@
 
         const pageTitles = {
             'overview': 'Overview',
-            'engine': 'Recovery Engine',
-            'queue': 'Opportunity Queue',
-            'vectors': 'Vector Telemetry',
-            'calibration': 'Model Calibration',
+            'engine': 'Smart Recovery Engine',
+            'queue': 'All Opportunities',
+            'vectors': 'Payment Channels',
+            'calibration': 'AI Accuracy',
             'trends': '7-Day Trends'
         };
 
